@@ -3,7 +3,7 @@
  * Plugin Name: Data Importer & Visualizer
  * Plugin URI: https://www.alingsas.se
  * Description: Receive JSON via REST API, store data per source, and display it with template tags via shortcode.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Alingsas Kommun
  * Author URI: https://www.alingsas.se
  * License: GPL v2 or later
