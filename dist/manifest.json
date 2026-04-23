@@ -1,0 +1,20 @@
+{
+  "src/js/admin.js": {
+    "file": "js/admin.D_HUXfeH.js",
+    "name": "admin",
+    "src": "src/js/admin.js",
+    "isEntry": true,
+    "css": [
+      "css/admin.COqynZ0o.css"
+    ]
+  },
+  "src/js/frontend.js": {
+    "file": "js/frontend.D8vgRWff.js",
+    "name": "frontend",
+    "src": "src/js/frontend.js",
+    "isEntry": true,
+    "css": [
+      "css/frontend.-7Ifxjzy.css"
+    ]
+  }
+}
