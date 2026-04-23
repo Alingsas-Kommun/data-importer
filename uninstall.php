@@ -30,6 +30,7 @@ foreach ( $scalar_options as $opt ) {
 }
 
 // Remove per-source import logs (option names include source id).
+global $wpdb;
 $log_options = $wpdb->get_col(
 	"SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE 'data\_importer\_import\_log\_%'"
 );
