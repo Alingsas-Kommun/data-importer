@@ -1,0 +1,1016 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Data Importer & Visualizer\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/data-importer\n"
+"Last-Translator: Codex\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-07T13:44:41+00:00\n"
+"PO-Revision-Date: 2026-04-07 15:52+0200\n"
+"Language: sv_SE\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Codex\n"
+
+#. Plugin Name of the plugin
+#: data-importer.php
+#: src/php/Admin/Views/ListView.php:32
+msgid "Data Importer & Visualizer"
+msgstr "Dataimport och visualisering"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: data-importer.php
+msgid "https://www.alingsas.se"
+msgstr "https://www.alingsas.se"
+
+#. Description of the plugin
+#: data-importer.php
+msgid "Receive JSON via REST API, store data per source, and display it with template tags via shortcode."
+msgstr "Ta emot JSON via REST API, lagra data per datakälla och visa den med malltaggar via shortcode."
+
+#. Author of the plugin
+#: data-importer.php
+msgid "Alingsas Kommun"
+msgstr "Alingsas Kommun"
+
+#: src/php/Admin/AdminPage.php:186
+#: src/php/Admin/SourceFormHandler.php:495
+#: src/php/Admin/SourceFormHandler.php:536
+msgid "Insufficient permissions."
+msgstr "Otillräckliga rättigheter."
+
+#: src/php/Admin/AdminPage.php:187
+msgid "Access Denied"
+msgstr "Åtkomst nekad"
+
+#: src/php/Admin/AdminPage.php:270
+msgid "Safe mode enabled: PHP templates will not run until you disable it."
+msgstr "Säkert läge aktiverat: PHP-mallar körs inte förrän du stänger av läget."
+
+#: src/php/Admin/AdminPage.php:271
+msgid "Safe mode disabled: PHP templates are running again."
+msgstr "Säkert läge avaktiverat: PHP-mallar körs igen."
+
+#: src/php/Admin/AdminPage.php:279
+msgid "Safe mode is active. PHP templates will not run on the frontend until it is disabled."
+msgstr "Säkert läge är aktivt. PHP-mallar körs inte i frontend förrän läget stängs av."
+
+#: src/php/Admin/AdminPage.php:280
+msgid "Disable Safe Mode"
+msgstr "Stäng av säkert läge"
+
+#: src/php/Admin/AdminPage.php:297
+#: src/php/Admin/AdminPage.php:316
+msgid "Copy shortcode"
+msgstr "Kopiera shortcode"
+
+#: src/php/Admin/AdminPage.php:338
+#: src/php/Admin/AdminPage.php:339
+msgid "Data Importer"
+msgstr "Dataimport"
+
+#: src/php/Admin/AdminPage.php:349
+#: src/php/Admin/AdminPage.php:350
+msgid "Data Sources"
+msgstr "Datakällor"
+
+#: src/php/Admin/AdminPage.php:408
+msgid "Copied."
+msgstr "Kopierat."
+
+#: src/php/Admin/AdminPage.php:409
+msgid "Could not copy."
+msgstr "Kunde inte kopiera."
+
+#: src/php/Admin/AdminPage.php:410
+#: src/php/Admin/Tabs/DataTab.php:58
+msgid "Clear all imported data for this data source? This action cannot be undone."
+msgstr "Rensa all importerad data för den här datakällan? Detta kan inte ångras."
+
+#: src/php/Admin/AdminPage.php:411
+msgid "Delete the data source and all of its data? This action cannot be undone."
+msgstr "Radera datakällan och all dess data? Detta kan inte ångras."
+
+#: src/php/Admin/AdminPage.php:412
+msgid "Regenerate the API key? The previous key will stop working immediately."
+msgstr "Regenerera API-nyckeln? Tidigare nyckel slutar fungera direkt."
+
+#: src/php/Admin/AdminPage.php:413
+#: src/php/Admin/Tabs/TemplateTab.php:259
+msgid "Add Style"
+msgstr "Lägg till stilmall"
+
+#: src/php/Admin/AdminPage.php:414
+#: src/php/Admin/Tabs/TemplateTab.php:285
+msgid "Add Script"
+msgstr "Lägg till skript"
+
+#: src/php/Admin/AdminPage.php:415
+msgid "Style Source"
+msgstr "Stilmallskälla"
+
+#: src/php/Admin/AdminPage.php:416
+msgid "Script Source"
+msgstr "Skriptkälla"
+
+#: src/php/Admin/AdminPage.php:417
+#: src/php/Admin/Tabs/TemplateTab.php:245
+#: src/php/Admin/Tabs/TemplateTab.php:271
+msgid "Handle"
+msgstr "Handle"
+
+#: src/php/Admin/AdminPage.php:418
+#: src/php/Admin/Tabs/TemplateTab.php:347
+#: src/php/Admin/Tabs/TemplateTab.php:365
+msgid "Remove"
+msgstr "Ta bort"
+
+#: src/php/Admin/AdminPage.php:419
+#: src/php/Admin/Tabs/DataTab.php:92
+#: src/php/Admin/Tabs/DataTab.php:93
+#: src/php/Admin/Tabs/DataTab.php:96
+msgid "Preview Record"
+msgstr "Förhandsgranska post"
+
+#: src/php/Admin/AdminPage.php:420
+msgid "Record Content"
+msgstr "Postinnehåll"
+
+#: src/php/Admin/AdminPage.php:421
+msgid "Close"
+msgstr "Stäng"
+
+#: src/php/Admin/AdminPage.php:422
+msgid "Could not create API key."
+msgstr "Kunde inte skapa API-nyckeln."
+
+#: src/php/Admin/AdminPage.php:423
+msgid "API key created. Copy it now \\u2014 it will not be shown again."
+msgstr "API-nyckel skapad. Kopiera den nu — den visas inte igen."
+
+#: src/php/Admin/ManualImportProcessor.php:33
+#: src/php/Admin/ManualImportProcessor.php:50
+#: src/php/Admin/Views/EditView.php:40
+#: src/php/Api/RestController.php:113
+#: src/php/Api/RestController.php:187
+#: src/php/Api/RestController.php:255
+msgid "Data source not found."
+msgstr "Datakällan hittades inte."
+
+#: src/php/Admin/ManualImportProcessor.php:55
+msgid "Please paste valid JSON before importing."
+msgstr "Klistra in giltig JSON innan importen startas."
+
+#. translators: %s: JSON parser error text.
+#: src/php/Admin/ManualImportProcessor.php:64
+msgid "JSON could not be parsed: %s"
+msgstr "JSON kunde inte tolkas: %s"
+
+#: src/php/Admin/SourceFormHandler.php:96
+#: src/php/Admin/SourceFormHandler.php:204
+#: src/php/Admin/SourceFormHandler.php:235
+#: src/php/Admin/SourceFormHandler.php:295
+#: src/php/Admin/SourceFormHandler.php:345
+#: src/php/Admin/SourceFormHandler.php:404
+#: src/php/Admin/SourceFormHandler.php:433
+#: src/php/Admin/SourceFormHandler.php:490
+#: src/php/Admin/TemplateFormHandler.php:45
+#: src/php/Admin/TemplateFormHandler.php:108
+#: src/php/Admin/TemplateFormHandler.php:182
+msgid "Security check failed."
+msgstr "Säkerhetskontroll misslyckades."
+
+#: src/php/Admin/SourceFormHandler.php:134
+#: src/php/Admin/SourceFormHandler.php:157
+#: src/php/Infrastructure/Database.php:320
+#: src/php/Infrastructure/Database.php:805
+msgid "Primary Key"
+msgstr "Primärnyckel"
+
+#: src/php/Admin/SourceFormHandler.php:316
+msgid "Could not update the API key."
+msgstr "Kunde inte uppdatera API-nyckeln."
+
+#: src/php/Admin/SourceFormHandler.php:542
+#: src/php/Infrastructure/Database.php:484
+#: src/php/Infrastructure/Database.php:1011
+msgid "Invalid data source."
+msgstr "Ogiltig datakälla."
+
+#: src/php/Admin/SourceFormHandler.php:546
+msgid "Data cleared."
+msgstr "Data rensades."
+
+#: src/php/Admin/SourceFormHandler.php:560
+#: src/php/Infrastructure/Database.php:575
+msgid "API key not found."
+msgstr "API-nyckeln hittades inte."
+
+#: src/php/Admin/Tabs/AboutTab.php:45
+msgid "Quick Start"
+msgstr "Snabbstart"
+
+#: src/php/Admin/Tabs/AboutTab.php:48
+msgid "Import JSON via the endpoint below with the correct API key in the X-API-Key header."
+msgstr "Importera JSON via endpointen nedan med rätt API-nyckel i headern X-API-Key."
+
+#: src/php/Admin/Tabs/AboutTab.php:49
+msgid "Create one or more templates in the Template tab."
+msgstr "Skapa en eller flera mallar i fliken Mall."
+
+#: src/php/Admin/Tabs/AboutTab.php:50
+msgid "Paste the shortcode onto any page or into a block."
+msgstr "Klistra in shortcode på valfri sida eller i ett block."
+
+#: src/php/Admin/Tabs/AboutTab.php:51
+msgid "Verify the result in the Records tab and the logs in the API tab."
+msgstr "Verifiera resultatet under fliken Poster och loggar i fliken API."
+
+#: src/php/Admin/Tabs/AboutTab.php:57
+msgid "Endpoint and Shortcode"
+msgstr "Endpoint och shortcode"
+
+#: src/php/Admin/Tabs/AboutTab.php:59
+msgid "REST endpoint (POST)"
+msgstr "REST endpoint (POST)"
+
+#: src/php/Admin/Tabs/AboutTab.php:62
+msgid "Default Shortcode"
+msgstr "Standard-shortcode"
+
+#: src/php/Admin/Tabs/AboutTab.php:66
+msgid "Shortcode with a Specific Template"
+msgstr "Shortcode med specifik mall"
+
+#: src/php/Admin/Tabs/AboutTab.php:73
+msgid "Shortcode Filters (server-side)"
+msgstr "Filter i shortcode (serverside)"
+
+#: src/php/Admin/Tabs/AboutTab.php:75
+msgid "Filtering runs before the render loop, reducing HTML output and making selections reusable."
+msgstr "Filtrering körs innan render-loopen, vilket minskar HTML-mängd och gör urvalet återanvändbart."
+
+#: src/php/Admin/Tabs/AboutTab.php:77
+msgid "Simple Filter"
+msgstr "Enkelt filter"
+
+#: src/php/Admin/Tabs/AboutTab.php:80
+msgid "Nested Field (dot notation)"
+msgstr "Nestat fält (dot-notation)"
+
+#: src/php/Admin/Tabs/AboutTab.php:83
+msgid "Shorthand"
+msgstr "Shorthand"
+
+#: src/php/Admin/Tabs/AboutTab.php:86
+msgid "Operators"
+msgstr "Operatorer"
+
+#: src/php/Admin/Tabs/AboutTab.php:92
+msgid "PHP Template Examples"
+msgstr "Exempel i PHP-mall"
+
+#: src/php/Admin/Tabs/AboutTab.php:94
+msgid "The template code runs once per record. Use conditions for fine-tuning even when prefiltering via shortcode."
+msgstr "Mallkoden körs per post. Använd gärna villkor för finslipning även när du förfiltrerar via shortcode."
+
+#: src/php/Admin/Tabs/AboutTab.php:95
+msgid "Show Only Active Records"
+msgstr "Visa bara aktiva poster"
+
+#: src/php/Admin/Tabs/AboutTab.php:98
+msgid "Get Nested Value"
+msgstr "Hämta nestat värde"
+
+#: src/php/Admin/Tabs/AboutTab.php:101
+msgid "Conditional CSS Class"
+msgstr "Villkorad CSS-klass"
+
+#: src/php/Admin/Tabs/AboutTab.php:107
+msgid "Security Overview"
+msgstr "Säkerhetsöversikt"
+
+#: src/php/Admin/Tabs/AboutTab.php:110
+msgid "REST imports are protected by hashed API keys, rate limiting, and optional per-key IP/CIDR allowlists."
+msgstr "REST-importer skyddas av hashade API-nycklar, rate limiting och valfria IP/CIDR-regler per nyckel."
+
+#: src/php/Admin/Tabs/AboutTab.php:111
+msgid "Security logs are shown in the API tab (blocked attempts and template errors)."
+msgstr "Säkerhetsloggar visas i API-fliken (blockerade försök och mallfel)."
+
+#: src/php/Admin/Tabs/AboutTab.php:112
+msgid "Templates with PHP are powerful but require strict admin security and MFA."
+msgstr "Mallar med PHP är kraftfulla men kräver strikt admin-säkerhet och MFA."
+
+#: src/php/Admin/Tabs/AboutTab.php:113
+msgid "Access for admin and templates is controlled via the data_importer_capability filter."
+msgstr "Behörighet för admin/mallar styrs via filtret data_importer_capability."
+
+#: src/php/Admin/Tabs/AboutTab.php:115
+msgid "Tip: restrict wp-admin access, rotate API keys regularly, enable safe mode for template issues, and always use HTTPS."
+msgstr "Tips: begränsa wp-admin, rotera API-nycklar regelbundet, aktivera säkert läge vid mallproblem och kör alltid över HTTPS."
+
+#: src/php/Admin/Tabs/AboutTab.php:120
+msgid "Recovery (Safe Mode)"
+msgstr "Återställning (säkert läge)"
+
+#: src/php/Admin/Tabs/AboutTab.php:123
+msgid "Click \"Enable Safe Mode\" in the admin notice at the top of the Data Importer page."
+msgstr "Klicka på \"Aktivera säkert läge\" i admin-notisen högst upp på Dataimport-sidan."
+
+#: src/php/Admin/Tabs/AboutTab.php:124
+msgid "In safe mode, no PHP templates run on the frontend."
+msgstr "I säkert läge körs inga PHP-mallar i frontend."
+
+#: src/php/Admin/Tabs/AboutTab.php:125
+msgid "Open the Template tab, adjust the template, and save again."
+msgstr "Gå till Mall-fliken, justera mallen och spara igen."
+
+#: src/php/Admin/Tabs/AboutTab.php:126
+msgid "Disable safe mode once the template is verified."
+msgstr "Stäng av säkert läge när mallen är verifierad."
+
+#: src/php/Admin/Tabs/AboutTab.php:128
+msgid "Safe mode uses the global status (option data_importer_safe_mode) and can also be controlled with the DATA_IMPORTER_SAFE_MODE constant."
+msgstr "Säkert läge använder global status (option data_importer_safe_mode) och kan även styras med konstanten DATA_IMPORTER_SAFE_MODE."
+
+#: src/php/Admin/Tabs/ApiTab.php:197
+#: src/php/Admin/Tabs/ApiTab.php:198
+msgid "Copy API Key"
+msgstr "Kopiera API-nyckel"
+
+#: src/php/Admin/Tabs/ApiTab.php:53
+#: src/php/Admin/Tabs/ApiTab.php:201
+msgid "Copy"
+msgstr "Kopiera"
+
+#: src/php/Admin/Tabs/ApiTab.php:43
+msgid "REST API"
+msgstr "REST API"
+
+#: src/php/Admin/Tabs/ApiTab.php:47
+msgid "Endpoint URL (POST)"
+msgstr "Endpoint-URL (POST)"
+
+#: src/php/Admin/Tabs/ApiTab.php:51
+msgid "Copy Endpoint URL"
+msgstr "Kopiera endpoint-URL"
+
+#: src/php/Admin/Tabs/ApiTab.php:56
+msgid "Send the chosen key in the X-API-Key header with each import request."
+msgstr "Skicka vald nyckel i headern X-API-Key med varje importförfrågan."
+
+#: src/php/Admin/Tabs/ApiTab.php:64
+msgid "API Keys"
+msgstr "API-nycklar"
+
+#: src/php/Admin/Tabs/ApiTab.php:66
+msgid "Each key has its own optional IP/CIDR allowlist. Leave a key's rules empty to allow all IPs for that key."
+msgstr "Varje nyckel har en egen valfri lista med IP/CIDR-regler. Lämna en nyckels regler tomma för att tillåta alla IP-adresser för den nyckeln."
+
+#: src/php/Admin/Tabs/ApiTab.php:67
+msgid "Stored keys are hashed and cannot be viewed again after creation. Regenerate a key if you need a fresh secret."
+msgstr "Sparade nycklar är hashade och kan inte visas igen efter att de skapats. Regenerera en nyckel om du behöver en ny hemlig nyckel."
+
+#: src/php/Admin/Tabs/ApiTab.php:71
+msgid "No API keys exist yet. Create one below."
+msgstr "Det finns inga API-nycklar ännu. Skapa en nedan."
+
+#: src/php/Admin/Tabs/ApiTab.php:89
+msgid "Add New Key"
+msgstr "Lägg till ny nyckel"
+
+#: src/php/Admin/Tabs/ApiTab.php:102
+#: src/php/Admin/Tabs/ApiTab.php:213
+msgid "Label"
+msgstr "Etikett"
+
+#: src/php/Admin/Tabs/ApiTab.php:110
+msgid "e.g. Production feed"
+msgstr "t.ex. Produktionsflöde"
+
+#: src/php/Admin/Tabs/ApiTab.php:115
+#: src/php/Admin/Tabs/ApiTab.php:219
+msgid "Allowed IP / CIDR"
+msgstr "Tillåtna IP / CIDR"
+
+#: src/php/Admin/Tabs/ApiTab.php:123
+#: src/php/Admin/Tabs/ApiTab.php:227
+msgid "e.g. 203.0.113.10, 198.51.100.0/24, 2001:db8::/32"
+msgstr "t.ex. 203.0.113.10, 198.51.100.0/24, 2001:db8::/32"
+
+#: src/php/Admin/Tabs/ApiTab.php:125
+#: src/php/Admin/Tabs/ApiTab.php:229
+msgid "Leave empty to allow all IPs."
+msgstr "Lämna tomt för att tillåta alla IP-adresser."
+
+#: src/php/Admin/Tabs/ApiTab.php:130
+msgid "Create API Key"
+msgstr "Skapa API-nyckel"
+
+#: src/php/Admin/Tabs/ApiTab.php:183
+msgid "If you lose it, regenerate this key."
+msgstr "Om du tappar bort den behöver du regenerera den här nyckeln."
+
+#: src/php/Admin/Tabs/ApiTab.php:137
+msgid "cURL Example"
+msgstr "cURL-exempel"
+
+#: src/php/Admin/Tabs/ApiTab.php:164
+msgid "Unnamed key"
+msgstr "Namnlös nyckel"
+
+#: src/php/Admin/Tabs/ApiTab.php:178
+msgid "Created %s"
+msgstr "Skapad %s"
+
+#: src/php/Admin/Tabs/ApiTab.php:234
+msgid "Save Key Details"
+msgstr "Spara nyckeluppgifter"
+
+#: src/php/Admin/Tabs/ApiTab.php:246
+msgid "Regenerate this API key? The previous secret will stop working immediately."
+msgstr "Regenerera API-nyckeln? Den tidigare nyckeln slutar fungera direkt."
+
+#: src/php/Admin/Tabs/ApiTab.php:246
+msgid "Regenerate Key"
+msgstr "Regenerera nyckel"
+
+#: src/php/Admin/Tabs/ApiTab.php:254
+msgid "Delete this API key? Any integration still using it will stop working immediately."
+msgstr "Radera API-nyckeln? Alla integrationer som fortfarande använder den slutar fungera direkt."
+
+#: src/php/Admin/Tabs/ApiTab.php:254
+msgid "Delete Key"
+msgstr "Radera nyckel"
+
+#: src/php/Admin/Tabs/ApiTab.php:272
+msgid "Hidden"
+msgstr "Dold"
+
+#: src/php/Admin/Tabs/DataTab.php:43
+msgid "Imported data has been cleared."
+msgstr "Importerad data har rensats."
+
+#: src/php/Admin/Tabs/DataTab.php:47
+msgid "Overview"
+msgstr "Översikt"
+
+#: src/php/Admin/Tabs/DataTab.php:50
+msgid "Total Records"
+msgstr "Totalt antal poster"
+
+#: src/php/Admin/Tabs/DataTab.php:54
+#: src/php/Admin/Tabs/TemplateTab.php:77
+#: src/php/Admin/Views/ListView.php:50
+#: src/php/Admin/Views/ListView.php:91
+msgid "Shortcode"
+msgstr "Shortcode"
+
+#: src/php/Admin/Tabs/DataTab.php:58
+msgid "Clear All Imported Data"
+msgstr "Rensa all importerad data"
+
+#: src/php/Admin/Tabs/DataTab.php:60
+msgid "Templates and the API key are not affected."
+msgstr "Mall och API-nyckel påverkas inte."
+
+#: src/php/Admin/Tabs/DataTab.php:65
+msgid "Latest Records (max 20)"
+msgstr "Senaste poster (max 20)"
+
+#: src/php/Admin/Tabs/DataTab.php:71
+msgid "ID"
+msgstr "ID"
+
+#: src/php/Admin/Tabs/DataTab.php:72
+msgid "Excerpt"
+msgstr "Utdrag"
+
+#: src/php/Admin/Tabs/DataTab.php:73
+msgid "Imported"
+msgstr "Importerad"
+
+#: src/php/Admin/Tabs/DataTab.php:79
+msgid "No imported records yet."
+msgstr "Inga importerade poster ännu."
+
+#: src/php/Admin/Tabs/GeneralTab.php:43
+#: src/php/Admin/Views/ListView.php:48
+#: src/php/Admin/Views/ListView.php:65
+#: src/php/Admin/Views/NewSourceView.php:49
+msgid "Name"
+msgstr "Namn"
+
+#: src/php/Admin/Tabs/GeneralTab.php:49
+#: src/php/Admin/Tabs/TemplateTab.php:76
+#: src/php/Admin/Views/ListView.php:49
+#: src/php/Admin/Views/ListView.php:88
+#: src/php/Admin/Views/NewSourceView.php:58
+msgid "Slug"
+msgstr "Slug"
+
+#: src/php/Admin/Tabs/GeneralTab.php:52
+msgid "The slug cannot be changed after the data source is created."
+msgstr "Slugen kan inte ändras efter att datakällan skapats."
+
+#: src/php/Admin/Tabs/GeneralTab.php:56
+msgid "Created"
+msgstr "Skapad"
+
+#: src/php/Admin/Tabs/GeneralTab.php:62
+msgid "Save"
+msgstr "Spara"
+
+#: src/php/Admin/Tabs/GeneralTab.php:84
+msgid "Replace"
+msgstr "Ersätt"
+
+#: src/php/Admin/Tabs/GeneralTab.php:85
+msgid "Delete all existing records and insert the new ones."
+msgstr "Ta bort alla befintliga poster och lägg till de nya."
+
+#: src/php/Admin/Tabs/GeneralTab.php:88
+msgid "Append"
+msgstr "Lägg till"
+
+#: src/php/Admin/Tabs/GeneralTab.php:89
+msgid "Add the new records without removing existing ones."
+msgstr "Lägg till de nya posterna utan att ta bort befintliga."
+
+#: src/php/Admin/Tabs/GeneralTab.php:92
+msgid "Update (upsert)"
+msgstr "Uppdatera (upsert)"
+
+#: src/php/Admin/Tabs/GeneralTab.php:93
+msgid "Update existing records that match on the key column(s) and insert the rest."
+msgstr "Uppdatera befintliga poster som matchar på nyckelkolumn(er) och lägg till resten."
+
+#: src/php/Admin/Tabs/GeneralTab.php:98
+msgid "Import mode"
+msgstr "Importläge"
+
+#: src/php/Admin/Tabs/GeneralTab.php:116
+msgid "Update key column(s)"
+msgstr "Nyckelkolumn(er) för uppdatering"
+
+#: src/php/Admin/Tabs/GeneralTab.php:124
+msgid "e.g. id  or  ean,location"
+msgstr "t.ex. id  eller  ean,location"
+
+#: src/php/Admin/Tabs/GeneralTab.php:126
+msgid "Comma-separated field name(s) used to match existing records. Every incoming record must contain these fields."
+msgstr "Kommaseparerade fältnamn som används för att matcha befintliga poster. Varje inkommande post måste innehålla dessa fält."
+
+#: src/php/Admin/Tabs/LogTab.php:46
+msgid "Import Log (latest 20)"
+msgstr "Importlogg (senaste 20)"
+
+#: src/php/Admin/Tabs/LogTab.php:49
+msgid "No imports logged yet."
+msgstr "Ingen import loggad ännu."
+
+#: src/php/Admin/Tabs/LogTab.php:54
+#: src/php/Admin/Tabs/LogTab.php:100
+#: src/php/Admin/Tabs/LogTab.php:130
+msgid "Timestamp"
+msgstr "Tidpunkt"
+
+#: src/php/Admin/Tabs/LogTab.php:55
+#: src/php/Admin/Views/EditView.php:50
+#: src/php/Admin/Views/ListView.php:51
+#: src/php/Admin/Views/ListView.php:94
+msgid "Records"
+msgstr "Poster"
+
+#: src/php/Admin/Tabs/LogTab.php:56
+msgid "IP / User"
+msgstr "IP / Användare"
+
+#: src/php/Admin/Tabs/LogTab.php:57
+#: src/php/Admin/Tabs/LogTab.php:102
+msgid "Status"
+msgstr "Status"
+
+#: src/php/Admin/Tabs/LogTab.php:92
+msgid "Security Log (latest 50)"
+msgstr "Säkerhetslogg (senaste 50)"
+
+#: src/php/Admin/Tabs/LogTab.php:95
+msgid "No blocked attempts logged yet."
+msgstr "Inga blockerade försök loggade ännu."
+
+#: src/php/Admin/Tabs/LogTab.php:101
+#: src/php/Admin/Tabs/LogTab.php:131
+msgid "Event"
+msgstr "Händelse"
+
+#: src/php/Admin/Tabs/LogTab.php:103
+msgid "IP"
+msgstr "IP"
+
+#: src/php/Admin/Tabs/LogTab.php:122
+msgid "Template Error Log (latest 50)"
+msgstr "Mallfel-logg (senaste 50)"
+
+#: src/php/Admin/Tabs/LogTab.php:125
+msgid "No template errors logged yet."
+msgstr "Inga mallfel loggade ännu."
+
+#: src/php/Admin/Tabs/LogTab.php:132
+msgid "Context"
+msgstr "Kontext"
+
+#: src/php/Admin/Tabs/LogTab.php:133
+msgid "Template ID"
+msgstr "Mall-ID"
+
+#. translators: %d: number of imported records.
+#: src/php/Admin/Tabs/ManualTab.php:71
+msgid "Manual import completed. %d record was imported."
+msgid_plural "Manual import completed. %d records were imported."
+msgstr[0] "Manuell import slutförd. %d post importerades."
+msgstr[1] "Manuell import slutförd. %d poster importerades."
+
+#: src/php/Admin/Tabs/ManualTab.php:86
+msgid "Manual JSON Import"
+msgstr "Manuell JSON-import"
+
+#: src/php/Admin/Tabs/ManualTab.php:88
+msgid "Paste a JSON object or an array of JSON objects and import it directly from wp-admin."
+msgstr "Klistra in ett JSON-objekt eller en array av JSON-objekt och importera direkt från wp-admin."
+
+#: src/php/Admin/Tabs/ManualTab.php:89
+msgid "The import behaviour is determined by the Import mode setting below."
+msgstr "Importbeteendet styrs av inställningen Importläge nedan."
+
+#: src/php/Admin/Tabs/ManualTab.php:97
+msgid "JSON Payload"
+msgstr "JSON-data"
+
+#: src/php/Admin/Tabs/ManualTab.php:100
+msgid "Use the same payload format as the REST endpoint. Nested objects and arrays are supported."
+msgstr "Använd samma format som REST-endpointen. Nästlade objekt och arrayer stöds."
+
+#: src/php/Admin/Tabs/ManualTab.php:107
+msgid "Import JSON"
+msgstr "Importera JSON"
+
+#: src/php/Admin/Tabs/ManualTab.php:108
+msgid "View Records"
+msgstr "Visa poster"
+
+#: src/php/Admin/Tabs/TemplateTab.php:43
+#: src/php/Admin/TemplateFormHandler.php:117
+#: src/php/Admin/TemplateFormHandler.php:197
+msgid "Template not found."
+msgstr "Mallen hittades inte."
+
+#: src/php/Admin/Tabs/TemplateTab.php:70
+msgid "Templates"
+msgstr "Mallar"
+
+#: src/php/Admin/Tabs/TemplateTab.php:75
+#: src/php/Admin/Views/EditView.php:47
+msgid "Template"
+msgstr "Mall"
+
+#: src/php/Admin/Tabs/TemplateTab.php:78
+msgid "Updated"
+msgstr "Uppdaterad"
+
+#: src/php/Admin/Tabs/TemplateTab.php:84
+msgid "No templates yet."
+msgstr "Inga mallar ännu."
+
+#: src/php/Admin/Tabs/TemplateTab.php:99
+msgid "Latest template error: %1$s (%2$s)"
+msgstr "Senaste mallfel: %1$s (%2$s)"
+
+#: src/php/Admin/Tabs/TemplateTab.php:99
+msgid "Template Error"
+msgstr "Mallfel"
+
+#: src/php/Admin/Tabs/TemplateTab.php:102
+#: src/php/Admin/Views/ListView.php:73
+msgid "Edit"
+msgstr "Redigera"
+
+#: src/php/Admin/Tabs/TemplateTab.php:105
+msgid "View Error Log"
+msgstr "Visa fel-logg"
+
+#: src/php/Admin/Tabs/TemplateTab.php:123
+msgid "Create New Template"
+msgstr "Skapa ny mall"
+
+#: src/php/Admin/Tabs/TemplateTab.php:131
+#: src/php/Admin/Tabs/TemplateTab.php:203
+msgid "Template Name"
+msgstr "Mallnamn"
+
+#: src/php/Admin/Tabs/TemplateTab.php:135
+msgid "Template Slug (optional)"
+msgstr "Mall-slug (valfritt)"
+
+#: src/php/Admin/Tabs/TemplateTab.php:140
+msgid "Create Template"
+msgstr "Skapa mall"
+
+#: src/php/Admin/Tabs/TemplateTab.php:172
+msgid "Back to Template List"
+msgstr "Till mall-listan"
+
+#: src/php/Admin/Tabs/TemplateTab.php:200
+msgid "Template Settings"
+msgstr "Mallinställningar"
+
+#: src/php/Admin/Tabs/TemplateTab.php:207
+msgid "Template Slug"
+msgstr "Mall-slug"
+
+#: src/php/Admin/Tabs/TemplateTab.php:214
+#: src/php/Admin/Tabs/TemplateTab.php:216
+msgid "Before List (PHP/HTML)"
+msgstr "Före listan (PHP/HTML)"
+
+#: src/php/Admin/Tabs/TemplateTab.php:222
+msgid "List (PHP/HTML per record)"
+msgstr "Lista (PHP/HTML per post)"
+
+#: src/php/Admin/Tabs/TemplateTab.php:225
+msgid "PHP Template"
+msgstr "PHP-mall"
+
+#: src/php/Admin/Tabs/TemplateTab.php:231
+#: src/php/Admin/Tabs/TemplateTab.php:233
+msgid "After List (PHP/HTML)"
+msgstr "Efter listan (PHP/HTML)"
+
+#: src/php/Admin/Tabs/TemplateTab.php:239
+msgid "Styles"
+msgstr "Stilmallar"
+
+#: src/php/Admin/Tabs/TemplateTab.php:241
+msgid "Add stylesheet URLs and optional handles. Empty handles are generated from the stylesheet filename."
+msgstr "Lägg till stilmalls-URL:er och valfria handles. Tomma handles genereras från filnamnet."
+
+#: src/php/Admin/Tabs/TemplateTab.php:244
+#: src/php/Admin/Tabs/TemplateTab.php:270
+msgid "Source"
+msgstr "Källa"
+
+#: src/php/Admin/Tabs/TemplateTab.php:265
+msgid "Scripts"
+msgstr "Skript"
+
+#: src/php/Admin/Tabs/TemplateTab.php:267
+msgid "Add script URLs and optional handles. Empty handles are generated from the script filename."
+msgstr "Lägg till skript-URL:er och valfria handles. Tomma handles genereras från filnamnet."
+
+#: src/php/Admin/Tabs/TemplateTab.php:302
+msgid "Save Template"
+msgstr "Spara mall"
+
+#: src/php/Admin/Tabs/TemplateTab.php:304
+msgid "Delete this template? This action cannot be undone."
+msgstr "Radera den här mallen? Ändringen kan inte ångras."
+
+#: src/php/Admin/Tabs/TemplateTab.php:308
+#: src/php/Infrastructure/Database.php:1115
+msgid "At least one template must remain."
+msgstr "Minst en mall måste finnas kvar."
+
+#: src/php/Admin/Tabs/TemplateTab.php:346
+msgid "style-handle"
+msgstr "stilmalls-handle"
+
+#: src/php/Admin/Tabs/TemplateTab.php:364
+msgid "script-handle"
+msgstr "skript-handle"
+
+#: src/php/Admin/Tabs/TemplateTab.php:431
+msgid "No variables yet. Import data to get field buttons."
+msgstr "Inga variabler ännu — importera data för att få fältknappar."
+
+#: src/php/Admin/TemplateFormHandler.php:58
+#: src/php/Infrastructure/Database.php:1019
+msgid "New Template"
+msgstr "Ny mall"
+
+#: src/php/Admin/Views/EditView.php:46
+msgid "General"
+msgstr "Allmänt"
+
+#: src/php/Admin/Views/EditView.php:48
+msgid "API"
+msgstr "API"
+
+#: src/php/Admin/Views/EditView.php:49
+msgid "Manual input"
+msgstr "Manuell inmatning"
+
+#: src/php/Admin/Views/EditView.php:51
+msgid "Logs"
+msgstr "Loggar"
+
+#: src/php/Admin/Views/EditView.php:52
+msgid "About"
+msgstr "Om"
+
+#. translators: %s: source name.
+#: src/php/Admin/Views/EditView.php:64
+msgid "Edit: %s"
+msgstr "Redigera: %s"
+
+#: src/php/Admin/Views/EditView.php:70
+#: src/php/Admin/Views/NewSourceView.php:31
+msgid "All Data Sources"
+msgstr "Alla datakällor"
+
+#: src/php/Admin/Views/EditView.php:74
+msgid "Changes saved."
+msgstr "Ändringarna sparades."
+
+#: src/php/Admin/Views/EditView.php:77
+msgid "Tabs"
+msgstr "Flikar"
+
+#: src/php/Admin/Views/ListView.php:33
+msgid "Add New Data Source"
+msgstr "Lägg till ny datakälla"
+
+#: src/php/Admin/Views/ListView.php:37
+msgid "The data source was deleted."
+msgstr "Datakällan raderades."
+
+#: src/php/Admin/Views/ListView.php:42
+msgid "No data sources yet. Click \"Add New Data Source\" to get started."
+msgstr "Inga datakällor ännu. Klicka på \"Lägg till ny datakälla\" för att komma igång."
+
+#: src/php/Admin/Views/ListView.php:52
+#: src/php/Admin/Views/ListView.php:97
+msgid "Latest Import"
+msgstr "Senaste import"
+
+#: src/php/Admin/Views/ListView.php:77
+msgid "Delete the data source \"%s\" and all of its data? This action cannot be undone."
+msgstr "Radera datakällan \"%s\" och all dess data? Detta kan inte ångras."
+
+#: src/php/Admin/Views/ListView.php:82
+msgid "Delete"
+msgstr "Radera"
+
+#: src/php/Admin/Views/NewSourceView.php:30
+msgid "New Data Source"
+msgstr "Ny datakälla"
+
+#: src/php/Admin/Views/NewSourceView.php:53
+msgid "Display name, e.g. \"Staff Directory\" or \"Events\"."
+msgstr "Visningsnamn, t.ex. \"Personallista\" eller \"Evenemang\"."
+
+#: src/php/Admin/Views/NewSourceView.php:62
+msgid "Used in the REST API URL and shortcode. Generated automatically from the name. Cannot be changed after creation."
+msgstr "Används i REST API-URL och shortcode. Genereras automatiskt från namnet. Kan inte ändras efter skapande."
+
+#: src/php/Admin/Views/NewSourceView.php:67
+msgid "Create Data Source"
+msgstr "Skapa datakälla"
+
+#: src/php/Api/RestController.php:136
+msgid "Unauthorized request."
+msgstr "Obehörig begäran."
+
+#: src/php/Api/RestController.php:146
+msgid "Request denied."
+msgstr "Begäran nekades."
+
+#: src/php/Api/RestController.php:153
+msgid "Body must be valid JSON."
+msgstr "Body måste vara giltig JSON."
+
+#: src/php/Api/RestController.php:275
+msgid "Payload must be an object or array."
+msgstr "Payload måste vara objekt eller array."
+
+#: src/php/Api/RestController.php:284
+msgid "All records must be objects."
+msgstr "Alla poster måste vara objekt."
+
+#: src/php/Api/RestController.php:343
+msgid "Too many requests. Please try again later."
+msgstr "För många anrop. Försök igen senare."
+
+#: src/php/Api/RestController.php:372
+msgid "Payload is too large."
+msgstr "Payload är för stor."
+
+#: src/php/Api/RestController.php:398
+msgid "Too many records in a single import."
+msgstr "För många poster i en import."
+
+#: src/php/Frontend/Display.php:754
+msgid "An error occurred while rendering the template."
+msgstr "Ett fel uppstod vid rendering av mallen."
+
+#. translators: %s: runtime error message
+#: src/php/Frontend/Display.php:847
+msgid "Template error during test run: %s"
+msgstr "Mallfel vid testkörning: %s"
+
+#: src/php/Frontend/Display.php:870
+msgid "The template is too large."
+msgstr "Mallen är för stor."
+
+#: src/php/Frontend/Display.php:874
+msgid "The template contains invalid characters."
+msgstr "Mallen innehåller ogiltiga tecken."
+
+#: src/php/Frontend/Display.php:951
+msgid "The template is not allowed by the security policy."
+msgstr "Mallen tillåts inte av säkerhetspolicyn."
+
+#: src/php/Frontend/Display.php:974
+msgid "Template rendering failed."
+msgstr "Mallrendering misslyckades."
+
+#: src/php/Infrastructure/Database.php:275
+#: src/php/Infrastructure/Database.php:716
+msgid "Default Template"
+msgstr "Standardmall"
+
+#: src/php/Infrastructure/Database.php:513
+msgid "Could not create the API key."
+msgstr "Kunde inte skapa API-nyckeln."
+
+#: src/php/Infrastructure/Database.php:611
+msgid "Could not regenerate the API key."
+msgstr "Kunde inte regenerera API-nyckeln."
+
+#: src/php/Infrastructure/Database.php:709
+msgid "Could not create the data source."
+msgstr "Kunde inte skapa datakällan."
+
+#. translators: %d: sequential API key number.
+#: src/php/Infrastructure/Database.php:810
+msgid "API Key %d"
+msgstr "API-nyckel %d"
+
+#: src/php/Infrastructure/Database.php:854
+msgid "API key cannot be empty."
+msgstr "API-nyckeln kan inte vara tom."
+
+#: src/php/Infrastructure/Database.php:858
+msgid "API Key"
+msgstr "API-nyckel"
+
+#: src/php/Infrastructure/Database.php:863
+msgid "Could not securely hash the API key."
+msgstr "Kunde inte hasha API-nyckeln säkert."
+
+#: src/php/Infrastructure/Database.php:1040
+msgid "Could not create the template."
+msgstr "Kunde inte skapa mallen."
+
+#: src/php/Infrastructure/Database.php:1207
+#: src/php/Infrastructure/Database.php:1247
+#: src/php/Infrastructure/Database.php:1291
+msgid "Invalid data format."
+msgstr "Ogiltigt dataformat."
+
+#: src/php/Infrastructure/Database.php:1297
+msgid "At least one update key column is required for upsert mode."
+msgstr "Minst en nyckelkolumn krävs för upsert-läget."
+
+#: src/php/Admin/Tabs/ApiTab.php:167
+msgid "Copy this key now — it will not be shown again."
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:168
+msgid "Copy the regenerated key now — the previous secret has stopped working."
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:178
+msgid "Data Importer — global variable syntax detected"
+msgstr ""
+
+#. translators: %s: comma-separated list of field names
+#: src/php/Admin/Tabs/TemplateTab.php:183
+msgid "This template references fields as global variables (%s). Use $vars['field'] instead, or enable the data_importer_template_extract_vars filter if you prefer the global variable syntax."
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:311
+msgid "only template"
+msgstr "enda mallen"
+
+#. translators: %s: blocked function name
+#: src/php/Frontend/Display.php:930
+msgid "The template contains a blocked function: %s."
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:305
+#: src/php/Admin/Tabs/TemplateTab.php:309
+msgid "Delete Template"
+msgstr "Radera mall"

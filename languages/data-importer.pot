@@ -1,0 +1,1017 @@
+# Copyright (C) 2026 Alingsas Kommun
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Data Importer & Visualizer 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/data-importer\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-15T09:29:50+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: data-importer\n"
+
+#. Plugin Name of the plugin
+#: data-importer.php
+#: src/php/Admin/Views/ListView.php:32
+msgid "Data Importer & Visualizer"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: data-importer.php
+msgid "https://www.alingsas.se"
+msgstr ""
+
+#. Description of the plugin
+#: data-importer.php
+msgid "Receive JSON via REST API, store data per source, and display it with template tags via shortcode."
+msgstr ""
+
+#. Author of the plugin
+#: data-importer.php
+msgid "Alingsas Kommun"
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:186
+#: src/php/Admin/SourceFormHandler.php:495
+#: src/php/Admin/SourceFormHandler.php:536
+msgid "Insufficient permissions."
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:187
+msgid "Access Denied"
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:270
+msgid "Safe mode enabled: PHP templates will not run until you disable it."
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:271
+msgid "Safe mode disabled: PHP templates are running again."
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:279
+msgid "Safe mode is active. PHP templates will not run on the frontend until it is disabled."
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:280
+msgid "Disable Safe Mode"
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:297
+#: src/php/Admin/AdminPage.php:316
+msgid "Copy shortcode"
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:338
+#: src/php/Admin/AdminPage.php:339
+msgid "Data Importer"
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:349
+#: src/php/Admin/AdminPage.php:350
+msgid "Data Sources"
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:408
+msgid "Copied."
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:409
+msgid "Could not copy."
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:410
+#: src/php/Admin/Tabs/DataTab.php:58
+msgid "Clear all imported data for this data source? This action cannot be undone."
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:411
+msgid "Delete the data source and all of its data? This action cannot be undone."
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:412
+msgid "Regenerate the API key? The previous key will stop working immediately."
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:413
+#: src/php/Admin/Tabs/TemplateTab.php:259
+msgid "Add Style"
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:414
+#: src/php/Admin/Tabs/TemplateTab.php:285
+msgid "Add Script"
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:415
+msgid "Style Source"
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:416
+msgid "Script Source"
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:417
+#: src/php/Admin/Tabs/TemplateTab.php:245
+#: src/php/Admin/Tabs/TemplateTab.php:271
+msgid "Handle"
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:418
+#: src/php/Admin/Tabs/TemplateTab.php:347
+#: src/php/Admin/Tabs/TemplateTab.php:365
+msgid "Remove"
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:419
+#: src/php/Admin/Tabs/DataTab.php:92
+#: src/php/Admin/Tabs/DataTab.php:93
+#: src/php/Admin/Tabs/DataTab.php:96
+msgid "Preview Record"
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:420
+msgid "Record Content"
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:421
+msgid "Close"
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:422
+msgid "Could not create API key."
+msgstr ""
+
+#: src/php/Admin/AdminPage.php:423
+msgid "API key created. Copy it now \\u2014 it will not be shown again."
+msgstr ""
+
+#: src/php/Admin/ManualImportProcessor.php:33
+#: src/php/Admin/ManualImportProcessor.php:50
+#: src/php/Admin/Views/EditView.php:40
+#: src/php/Api/RestController.php:113
+#: src/php/Api/RestController.php:187
+#: src/php/Api/RestController.php:255
+msgid "Data source not found."
+msgstr ""
+
+#: src/php/Admin/ManualImportProcessor.php:55
+msgid "Please paste valid JSON before importing."
+msgstr ""
+
+#. translators: %s: JSON parser error text.
+#: src/php/Admin/ManualImportProcessor.php:64
+msgid "JSON could not be parsed: %s"
+msgstr ""
+
+#: src/php/Admin/SourceFormHandler.php:96
+#: src/php/Admin/SourceFormHandler.php:204
+#: src/php/Admin/SourceFormHandler.php:235
+#: src/php/Admin/SourceFormHandler.php:295
+#: src/php/Admin/SourceFormHandler.php:345
+#: src/php/Admin/SourceFormHandler.php:404
+#: src/php/Admin/SourceFormHandler.php:433
+#: src/php/Admin/SourceFormHandler.php:490
+#: src/php/Admin/TemplateFormHandler.php:45
+#: src/php/Admin/TemplateFormHandler.php:108
+#: src/php/Admin/TemplateFormHandler.php:182
+msgid "Security check failed."
+msgstr ""
+
+#: src/php/Admin/SourceFormHandler.php:134
+#: src/php/Admin/SourceFormHandler.php:157
+#: src/php/Infrastructure/Database.php:320
+#: src/php/Infrastructure/Database.php:805
+msgid "Primary Key"
+msgstr ""
+
+#: src/php/Admin/SourceFormHandler.php:316
+msgid "Could not update the API key."
+msgstr ""
+
+#: src/php/Admin/SourceFormHandler.php:542
+#: src/php/Infrastructure/Database.php:484
+#: src/php/Infrastructure/Database.php:1011
+msgid "Invalid data source."
+msgstr ""
+
+#: src/php/Admin/SourceFormHandler.php:546
+msgid "Data cleared."
+msgstr ""
+
+#: src/php/Admin/SourceFormHandler.php:560
+#: src/php/Infrastructure/Database.php:575
+msgid "API key not found."
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:45
+msgid "Quick Start"
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:48
+msgid "Import JSON via the endpoint below with the correct API key in the X-API-Key header."
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:49
+msgid "Create one or more templates in the Template tab."
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:50
+msgid "Paste the shortcode onto any page or into a block."
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:51
+msgid "Verify the result in the Records tab and the logs in the API tab."
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:57
+msgid "Endpoint and Shortcode"
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:59
+msgid "REST endpoint (POST)"
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:62
+msgid "Default Shortcode"
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:66
+msgid "Shortcode with a Specific Template"
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:73
+msgid "Shortcode Filters (server-side)"
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:75
+msgid "Filtering runs before the render loop, reducing HTML output and making selections reusable."
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:77
+msgid "Simple Filter"
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:80
+msgid "Nested Field (dot notation)"
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:83
+msgid "Shorthand"
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:86
+msgid "Operators"
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:92
+msgid "PHP Template Examples"
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:94
+msgid "The template code runs once per record. Use conditions for fine-tuning even when prefiltering via shortcode."
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:95
+msgid "Show Only Active Records"
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:98
+msgid "Get Nested Value"
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:101
+msgid "Conditional CSS Class"
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:107
+msgid "Security Overview"
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:110
+msgid "REST imports are protected by hashed API keys, rate limiting, and optional per-key IP/CIDR allowlists."
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:111
+msgid "Security logs are shown in the API tab (blocked attempts and template errors)."
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:112
+msgid "Templates with PHP are powerful but require strict admin security and MFA."
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:113
+msgid "Access for admin and templates is controlled via the data_importer_capability filter."
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:115
+msgid "Tip: restrict wp-admin access, rotate API keys regularly, enable safe mode for template issues, and always use HTTPS."
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:120
+msgid "Recovery (Safe Mode)"
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:123
+msgid "Click \"Enable Safe Mode\" in the admin notice at the top of the Data Importer page."
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:124
+msgid "In safe mode, no PHP templates run on the frontend."
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:125
+msgid "Open the Template tab, adjust the template, and save again."
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:126
+msgid "Disable safe mode once the template is verified."
+msgstr ""
+
+#: src/php/Admin/Tabs/AboutTab.php:128
+msgid "Safe mode uses the global status (option data_importer_safe_mode) and can also be controlled with the DATA_IMPORTER_SAFE_MODE constant."
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:43
+msgid "REST API"
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:47
+msgid "Endpoint URL (POST)"
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:51
+msgid "Copy Endpoint URL"
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:53
+#: src/php/Admin/Tabs/ApiTab.php:201
+msgid "Copy"
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:56
+msgid "Send the chosen key in the X-API-Key header with each import request."
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:64
+msgid "API Keys"
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:66
+msgid "Each key has its own optional IP/CIDR allowlist. Leave a key's rules empty to allow all IPs for that key."
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:67
+msgid "Stored keys are hashed and cannot be viewed again after creation. Regenerate a key if you need a fresh secret."
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:71
+msgid "No API keys exist yet. Create one below."
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:89
+msgid "Add New Key"
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:102
+#: src/php/Admin/Tabs/ApiTab.php:213
+msgid "Label"
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:110
+msgid "e.g. Production feed"
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:115
+#: src/php/Admin/Tabs/ApiTab.php:219
+msgid "Allowed IP / CIDR"
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:123
+#: src/php/Admin/Tabs/ApiTab.php:227
+msgid "e.g. 203.0.113.10, 198.51.100.0/24, 2001:db8::/32"
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:125
+#: src/php/Admin/Tabs/ApiTab.php:229
+msgid "Leave empty to allow all IPs."
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:130
+msgid "Create API Key"
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:137
+msgid "cURL Example"
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:164
+msgid "Unnamed key"
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:167
+msgid "Copy this key now — it will not be shown again."
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:168
+msgid "Copy the regenerated key now — the previous secret has stopped working."
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:178
+msgid "Created %s"
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:183
+msgid "If you lose it, regenerate this key."
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:197
+#: src/php/Admin/Tabs/ApiTab.php:198
+msgid "Copy API Key"
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:234
+msgid "Save Key Details"
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:246
+msgid "Regenerate this API key? The previous secret will stop working immediately."
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:246
+msgid "Regenerate Key"
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:254
+msgid "Delete this API key? Any integration still using it will stop working immediately."
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:254
+msgid "Delete Key"
+msgstr ""
+
+#: src/php/Admin/Tabs/ApiTab.php:272
+msgid "Hidden"
+msgstr ""
+
+#: src/php/Admin/Tabs/DataTab.php:43
+msgid "Imported data has been cleared."
+msgstr ""
+
+#: src/php/Admin/Tabs/DataTab.php:47
+msgid "Overview"
+msgstr ""
+
+#: src/php/Admin/Tabs/DataTab.php:50
+msgid "Total Records"
+msgstr ""
+
+#: src/php/Admin/Tabs/DataTab.php:54
+#: src/php/Admin/Tabs/TemplateTab.php:77
+#: src/php/Admin/Views/ListView.php:50
+#: src/php/Admin/Views/ListView.php:91
+msgid "Shortcode"
+msgstr ""
+
+#: src/php/Admin/Tabs/DataTab.php:58
+msgid "Clear All Imported Data"
+msgstr ""
+
+#: src/php/Admin/Tabs/DataTab.php:60
+msgid "Templates and the API key are not affected."
+msgstr ""
+
+#: src/php/Admin/Tabs/DataTab.php:65
+msgid "Latest Records (max 20)"
+msgstr ""
+
+#: src/php/Admin/Tabs/DataTab.php:71
+msgid "ID"
+msgstr ""
+
+#: src/php/Admin/Tabs/DataTab.php:72
+msgid "Excerpt"
+msgstr ""
+
+#: src/php/Admin/Tabs/DataTab.php:73
+msgid "Imported"
+msgstr ""
+
+#: src/php/Admin/Tabs/DataTab.php:79
+msgid "No imported records yet."
+msgstr ""
+
+#: src/php/Admin/Tabs/GeneralTab.php:43
+#: src/php/Admin/Views/ListView.php:48
+#: src/php/Admin/Views/ListView.php:65
+#: src/php/Admin/Views/NewSourceView.php:49
+msgid "Name"
+msgstr ""
+
+#: src/php/Admin/Tabs/GeneralTab.php:49
+#: src/php/Admin/Tabs/TemplateTab.php:76
+#: src/php/Admin/Views/ListView.php:49
+#: src/php/Admin/Views/ListView.php:88
+#: src/php/Admin/Views/NewSourceView.php:58
+msgid "Slug"
+msgstr ""
+
+#: src/php/Admin/Tabs/GeneralTab.php:52
+msgid "The slug cannot be changed after the data source is created."
+msgstr ""
+
+#: src/php/Admin/Tabs/GeneralTab.php:56
+msgid "Created"
+msgstr ""
+
+#: src/php/Admin/Tabs/GeneralTab.php:62
+msgid "Save"
+msgstr ""
+
+#: src/php/Admin/Tabs/GeneralTab.php:84
+msgid "Replace"
+msgstr ""
+
+#: src/php/Admin/Tabs/GeneralTab.php:85
+msgid "Delete all existing records and insert the new ones."
+msgstr ""
+
+#: src/php/Admin/Tabs/GeneralTab.php:88
+msgid "Append"
+msgstr ""
+
+#: src/php/Admin/Tabs/GeneralTab.php:89
+msgid "Add the new records without removing existing ones."
+msgstr ""
+
+#: src/php/Admin/Tabs/GeneralTab.php:92
+msgid "Update (upsert)"
+msgstr ""
+
+#: src/php/Admin/Tabs/GeneralTab.php:93
+msgid "Update existing records that match on the key column(s) and insert the rest."
+msgstr ""
+
+#: src/php/Admin/Tabs/GeneralTab.php:98
+msgid "Import mode"
+msgstr ""
+
+#: src/php/Admin/Tabs/GeneralTab.php:116
+msgid "Update key column(s)"
+msgstr ""
+
+#: src/php/Admin/Tabs/GeneralTab.php:124
+msgid "e.g. id  or  ean,location"
+msgstr ""
+
+#: src/php/Admin/Tabs/GeneralTab.php:126
+msgid "Comma-separated field name(s) used to match existing records. Every incoming record must contain these fields."
+msgstr ""
+
+#: src/php/Admin/Tabs/LogTab.php:46
+msgid "Import Log (latest 20)"
+msgstr ""
+
+#: src/php/Admin/Tabs/LogTab.php:49
+msgid "No imports logged yet."
+msgstr ""
+
+#: src/php/Admin/Tabs/LogTab.php:54
+#: src/php/Admin/Tabs/LogTab.php:100
+#: src/php/Admin/Tabs/LogTab.php:130
+msgid "Timestamp"
+msgstr ""
+
+#: src/php/Admin/Tabs/LogTab.php:55
+#: src/php/Admin/Views/EditView.php:50
+#: src/php/Admin/Views/ListView.php:51
+#: src/php/Admin/Views/ListView.php:94
+msgid "Records"
+msgstr ""
+
+#: src/php/Admin/Tabs/LogTab.php:56
+msgid "IP / User"
+msgstr ""
+
+#: src/php/Admin/Tabs/LogTab.php:57
+#: src/php/Admin/Tabs/LogTab.php:102
+msgid "Status"
+msgstr ""
+
+#: src/php/Admin/Tabs/LogTab.php:92
+msgid "Security Log (latest 50)"
+msgstr ""
+
+#: src/php/Admin/Tabs/LogTab.php:95
+msgid "No blocked attempts logged yet."
+msgstr ""
+
+#: src/php/Admin/Tabs/LogTab.php:101
+#: src/php/Admin/Tabs/LogTab.php:131
+msgid "Event"
+msgstr ""
+
+#: src/php/Admin/Tabs/LogTab.php:103
+msgid "IP"
+msgstr ""
+
+#: src/php/Admin/Tabs/LogTab.php:122
+msgid "Template Error Log (latest 50)"
+msgstr ""
+
+#: src/php/Admin/Tabs/LogTab.php:125
+msgid "No template errors logged yet."
+msgstr ""
+
+#: src/php/Admin/Tabs/LogTab.php:132
+msgid "Context"
+msgstr ""
+
+#: src/php/Admin/Tabs/LogTab.php:133
+msgid "Template ID"
+msgstr ""
+
+#. translators: %d: number of imported records.
+#: src/php/Admin/Tabs/ManualTab.php:71
+msgid "Manual import completed. %d record was imported."
+msgid_plural "Manual import completed. %d records were imported."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/php/Admin/Tabs/ManualTab.php:86
+msgid "Manual JSON Import"
+msgstr ""
+
+#: src/php/Admin/Tabs/ManualTab.php:88
+msgid "Paste a JSON object or an array of JSON objects and import it directly from wp-admin."
+msgstr ""
+
+#: src/php/Admin/Tabs/ManualTab.php:89
+msgid "The import behaviour is determined by the Import mode setting below."
+msgstr ""
+
+#: src/php/Admin/Tabs/ManualTab.php:97
+msgid "JSON Payload"
+msgstr ""
+
+#: src/php/Admin/Tabs/ManualTab.php:100
+msgid "Use the same payload format as the REST endpoint. Nested objects and arrays are supported."
+msgstr ""
+
+#: src/php/Admin/Tabs/ManualTab.php:107
+msgid "Import JSON"
+msgstr ""
+
+#: src/php/Admin/Tabs/ManualTab.php:108
+msgid "View Records"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:43
+#: src/php/Admin/TemplateFormHandler.php:117
+#: src/php/Admin/TemplateFormHandler.php:197
+msgid "Template not found."
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:70
+msgid "Templates"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:75
+#: src/php/Admin/Views/EditView.php:47
+msgid "Template"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:78
+msgid "Updated"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:84
+msgid "No templates yet."
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:99
+msgid "Latest template error: %1$s (%2$s)"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:99
+msgid "Template Error"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:102
+#: src/php/Admin/Views/ListView.php:73
+msgid "Edit"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:105
+msgid "View Error Log"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:123
+msgid "Create New Template"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:131
+#: src/php/Admin/Tabs/TemplateTab.php:203
+msgid "Template Name"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:135
+msgid "Template Slug (optional)"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:140
+msgid "Create Template"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:172
+msgid "Back to Template List"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:178
+msgid "Data Importer — global variable syntax detected"
+msgstr ""
+
+#. translators: %s: comma-separated list of field names
+#: src/php/Admin/Tabs/TemplateTab.php:183
+msgid "This template references fields as global variables (%s). Use $vars['field'] instead, or enable the data_importer_template_extract_vars filter if you prefer the global variable syntax."
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:200
+msgid "Template Settings"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:207
+msgid "Template Slug"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:214
+#: src/php/Admin/Tabs/TemplateTab.php:216
+msgid "Before List (PHP/HTML)"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:222
+msgid "List (PHP/HTML per record)"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:225
+msgid "PHP Template"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:231
+#: src/php/Admin/Tabs/TemplateTab.php:233
+msgid "After List (PHP/HTML)"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:239
+msgid "Styles"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:241
+msgid "Add stylesheet URLs and optional handles. Empty handles are generated from the stylesheet filename."
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:244
+#: src/php/Admin/Tabs/TemplateTab.php:270
+msgid "Source"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:265
+msgid "Scripts"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:267
+msgid "Add script URLs and optional handles. Empty handles are generated from the script filename."
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:302
+msgid "Save Template"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:304
+msgid "Delete this template? This action cannot be undone."
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:305
+#: src/php/Admin/Tabs/TemplateTab.php:309
+msgid "Delete Template"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:308
+#: src/php/Infrastructure/Database.php:1115
+msgid "At least one template must remain."
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:311
+msgid "only template"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:346
+msgid "style-handle"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:364
+msgid "script-handle"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:431
+msgid "No variables yet. Import data to get field buttons."
+msgstr ""
+
+#: src/php/Admin/TemplateFormHandler.php:58
+#: src/php/Infrastructure/Database.php:1019
+msgid "New Template"
+msgstr ""
+
+#: src/php/Admin/Views/EditView.php:46
+msgid "General"
+msgstr ""
+
+#: src/php/Admin/Views/EditView.php:48
+msgid "API"
+msgstr ""
+
+#: src/php/Admin/Views/EditView.php:49
+msgid "Manual input"
+msgstr ""
+
+#: src/php/Admin/Views/EditView.php:51
+msgid "Logs"
+msgstr ""
+
+#: src/php/Admin/Views/EditView.php:52
+msgid "About"
+msgstr ""
+
+#. translators: %s: source name.
+#: src/php/Admin/Views/EditView.php:64
+msgid "Edit: %s"
+msgstr ""
+
+#: src/php/Admin/Views/EditView.php:70
+#: src/php/Admin/Views/NewSourceView.php:31
+msgid "All Data Sources"
+msgstr ""
+
+#: src/php/Admin/Views/EditView.php:74
+msgid "Changes saved."
+msgstr ""
+
+#: src/php/Admin/Views/EditView.php:77
+msgid "Tabs"
+msgstr ""
+
+#: src/php/Admin/Views/ListView.php:33
+msgid "Add New Data Source"
+msgstr ""
+
+#: src/php/Admin/Views/ListView.php:37
+msgid "The data source was deleted."
+msgstr ""
+
+#: src/php/Admin/Views/ListView.php:42
+msgid "No data sources yet. Click \"Add New Data Source\" to get started."
+msgstr ""
+
+#: src/php/Admin/Views/ListView.php:52
+#: src/php/Admin/Views/ListView.php:97
+msgid "Latest Import"
+msgstr ""
+
+#: src/php/Admin/Views/ListView.php:77
+msgid "Delete the data source \"%s\" and all of its data? This action cannot be undone."
+msgstr ""
+
+#: src/php/Admin/Views/ListView.php:82
+msgid "Delete"
+msgstr ""
+
+#: src/php/Admin/Views/NewSourceView.php:30
+msgid "New Data Source"
+msgstr ""
+
+#: src/php/Admin/Views/NewSourceView.php:53
+msgid "Display name, e.g. \"Staff Directory\" or \"Events\"."
+msgstr ""
+
+#: src/php/Admin/Views/NewSourceView.php:62
+msgid "Used in the REST API URL and shortcode. Generated automatically from the name. Cannot be changed after creation."
+msgstr ""
+
+#: src/php/Admin/Views/NewSourceView.php:67
+msgid "Create Data Source"
+msgstr ""
+
+#: src/php/Api/RestController.php:136
+msgid "Unauthorized request."
+msgstr ""
+
+#: src/php/Api/RestController.php:146
+msgid "Request denied."
+msgstr ""
+
+#: src/php/Api/RestController.php:153
+msgid "Body must be valid JSON."
+msgstr ""
+
+#: src/php/Api/RestController.php:275
+msgid "Payload must be an object or array."
+msgstr ""
+
+#: src/php/Api/RestController.php:284
+msgid "All records must be objects."
+msgstr ""
+
+#: src/php/Api/RestController.php:343
+msgid "Too many requests. Please try again later."
+msgstr ""
+
+#: src/php/Api/RestController.php:372
+msgid "Payload is too large."
+msgstr ""
+
+#: src/php/Api/RestController.php:398
+msgid "Too many records in a single import."
+msgstr ""
+
+#: src/php/Frontend/Display.php:754
+msgid "An error occurred while rendering the template."
+msgstr ""
+
+#. translators: %s: runtime error message
+#: src/php/Frontend/Display.php:847
+msgid "Template error during test run: %s"
+msgstr ""
+
+#: src/php/Frontend/Display.php:870
+msgid "The template is too large."
+msgstr ""
+
+#: src/php/Frontend/Display.php:874
+msgid "The template contains invalid characters."
+msgstr ""
+
+#. translators: %s: blocked function name
+#: src/php/Frontend/Display.php:930
+msgid "The template contains a blocked function: %s."
+msgstr ""
+
+#: src/php/Frontend/Display.php:951
+msgid "The template is not allowed by the security policy."
+msgstr ""
+
+#: src/php/Frontend/Display.php:974
+msgid "Template rendering failed."
+msgstr ""
+
+#: src/php/Infrastructure/Database.php:275
+#: src/php/Infrastructure/Database.php:716
+msgid "Default Template"
+msgstr ""
+
+#: src/php/Infrastructure/Database.php:513
+msgid "Could not create the API key."
+msgstr ""
+
+#: src/php/Infrastructure/Database.php:611
+msgid "Could not regenerate the API key."
+msgstr ""
+
+#: src/php/Infrastructure/Database.php:709
+msgid "Could not create the data source."
+msgstr ""
+
+#. translators: %d: sequential API key number.
+#: src/php/Infrastructure/Database.php:810
+msgid "API Key %d"
+msgstr ""
+
+#: src/php/Infrastructure/Database.php:854
+msgid "API key cannot be empty."
+msgstr ""
+
+#: src/php/Infrastructure/Database.php:858
+msgid "API Key"
+msgstr ""
+
+#: src/php/Infrastructure/Database.php:863
+msgid "Could not securely hash the API key."
+msgstr ""
+
+#: src/php/Infrastructure/Database.php:1040
+msgid "Could not create the template."
+msgstr ""
+
+#: src/php/Infrastructure/Database.php:1207
+#: src/php/Infrastructure/Database.php:1247
+#: src/php/Infrastructure/Database.php:1291
+msgid "Invalid data format."
+msgstr ""
+
+#: src/php/Infrastructure/Database.php:1297
+msgid "At least one update key column is required for upsert mode."
+msgstr ""
