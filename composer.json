@@ -1,5 +1,5 @@
 {
-    "name": "michaelclaesson/data-importer",
+    "name": "alingsas-kommun/data-importer",
     "type": "wordpress-plugin",
     "autoload": {
         "psr-4": {
@@ -21,9 +21,10 @@
     },
     "authors": [
         {
-            "name": "Michael Claesson",
-            "email": "michael.claesson@consid.se"
+            "name": "Alingsås Kommun",
+            "email": "it@alingsas.se"
         }
     ],
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "version": "1.0.2"
 }

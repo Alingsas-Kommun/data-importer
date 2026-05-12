@@ -192,7 +192,6 @@ $dirsToRemove = [
 $filesToRemove = [
     '.gitignore',
     'vite.config.mjs',
-    'composer.json',
     'composer.lock',
     'package.json',
     'package-lock.json',
