@@ -26,5 +26,6 @@
         }
     ],
     "minimum-stability": "dev",
+    "license": "GPL-2.0-or-later",
     "version": "1.0.2"
 }
