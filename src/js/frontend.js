@@ -1,1 +1,0 @@
-import '../scss/frontend.scss';
