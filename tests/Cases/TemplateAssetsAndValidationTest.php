@@ -3,6 +3,7 @@
 namespace DataImporter\Tests\Cases;
 
 use DataImporter\Admin\AdminPage;
+use DataImporter\Admin\Tabs\TemplateTab;
 use DataImporter\Admin\TemplateFormHandler;
 use DataImporter\Frontend\Display;
 use DataImporter\Infrastructure\Database;
@@ -56,7 +57,7 @@ class TemplateAssetsAndValidationTest extends PluginIntegrationTestCase {
 		parent::tearDown();
 	}
 
-	public function testTemplateAssetSanitizationGeneratesAndDeduplicatesHandles(): void {
+	public function testTemplateAssetSanitizationPreservesBlankHandlesAndDeduplicatesExplicitHandles(): void {
 		$handler = $this->createTemplateFormHandler();
 
 		$styles = $handler->sanitize_template_style_assets(
@@ -107,11 +108,11 @@ class TemplateAssetsAndValidationTest extends PluginIntegrationTestCase {
 			array(
 				array(
 					'src'    => 'https://cdn.example.com/assets/cards.css?ver=1',
-					'handle' => 'cards',
+					'handle' => '',
 				),
 				array(
 					'src'    => 'https://static.example.com/assets/cards.css',
-					'handle' => 'cards-2',
+					'handle' => '',
 				),
 				array(
 					'src'    => 'https://static.example.com/assets/explicit.css',
@@ -129,11 +130,11 @@ class TemplateAssetsAndValidationTest extends PluginIntegrationTestCase {
 			array(
 				array(
 					'src'    => 'https://cdn.example.com/assets/cards.js?ver=1',
-					'handle' => 'cards',
+					'handle' => '',
 				),
 				array(
 					'src'    => 'https://static.example.com/assets/cards.js',
-					'handle' => 'cards-2',
+					'handle' => '',
 				),
 				array(
 					'src'    => 'https://static.example.com/assets/runtime.js',
@@ -203,6 +204,179 @@ class TemplateAssetsAndValidationTest extends PluginIntegrationTestCase {
 		$this->assertNotEmpty( $template_log, 'Expected failed dry runs to be logged.' );
 		$this->assertSame( 'template_runtime', (string) $template_log[0]['event'] );
 		$this->assertSame( 'save_template', (string) $template_log[0]['context'] );
+	}
+
+	public function testSavingTemplateSuccessfullyMarksItsPreviousErrorLogEntriesResolved(): void {
+		$source         = $this->createSource();
+		$template       = Database::get_default_template_for_source( (int) $source['id'] );
+		$other_template = $this->createTemplate(
+			(int) $source['id'],
+			array(
+				'name' => 'Other Template',
+				'slug' => 'other-template',
+			)
+		);
+		$user_id        = $this->createAdministrator();
+
+		$this->assertTrue( is_array( $template ), 'Expected a default template for the created source.' );
+
+		update_option(
+			'data_importer_template_error_log_' . $source['id'],
+			array(
+				array(
+					'time'      => '2026-05-20 10:00:00',
+					'event'     => 'template_runtime',
+					'context'   => 'template',
+					'message'   => 'Old error',
+					'template'  => (int) $template['id'],
+					'source_id' => (int) $source['id'],
+				),
+				array(
+					'time'      => '2026-05-20 11:00:00',
+					'event'     => 'template_runtime',
+					'context'   => 'template',
+					'message'   => 'Other template error',
+					'template'  => (int) $other_template['id'],
+					'source_id' => (int) $source['id'],
+				),
+			),
+			false
+		);
+
+		wp_set_current_user( $user_id );
+
+		$handler = $this->createCapturingTemplateFormHandler();
+
+		$original_post    = $_POST;
+		$original_request = $_REQUEST;
+
+		$_POST = array(
+			'data_importer_source_id'        => (string) $source['id'],
+			'data_importer_template_id'      => (string) $template['id'],
+			'data_importer_nonce'            => wp_create_nonce( 'data_importer_save_template_' . $source['id'] ),
+			'data_importer_template_name'    => (string) $template['name'],
+			'data_importer_template_slug'    => (string) $template['slug'],
+			'data_importer_template_html'    => '<article><?php echo esc_html( $record["title"] ?? "" ); ?></article>',
+			'data_importer_wrapper_before'   => '<section class="fixed-template">',
+			'data_importer_wrapper_after'    => '</section>',
+			'data_importer_template_styles'  => array(),
+			'data_importer_template_scripts' => array(),
+		);
+		$_REQUEST = $_POST;
+
+		try {
+			$handler->handle_save_template();
+		} finally {
+			$_POST    = $original_post;
+			$_REQUEST = $original_request;
+		}
+
+		$template_log = $this->getTemplateErrorLog( (int) $source['id'] );
+
+		$this->assertNotNull( $handler->redirect_url, 'Expected a successful template save to redirect.' );
+		$this->assertCount( 2, $template_log );
+		$this->assertSame( (int) $template['id'], (int) $template_log[0]['template'] );
+		$this->assertSame( 1, (int) $template_log[0]['resolved'] );
+		$this->assertNotEmpty( $template_log[0]['resolved_at'] );
+		$this->assertSame( (int) $other_template['id'], (int) $template_log[1]['template'] );
+		$this->assertArrayNotHasKey( 'resolved', $template_log[1] );
+	}
+
+	public function testTemplateErrorBadgeIndexIgnoresResolvedLogEntries(): void {
+		$source          = $this->createSource();
+		$resolved_tpl    = Database::get_default_template_for_source( (int) $source['id'] );
+		$current_tpl     = $this->createTemplate(
+			(int) $source['id'],
+			array(
+				'name' => 'Current Error Template',
+				'slug' => 'current-error-template',
+			)
+		);
+		$page            = $this->getMockBuilder( AdminPage::class )
+			->disableOriginalConstructor()
+			->getMock();
+		$template_tab    = new TemplateTab( $page );
+		$reflection      = new \ReflectionClass( TemplateTab::class );
+		$error_index     = $reflection->getMethod( 'get_template_error_index' );
+
+		$this->assertTrue( is_array( $resolved_tpl ), 'Expected a default template for the created source.' );
+
+		update_option(
+			'data_importer_template_error_log_' . $source['id'],
+			array(
+				array(
+					'time'        => '2026-05-20 10:00:00',
+					'event'       => 'template_runtime',
+					'context'     => 'template',
+					'message'     => 'Resolved error',
+					'template'    => (int) $resolved_tpl['id'],
+					'source_id'   => (int) $source['id'],
+					'resolved'    => 1,
+					'resolved_at' => '2026-05-20 10:05:00',
+				),
+				array(
+					'time'      => '2026-05-20 11:00:00',
+					'event'     => 'template_runtime',
+					'context'   => 'template',
+					'message'   => 'Current error',
+					'template'  => (int) $current_tpl['id'],
+					'source_id' => (int) $source['id'],
+				),
+			),
+			false
+		);
+
+		$error_index->setAccessible( true );
+		$index = $error_index->invoke( $template_tab, (int) $source['id'] );
+
+		$this->assertArrayNotHasKey( (int) $resolved_tpl['id'], $index );
+		$this->assertArrayHasKey( (int) $current_tpl['id'], $index );
+	}
+
+	public function testTemplateErrorLogLinkTargetsLogTab(): void {
+		$source   = $this->createSource();
+		$template = Database::get_default_template_for_source( (int) $source['id'] );
+
+		$this->assertTrue( is_array( $template ), 'Expected a default template for the created source.' );
+
+		$page = $this->getMockBuilder( AdminPage::class )
+			->disableOriginalConstructor()
+			->onlyMethods( array( 'template_url', 'edit_url', 'render_shortcode_copy_control' ) )
+			->getMock();
+
+		$page->method( 'template_url' )->willReturn( 'https://wordpress.local/wp-admin/admin.php?page=data-importer&source_id=' . (int) $source['id'] . '&tab=template&template_id=' . (int) $template['id'] );
+		$page->method( 'edit_url' )->willReturnCallback(
+			static function ( int $source_id, string $tab = 'general' ): string {
+				return 'https://wordpress.local/wp-admin/admin.php?page=data-importer&source_id=' . $source_id . '&tab=' . $tab;
+			}
+		);
+		$page->method( 'render_shortcode_copy_control' )->willReturnCallback(
+			static function (): void {
+				echo '<span class="shortcode-placeholder"></span>';
+			}
+		);
+
+		$template_tab = new TemplateTab( $page );
+		$reflection   = new \ReflectionClass( TemplateTab::class );
+		$render_list  = $reflection->getMethod( 'render_list' );
+		$error_index  = array(
+			(int) $template['id'] => array(
+				'time'    => '2026-05-20 10:00:00',
+				'event'   => 'template_runtime',
+				'context' => 'template',
+			),
+		);
+
+		$render_list->setAccessible( true );
+
+		ob_start();
+		$render_list->invoke( $template_tab, $source, array( $template ), $error_index );
+		$html = (string) ob_get_clean();
+
+		$decoded = html_entity_decode( $html, ENT_QUOTES, 'UTF-8' );
+
+		$this->assertStringContainsString( 'tab=log#data-importer-template-error-log', $decoded );
+		$this->assertStringNotContainsString( 'tab=api#data-importer-template-error-log', $decoded );
 	}
 
 	public function testValidateTemplateCodeRejectsOversizedNullByteAndPolicyBlockedTemplates(): void {
@@ -291,6 +465,102 @@ class TemplateAssetsAndValidationTest extends PluginIntegrationTestCase {
 		$this->assertSame( 1, $this->countHandleOccurrences( $script_queue, 'repeated-script' ) );
 		$this->assertSame( 'https://cdn.example.com/assets/repeated-style.css', (string) wp_styles()->registered['repeated-style']->src );
 		$this->assertSame( 'https://cdn.example.com/assets/repeated-script.js', (string) wp_scripts()->registered['repeated-script']->src );
+	}
+
+	public function testTemplateInlineCodePrintsOnceInHeadAndFooter(): void {
+		$source   = $this->createSource();
+		$template = $this->createTemplate(
+			(int) $source['id'],
+			array(
+				'name'        => 'Inline Code Template',
+				'slug'        => 'inline-code',
+				'style_code'  => '.data-importer-inline-test { color: red; } /* </style> */',
+				'script_code' => 'window.dataImporterInlineTest = true; console.log("</script>");',
+			)
+		);
+		$post     = $this->createPostWithContent(
+			sprintf(
+				'[data_importer source="%1$s" template="%2$s"][data_importer source="%1$s" template="%2$s"]',
+				$source['slug'],
+				$template['slug']
+			)
+		);
+
+		$this->enqueueAssetsForPost( $post );
+
+		ob_start();
+		Display::instance()->print_inline_styles();
+		$style_output = (string) ob_get_clean();
+
+		ob_start();
+		Display::instance()->print_inline_scripts();
+		$script_output = (string) ob_get_clean();
+
+		$this->assertStringContainsString( 'id="data-importer-template-inline-styles"', $style_output );
+		$this->assertStringContainsString( 'id="data-importer-template-inline-scripts"', $script_output );
+		$this->assertSame( 1, substr_count( $style_output, '.data-importer-inline-test' ) );
+		$this->assertSame( 1, substr_count( $script_output, 'window.dataImporterInlineTest' ) );
+		$this->assertStringContainsString( '<\/style>', $style_output );
+		$this->assertStringContainsString( '</\u0073cript>', $script_output );
+		$this->assertSame( 1, substr_count( $script_output, '</script>' ) );
+	}
+
+	public function testBlankStoredAssetHandlesGenerateRuntimeHandlesFromSource(): void {
+		$source   = $this->createSource();
+		$template = $this->createTemplate(
+			(int) $source['id'],
+			array(
+				'name'         => 'Generated Handles Template',
+				'slug'         => 'generated-handles',
+				'styles_json'  => array(
+					array(
+						'src'    => 'https://cdn.example.com/assets/default-style.css',
+						'handle' => '',
+					),
+				),
+				'scripts_json' => array(
+					array(
+						'src'    => 'https://cdn.example.com/assets/default-script.js',
+						'handle' => '',
+					),
+				),
+			)
+		);
+		$post     = $this->createPostWithContent(
+			sprintf(
+				'[data_importer source="%1$s" template="%2$s"]',
+				$source['slug'],
+				$template['slug']
+			)
+		);
+
+		$this->enqueueAssetsForPost( $post );
+
+		Display::render_shortcode(
+			array(
+				'source'   => (string) $source['slug'],
+				'template' => (string) $template['slug'],
+			)
+		);
+
+		$style_matches = $this->findEnqueuedHandlesForSources(
+			wp_styles()->queue,
+			wp_styles()->registered,
+			array( 'https://cdn.example.com/assets/default-style.css' )
+		);
+		$script_matches = $this->findEnqueuedHandlesForSources(
+			wp_scripts()->queue,
+			wp_scripts()->registered,
+			array( 'https://cdn.example.com/assets/default-script.js' )
+		);
+
+		$this->style_handles  = array_merge( $this->style_handles, array_keys( $style_matches ) );
+		$this->script_handles = array_merge( $this->script_handles, array_keys( $script_matches ) );
+
+		$this->assertSame( array( 'https://cdn.example.com/assets/default-style.css' ), array_values( $style_matches ) );
+		$this->assertSame( array( 'https://cdn.example.com/assets/default-script.js' ), array_values( $script_matches ) );
+		$this->assertStringContainsString( 'default-style', (string) array_key_first( $style_matches ) );
+		$this->assertStringContainsString( 'default-script', (string) array_key_first( $script_matches ) );
 	}
 
 	public function testAssetHandleCollisionsGenerateUniqueEnqueueHandlesForDifferentSources(): void {

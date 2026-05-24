@@ -61,7 +61,9 @@ class TemplateFormHandler {
 				'wrapper_before' => '<div class="data-importer-list">',
 				'wrapper_after'  => '</div>',
 				'styles_json'    => array(),
+				'style_code'     => '',
 				'scripts_json'   => array(),
+				'script_code'    => '',
 			)
 		);
 
@@ -125,7 +127,9 @@ class TemplateFormHandler {
 			'wrapper_before' => wp_unslash( $_POST['data_importer_wrapper_before'] ?? '' ),
 			'wrapper_after'  => wp_unslash( $_POST['data_importer_wrapper_after'] ?? '' ),
 			'styles_json'    => $this->sanitize_template_style_assets( wp_unslash( $_POST['data_importer_template_styles'] ?? array() ) ),
+			'style_code'     => wp_unslash( $_POST['data_importer_style_code'] ?? '' ),
 			'scripts_json'   => $this->sanitize_template_script_assets( wp_unslash( $_POST['data_importer_template_scripts'] ?? array() ) ),
+			'script_code'    => wp_unslash( $_POST['data_importer_script_code'] ?? '' ),
 		);
 
 		if ( '' !== $name ) {
@@ -152,7 +156,10 @@ class TemplateFormHandler {
 			return;
 		}
 
-		Database::update_template( $template_id, $payload );
+		$updated = Database::update_template( $template_id, $payload );
+		if ( $updated ) {
+			Database::resolve_template_error_log( $source_id, $template_id );
+		}
 
 		$this->redirect(
 			add_query_arg(
@@ -261,13 +268,10 @@ class TemplateFormHandler {
 			}
 
 			$handle = sanitize_key( (string) ( $row['handle'] ?? '' ) );
-			if ( '' === $handle ) {
-				$handle = $this->build_asset_handle_from_source( $src, 'style' );
-			}
 
 			$styles[] = array(
 				'src'    => $src,
-				'handle' => $this->uniquify_asset_handle( $handle, $used, 'style' ),
+				'handle' => '' !== $handle ? $this->uniquify_asset_handle( $handle, $used ) : '',
 			);
 		}
 
@@ -299,13 +303,10 @@ class TemplateFormHandler {
 			}
 
 			$handle = sanitize_key( (string) ( $row['handle'] ?? '' ) );
-			if ( '' === $handle ) {
-				$handle = $this->build_asset_handle_from_source( $src, 'script' );
-			}
 
 			$scripts[] = array(
 				'src'    => $src,
-				'handle' => $this->uniquify_asset_handle( $handle, $used, 'script' ),
+				'handle' => '' !== $handle ? $this->uniquify_asset_handle( $handle, $used ) : '',
 			);
 		}
 
@@ -313,42 +314,14 @@ class TemplateFormHandler {
 	}
 
 	/**
-	 * Build a reusable asset handle from a source URL basename.
-	 *
-	 * @param string $source   Asset source URL.
-	 * @param string $fallback Fallback handle.
-	 * @return string
-	 */
-	private function build_asset_handle_from_source( string $source, string $fallback = 'asset' ): string {
-		$source   = trim( $source );
-		$fallback = sanitize_key( $fallback ) ?: 'asset';
-
-		if ( '' === $source ) {
-			return $fallback;
-		}
-
-		$path = (string) wp_parse_url( $source, PHP_URL_PATH );
-		if ( '' === $path ) {
-			$path = $source;
-		}
-
-		$basename = wp_basename( $path );
-		$basename = preg_replace( '/\.[^.]+$/', '', $basename );
-		$handle   = sanitize_key( (string) $basename );
-
-		return '' !== $handle ? $handle : $fallback;
-	}
-
-	/**
 	 * Ensure an asset handle is unique within one asset collection.
 	 *
 	 * @param string $handle   Requested handle.
 	 * @param array  $used     In/out set of used handles.
-	 * @param string $fallback Fallback base.
 	 * @return string
 	 */
-	private function uniquify_asset_handle( string $handle, array &$used, string $fallback = 'asset' ): string {
-		$handle = sanitize_key( $handle ) ?: $this->build_asset_handle_from_source( '', $fallback );
+	private function uniquify_asset_handle( string $handle, array &$used ): string {
+		$handle = sanitize_key( $handle );
 
 		$base    = $handle;
 		$counter = 2;

@@ -131,6 +131,7 @@ class LogTab {
 									<th><?php esc_html_e( 'Event', 'data-importer' ); ?></th>
 									<th><?php esc_html_e( 'Context', 'data-importer' ); ?></th>
 									<th><?php esc_html_e( 'Template ID', 'data-importer' ); ?></th>
+									<th><?php esc_html_e( 'Status', 'data-importer' ); ?></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -140,6 +141,7 @@ class LogTab {
 										<td><code><?php echo esc_html( (string) ( $entry['event'] ?? '' ) ); ?></code></td>
 										<td><?php echo esc_html( (string) ( $entry['context'] ?? '' ) ); ?></td>
 										<td><?php echo esc_html( (string) (int) ( $entry['template'] ?? 0 ) ); ?></td>
+										<td><code><?php echo esc_html( empty( $entry['resolved'] ) ? 'current' : 'resolved' ); ?></code></td>
 									</tr>
 								<?php endforeach; ?>
 							</tbody>

@@ -25,6 +25,20 @@ class Display {
 	private static $instance = null;
 
 	/**
+	 * Inline template code queued for the current page.
+	 *
+	 * @var array<string,string>
+	 */
+	private static array $inline_style_codes = array();
+
+	/**
+	 * Inline template scripts queued for the current page.
+	 *
+	 * @var array<string,string>
+	 */
+	private static array $inline_script_codes = array();
+
+	/**
 	 * Singleton accessor.
 	 *
 	 * @return self
@@ -42,6 +56,8 @@ class Display {
 	 */
 	public function __construct() {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+		add_action( 'wp_head', array( $this, 'print_inline_styles' ), 99 );
+		add_action( 'wp_footer', array( $this, 'print_inline_scripts' ), 99 );
 	}
 
 	/**
@@ -56,7 +72,9 @@ class Display {
 			return;
 		}
 
-		if ( ! has_shortcode( $post->post_content, 'data_importer' ) ) {
+		$shortcode_sets = self::extract_shortcode_attribute_sets( (string) $post->post_content );
+
+		if ( empty( $shortcode_sets ) ) {
 			return;
 		}
 
@@ -67,7 +85,7 @@ class Display {
 			Assets::get_style_version( 'src/js/frontend.js', 'assets/css/frontend.css' )
 		);
 
-		foreach ( self::extract_shortcode_attribute_sets( (string) $post->post_content ) as $shortcode_atts ) {
+		foreach ( $shortcode_sets as $shortcode_atts ) {
 			self::enqueue_template_assets_for_shortcode_atts( $shortcode_atts );
 		}
 	}
@@ -172,16 +190,26 @@ class Display {
 			)
 		);
 
+		$record_count = count( $records );
+		$record_index = 0;
+
 		foreach ( $records as $record ) {
 			self::eval_php(
 				$template_html,
 				$record,
 				array(
-					'context'     => 'template',
-					'source_id'   => (int) $source['id'],
-					'template_id' => $template ? (int) $template['id'] : 0,
+					'context'         => 'template',
+					'source_id'       => (int) $source['id'],
+					'template_id'     => $template ? (int) $template['id'] : 0,
+					'record_index'    => $record_index,
+					'record_position' => $record_index + 1,
+					'record_count'    => $record_count,
+					'is_first'        => 0 === $record_index,
+					'is_last'         => ( $record_count - 1 ) === $record_index,
 				)
 			);
+
+			$record_index++;
 		}
 
 		self::eval_php(
@@ -298,6 +326,81 @@ class Display {
 
 			wp_enqueue_script( $handle, $src, array(), null, true );
 		}
+
+		self::enqueue_template_inline_code( $template );
+	}
+
+	/**
+	 * Queue trusted inline CSS/JS configured on a template.
+	 *
+	 * @param array<string,mixed> $template Template row.
+	 * @return void
+	 */
+	private static function enqueue_template_inline_code( array $template ) {
+		$template_id = isset( $template['id'] ) ? (int) $template['id'] : 0;
+		$key         = $template_id > 0 ? 'template-' . $template_id : 'template-' . md5( wp_json_encode( $template ) ?: serialize( $template ) );
+		$style_code  = (string) ( $template['style_code'] ?? '' );
+		$script_code = (string) ( $template['script_code'] ?? '' );
+
+		if ( '' !== trim( $style_code ) && ! isset( self::$inline_style_codes[ $key ] ) ) {
+			self::$inline_style_codes[ $key ] = $style_code;
+		}
+
+		if ( '' !== trim( $script_code ) && ! isset( self::$inline_script_codes[ $key ] ) ) {
+			self::$inline_script_codes[ $key ] = $script_code;
+		}
+	}
+
+	/**
+	 * Print queued template CSS at the end of the document head.
+	 *
+	 * @return void
+	 */
+	public function print_inline_styles() {
+		if ( empty( self::$inline_style_codes ) ) {
+			return;
+		}
+
+		$code = implode( "\n\n", array_map( array( self::class, 'escape_inline_style_code' ), self::$inline_style_codes ) );
+		self::$inline_style_codes = array();
+
+		echo "\n<style id=\"data-importer-template-inline-styles\">\n" . $code . "\n</style>\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
+
+	/**
+	 * Print queued template JS at the end of the document body.
+	 *
+	 * @return void
+	 */
+	public function print_inline_scripts() {
+		if ( empty( self::$inline_script_codes ) ) {
+			return;
+		}
+
+		$code = implode( "\n\n", self::$inline_script_codes );
+		self::$inline_script_codes = array();
+
+		if ( function_exists( 'wp_print_inline_script_tag' ) ) {
+			wp_print_inline_script_tag(
+				$code,
+				array(
+					'id' => 'data-importer-template-inline-scripts',
+				)
+			);
+			return;
+		}
+
+		echo "\n<script id=\"data-importer-template-inline-scripts\">\n" . str_ireplace( '</script', '<\/script', $code ) . "\n</script>\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
+
+	/**
+	 * Prevent CSS text from closing the wrapping style element.
+	 *
+	 * @param string $code Raw CSS.
+	 * @return string
+	 */
+	private static function escape_inline_style_code( $code ) {
+		return str_ireplace( '</style', '<\/style', (string) $code );
 	}
 
 	/**
@@ -683,9 +786,14 @@ class Display {
 	 * Execute a PHP template string in an isolated scope.
 	 *
 	 * The template may contain any mix of HTML and PHP.
-	 * Two sets of variables are exposed:
+	 * Variables exposed to row templates:
 	 *   • $record           – the full associative array
-	 *   • $<key>            – each top-level key individually
+	 *   • $vars             – alias of the full associative array
+	 *   • $record_index     – zero-based row index in the rendered result set
+	 *   • $record_position  – one-based row position in the rendered result set
+	 *   • $record_count     – total rows in the rendered result set
+	 *   • $is_first         – whether this is the first rendered row
+	 *   • $is_last          – whether this is the last rendered row
 	 *
 	 * Parse/runtime errors are caught:
 	 *   • On WP_DEBUG sites an inline error notice is printed.
@@ -720,6 +828,12 @@ class Display {
 		// Make the full record available as $vars so templates can reference
 		// $vars['name'] without polluting the eval() scope with arbitrary keys.
 		$vars = is_array( $record ) ? $record : array();
+
+		$record_index    = isset( $context['record_index'] ) ? (int) $context['record_index'] : 0;
+		$record_position = isset( $context['record_position'] ) ? (int) $context['record_position'] : 0;
+		$record_count    = isset( $context['record_count'] ) ? (int) $context['record_count'] : 0;
+		$is_first        = ! empty( $context['is_first'] );
+		$is_last         = ! empty( $context['is_last'] );
 
 		/**
 		 * Re-enable the legacy extract() behaviour so that top-level record keys are
@@ -1061,6 +1175,7 @@ class Display {
 				'message'   => sanitize_text_field( $message ),
 				'template'  => isset( $context['template_id'] ) ? absint( $context['template_id'] ) : 0,
 				'source_id' => $source_id,
+				'resolved'  => 0,
 			)
 		);
 

@@ -130,7 +130,9 @@ class Database {
 			wrapper_before longtext NOT NULL,
 			wrapper_after longtext NOT NULL,
 			styles_json longtext NOT NULL,
+			style_code longtext NOT NULL,
 			scripts_json longtext NOT NULL,
+			script_code longtext NOT NULL,
 			updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			PRIMARY KEY  (id),
@@ -147,7 +149,7 @@ class Database {
 	}
 
 	/**
-	 * Run migrations when the stored schema version is older than the current one.
+	 * Let dbDelta bring tables up to the current schema version.
 	 *
 	 * @return void
 	 */
@@ -156,69 +158,7 @@ class Database {
 
 		if ( version_compare( $current, DATAIMPORTER_DB_VERSION, '<' ) ) {
 			self::create_table();
-			self::maybe_migrate_v1( $current );
-			self::maybe_migrate_templates();
-			self::maybe_migrate_source_api_keys();
 		}
-	}
-
-	/**
-	 * Migrate settings and records from v1.x (single-source) to v2.0.
-	 *
-	 * Creates a "Standard" source from the old global options and reassigns
-	 * any orphaned records (source_id = 0) to it.
-	 *
-	 * @param string $old_version Previously stored DB version.
-	 * @return void
-	 */
-	private static function maybe_migrate_v1( $old_version ) {
-		if ( '' === $old_version || ! version_compare( $old_version, '2.0.0', '<' ) ) {
-			return;
-		}
-
-		global $wpdb;
-
-		$old_key      = (string) get_option( 'data_importer_api_key', '' );
-		$old_template = (string) get_option( 'data_importer_template_html', '' );
-		$old_before   = (string) get_option( 'data_importer_wrapper_before', '' );
-		$old_after    = (string) get_option( 'data_importer_wrapper_after', '' );
-
-		if ( '' === $old_key ) {
-			return;
-		}
-
-		$sources_table = self::get_sources_table();
-		$existing_id   = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$sources_table} WHERE slug = %s LIMIT 1", 'standard' ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-
-		if ( ! $existing_id ) {
-			$wpdb->insert(
-				$sources_table,
-				array(
-					'name'          => 'Standard',
-					'slug'          => 'standard',
-					'api_key'       => $old_key,
-					'allowed_ips'   => '',
-					'template_html' => $old_template,
-					'wrapper_before' => $old_before,
-					'wrapper_after'  => $old_after,
-					'updated_at'    => current_time( 'mysql' ),
-					'created_at'    => current_time( 'mysql' ),
-				)
-			);
-
-			$source_id     = (int) $wpdb->insert_id;
-			$records_table = self::get_records_table();
-
-			if ( $source_id > 0 ) {
-				$wpdb->query( $wpdb->prepare( "UPDATE {$records_table} SET source_id = %d WHERE source_id = 0", $source_id ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-			}
-		}
-
-		delete_option( 'data_importer_api_key' );
-		delete_option( 'data_importer_template_html' );
-		delete_option( 'data_importer_wrapper_before' );
-		delete_option( 'data_importer_wrapper_after' );
-		delete_option( 'data_importer_import_log' );
 	}
 
 	/**
@@ -238,121 +178,6 @@ class Database {
 		$wpdb->query( "DROP TABLE IF EXISTS {$keys}" ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$wpdb->query( "DROP TABLE IF EXISTS {$templates}" ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$wpdb->query( "DROP TABLE IF EXISTS {$sources}" ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-	}
-
-	/**
-	 * Backfill one default template per source (for upgrades from source-owned template fields).
-	 *
-	 * @return void
-	 */
-	private static function maybe_migrate_templates() {
-		global $wpdb;
-
-		$sources_table   = self::get_sources_table();
-		$templates_table = self::get_templates_table();
-		$sources         = $wpdb->get_results( "SELECT id, template_html, wrapper_before, wrapper_after FROM {$sources_table}", ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-
-		if ( empty( $sources ) || ! is_array( $sources ) ) {
-			return;
-		}
-
-		foreach ( $sources as $source ) {
-			$source_id = (int) ( $source['id'] ?? 0 );
-
-			if ( $source_id <= 0 ) {
-				continue;
-			}
-
-			$existing = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$templates_table} WHERE source_id = %d", $source_id ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-			if ( $existing > 0 ) {
-				continue;
-			}
-
-			$wpdb->insert(
-				$templates_table,
-				array(
-					'source_id'      => $source_id,
-					'name'           => __( 'Default Template', 'data-importer' ),
-					'slug'           => 'standard',
-					'template_html'  => (string) ( $source['template_html'] ?? '' ),
-					'wrapper_before' => (string) ( $source['wrapper_before'] ?? '' ),
-					'wrapper_after'  => (string) ( $source['wrapper_after'] ?? '' ),
-					'styles_json'    => '[]',
-					'scripts_json'   => '[]',
-					'updated_at'     => current_time( 'mysql' ),
-					'created_at'     => current_time( 'mysql' ),
-				),
-				array( '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s' )
-			);
-		}
-	}
-
-	/**
-	 * Migrate legacy plaintext source keys into the dedicated hashed key table.
-	 *
-	 * @return void
-	 */
-	private static function maybe_migrate_source_api_keys() {
-		global $wpdb;
-
-		$sources_table = self::get_sources_table();
-		$keys_table    = self::get_source_keys_table();
-		$sources       = $wpdb->get_results( "SELECT id, api_key, allowed_ips FROM {$sources_table}", ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-
-		if ( empty( $sources ) || ! is_array( $sources ) ) {
-			return;
-		}
-
-		foreach ( $sources as $source ) {
-			$source_id    = isset( $source['id'] ) ? (int) $source['id'] : 0;
-			$legacy_key   = trim( (string) ( $source['api_key'] ?? '' ) );
-			$legacy_rules = IpRules::sanitize_rule_list( (string) ( $source['allowed_ips'] ?? '' ) );
-
-			if ( $source_id <= 0 ) {
-				continue;
-			}
-
-			$existing = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$keys_table} WHERE source_id = %d", $source_id ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-
-			if ( $existing <= 0 && '' !== $legacy_key ) {
-				$payload = self::build_source_api_key_storage_payload(
-					$legacy_key,
-					__( 'Primary Key', 'data-importer' ),
-					$legacy_rules
-				);
-
-				if ( ! is_wp_error( $payload ) ) {
-					$wpdb->insert(
-						$keys_table,
-						array(
-							'source_id'   => $source_id,
-							'name'        => $payload['name'],
-							'key_hash'    => $payload['key_hash'],
-							'key_prefix'  => $payload['key_prefix'],
-							'key_last4'   => $payload['key_last4'],
-							'allowed_ips' => $payload['allowed_ips'],
-							'created_at'  => current_time( 'mysql' ),
-							'updated_at'  => current_time( 'mysql' ),
-						),
-						array( '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s' )
-					);
-				}
-			}
-
-			if ( '' !== $legacy_key || '' !== $legacy_rules ) {
-				$wpdb->update(
-					$sources_table,
-					array(
-						'api_key'    => '',
-						'allowed_ips' => '',
-						'updated_at' => current_time( 'mysql' ),
-					),
-					array( 'id' => $source_id ),
-					array( '%s', '%s', '%s' ),
-					array( '%d' )
-				);
-			}
-		}
 	}
 
 	// -------------------------------------------------------------------------
@@ -1029,11 +854,13 @@ class Database {
 				'wrapper_before' => (string) ( $data['wrapper_before'] ?? '' ),
 				'wrapper_after'  => (string) ( $data['wrapper_after'] ?? '' ),
 				'styles_json'    => self::normalize_template_asset_payload( $data['styles_json'] ?? array() ),
+				'style_code'     => (string) ( $data['style_code'] ?? '' ),
 				'scripts_json'   => self::normalize_template_asset_payload( $data['scripts_json'] ?? array() ),
+				'script_code'    => (string) ( $data['script_code'] ?? '' ),
 				'updated_at'     => current_time( 'mysql' ),
 				'created_at'     => current_time( 'mysql' ),
 			),
-			array( '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s' )
+			array( '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s' )
 		);
 
 		if ( false === $result ) {
@@ -1076,7 +903,7 @@ class Database {
 			$formats[] = '%s';
 		}
 
-		foreach ( array( 'template_html', 'wrapper_before', 'wrapper_after' ) as $field ) {
+		foreach ( array( 'template_html', 'wrapper_before', 'wrapper_after', 'style_code', 'script_code' ) as $field ) {
 			if ( array_key_exists( $field, $data ) ) {
 				$update[ $field ] = (string) $data[ $field ];
 				$formats[]        = '%s';
@@ -1092,6 +919,49 @@ class Database {
 
 		$result = $wpdb->update( $table, $update, array( 'id' => (int) $template_id ), $formats, array( '%d' ) );
 		return false !== $result;
+	}
+
+	/**
+	 * Mark stored runtime/validation errors for one template as resolved.
+	 *
+	 * @param int $source_id   Source ID.
+	 * @param int $template_id Template ID.
+	 * @return bool True when the log option was updated or did not need changes.
+	 */
+	public static function resolve_template_error_log( int $source_id, int $template_id ): bool {
+		$source_id   = (int) $source_id;
+		$template_id = (int) $template_id;
+
+		if ( $source_id <= 0 || $template_id <= 0 ) {
+			return false;
+		}
+
+		$option = 'data_importer_template_error_log_' . $source_id;
+		$log    = get_option( $option, array() );
+		if ( ! is_array( $log ) || empty( $log ) ) {
+			return true;
+		}
+
+		$resolved = false;
+		foreach ( $log as &$entry ) {
+			if ( ! is_array( $entry ) ) {
+				continue;
+			}
+
+			$entry_template_id = isset( $entry['template'] ) ? absint( $entry['template'] ) : 0;
+			if ( $entry_template_id === $template_id && empty( $entry['resolved'] ) ) {
+				$entry['resolved']    = 1;
+				$entry['resolved_at'] = current_time( 'mysql' );
+				$resolved             = true;
+			}
+		}
+		unset( $entry );
+
+		if ( ! $resolved ) {
+			return true;
+		}
+
+		return update_option( $option, array_values( $log ), false );
 	}
 
 	/**
@@ -1116,6 +986,10 @@ class Database {
 		}
 
 		$deleted = $wpdb->delete( $table, array( 'id' => (int) $template_id ), array( '%d' ) );
+		if ( false !== $deleted ) {
+			self::resolve_template_error_log( (int) $template['source_id'], (int) $template_id );
+		}
+
 		return false !== $deleted;
 	}
 

@@ -167,7 +167,9 @@ abstract class PluginIntegrationTestCase extends TestCase {
 			'wrapper_before' => '<div class="template-wrapper">',
 			'wrapper_after'  => '</div>',
 			'styles_json'    => '[]',
+			'style_code'     => '',
 			'scripts_json'   => '[]',
+			'script_code'    => '',
 		);
 
 		$result = Database::insert_template( $source_id, array_merge( $defaults, $overrides ) );

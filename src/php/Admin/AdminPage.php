@@ -19,7 +19,7 @@ use DataImporter\Support\Assets;
  * Views:
  *   List   – ?page=data-importer
  *   New    – ?page=data-importer&action=new
- *   Edit   – ?page=data-importer&source_id=X[&tab=general|template|api|manual|data|about]
+ *   Edit   – ?page=data-importer&source_id=X[&tab=general|template|api|manual|data|log|about]
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -132,7 +132,7 @@ class AdminPage {
 	 * URL for a source's edit view.
 	 *
 	 * @param int    $source_id Source ID.
-	 * @param string $tab       Tab slug (general|template|api|manual|data|about).
+	 * @param string $tab       Tab slug (general|template|api|manual|data|log|about).
 	 * @return string
 	 */
 	public function edit_url( int $source_id, string $tab = 'general' ): string {
@@ -395,10 +395,18 @@ class AdminPage {
 
 		$tab = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : 'general';
 
-		// Template tab: PHP syntax highlighting (CodeMirror) for the main template + before/after wrappers.
+		// Template tab: syntax highlighting (CodeMirror) for PHP/HTML, CSS, and JS fields.
 		$code_editor_settings = false;
+		$code_editor_modes    = array(
+			'php'        => false,
+			'css'        => false,
+			'javascript' => false,
+		);
 		if ( 'template' === $tab && isset( $_GET['source_id'] ) ) {
-			$code_editor_settings = wp_enqueue_code_editor( array( 'type' => 'application/x-httpd-php' ) );
+			$code_editor_modes['php']        = wp_enqueue_code_editor( array( 'type' => 'application/x-httpd-php' ) );
+			$code_editor_modes['css']        = wp_enqueue_code_editor( array( 'type' => 'text/css' ) );
+			$code_editor_modes['javascript'] = wp_enqueue_code_editor( array( 'type' => 'application/javascript' ) );
+			$code_editor_settings            = $code_editor_modes['php'];
 		}
 
 		wp_enqueue_style(
@@ -411,7 +419,7 @@ class AdminPage {
 		$source_id    = isset( $_GET['source_id'] ) ? absint( wp_unslash( $_GET['source_id'] ) ) : 0;
 		$dependencies = array( 'jquery', 'wp-a11y' );
 
-		if ( false !== $code_editor_settings ) {
+		if ( array_filter( $code_editor_modes ) ) {
 			$dependencies[] = 'code-editor';
 		}
 
@@ -430,6 +438,7 @@ class AdminPage {
 				'ajaxUrl'     => admin_url( 'admin-ajax.php' ),
 				'nonce'       => wp_create_nonce( 'data_importer_admin_nonce' ),
 				'codeEditor'  => $code_editor_settings,
+				'codeEditors' => $code_editor_modes,
 				'sourceId'    => $source_id,
 				'extractVars' => (bool) apply_filters( 'data_importer_template_extract_vars', false, array(), array() ),
 				'i18n'       => array(

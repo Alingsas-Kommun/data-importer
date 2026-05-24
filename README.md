@@ -258,12 +258,17 @@ Single record:
 
 ## Template Variables
 
-Inside every template section (wrapper before, per-row, wrapper after), the following PHP variables are available:
+Inside the per-record template, the following PHP variables are available:
 
 | Variable  | Type    | Description                                                  |
 | --------- | ------- | ------------------------------------------------------------ |
 | `$vars`   | `array` | Associative array of all top-level fields for the current row. |
 | `$record` | `array` | Alias for `$vars` — the full record as an associative array. |
+| `$record_index` | `int` | Zero-based index of the current row after filtering, limit, and offset. |
+| `$record_position` | `int` | One-based position of the current row after filtering, limit, and offset. |
+| `$record_count` | `int` | Total number of rows being rendered. |
+| `$is_first` | `bool` | `true` when the current row is the first rendered row. |
+| `$is_last` | `bool` | `true` when the current row is the last rendered row. |
 
 Access fields via `$vars`:
 
@@ -278,6 +283,18 @@ Conditional rendering:
 ```php
 <?php if ( ( $vars['status'] ?? '' ) === 'active' ) : ?>
   <span class="badge badge--active">Active</span>
+<?php endif; ?>
+```
+
+First, middle, and last row checks:
+
+```php
+<?php if ( $is_first ) : ?>
+  <p>First item</p>
+<?php elseif ( $is_last ) : ?>
+  <p>Last item</p>
+<?php else : ?>
+  <p>Middle item <?php echo esc_html( (string) $record_position ); ?> of <?php echo esc_html( (string) $record_count ); ?></p>
 <?php endif; ?>
 ```
 

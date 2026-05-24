@@ -90,7 +90,7 @@ class TemplateTab {
 									$edit_url      = $this->page->template_url( $source_id, $tpl_id );
 									$shortcode     = '[data_importer source="' . esc_attr( $source['slug'] ) . '" template="' . esc_attr( $tpl['slug'] ) . '"]';
 									$template_fail = $error_index[ $tpl_id ] ?? null;
-									$api_log_url   = $this->page->edit_url( $source_id, 'api' ) . '#data-importer-template-error-log';
+									$log_url       = $this->page->edit_url( $source_id, 'log' ) . '#data-importer-template-error-log';
 									?>
 									<tr>
 										<td class="column-primary">
@@ -102,7 +102,7 @@ class TemplateTab {
 												<span class="edit"><a href="<?php echo esc_url( $edit_url ); ?>"><?php esc_html_e( 'Edit', 'data-importer' ); ?></a></span>
 												<?php if ( $template_fail ) : ?>
 													<span class="sep"> | </span>
-													<span class="view-log"><a href="<?php echo esc_url( $api_log_url ); ?>"><?php esc_html_e( 'View Error Log', 'data-importer' ); ?></a></span>
+													<span class="view-log"><a href="<?php echo esc_url( $log_url ); ?>"><?php esc_html_e( 'View Error Log', 'data-importer' ); ?></a></span>
 												<?php endif; ?>
 											</div>
 										</td>
@@ -252,13 +252,18 @@ class TemplateTab {
 									if ( empty( $style_rows ) ) {
 										$this->render_style_row();
 									} else {
-										foreach ( $style_rows as $style_row ) {
-											$this->render_style_row( $style_row );
+										foreach ( $style_rows as $index => $style_row ) {
+											$this->render_style_row( $style_row, (int) $index );
 										}
 									}
 									?>
 								</div>
 								<button type="button" class="button button-secondary data-importer-add-asset" data-asset-type="style"><?php esc_html_e( 'Add Style', 'data-importer' ); ?></button>
+							</div>
+							<div class="data-importer-inline-code-field">
+								<label for="data_importer_style_code"><strong><?php esc_html_e( 'Style Code (CSS)', 'data-importer' ); ?></strong></label>
+								<p class="description"><?php esc_html_e( 'Printed at the end of the document head.', 'data-importer' ); ?></p>
+								<textarea id="data_importer_style_code" name="data_importer_style_code" class="large-text code" rows="12" spellcheck="false"><?php echo esc_textarea( $current_template['style_code'] ?? '' ); ?></textarea>
 							</div>
 						</div>
 					</div>
@@ -278,13 +283,18 @@ class TemplateTab {
 									if ( empty( $script_rows ) ) {
 										$this->render_script_row();
 									} else {
-										foreach ( $script_rows as $script_row ) {
-											$this->render_script_row( $script_row );
+										foreach ( $script_rows as $index => $script_row ) {
+											$this->render_script_row( $script_row, (int) $index );
 										}
 									}
 									?>
 								</div>
 								<button type="button" class="button button-secondary data-importer-add-asset" data-asset-type="script"><?php esc_html_e( 'Add Script', 'data-importer' ); ?></button>
+							</div>
+							<div class="data-importer-inline-code-field">
+								<label for="data_importer_script_code"><strong><?php esc_html_e( 'Script Code (JS)', 'data-importer' ); ?></strong></label>
+								<p class="description"><?php esc_html_e( 'Printed at the end of the document body.', 'data-importer' ); ?></p>
+								<textarea id="data_importer_script_code" name="data_importer_script_code" class="large-text code" rows="12" spellcheck="false"><?php echo esc_textarea( $current_template['script_code'] ?? '' ); ?></textarea>
 							</div>
 						</div>
 					</div>
@@ -355,13 +365,15 @@ class TemplateTab {
 	 * @param array $style Style row (src, handle).
 	 * @return void
 	 */
-	private function render_style_row( array $style = array() ): void {
-		$src    = (string) ( $style['src'] ?? '' );
-		$handle = (string) ( $style['handle'] ?? '' );
+	private function render_style_row( array $style = array(), int $index = 0 ): void {
+		$src                 = (string) ( $style['src'] ?? '' );
+		$handle              = (string) ( $style['handle'] ?? '' );
+		$default_placeholder = __( 'style-handle', 'data-importer' );
+		$placeholder         = $this->build_asset_handle_placeholder( $src, $default_placeholder );
 		?>
 		<div class="data-importer-asset-row" data-asset-type="style" data-auto-handle="<?php echo '' === $handle ? '1' : '0'; ?>">
-			<input type="text" class="regular-text data-importer-asset-input data-importer-asset-source" name="data_importer_template_styles[][src]" value="<?php echo esc_attr( $src ); ?>" placeholder="https://example.com/styles.css" />
-			<input type="text" class="regular-text data-importer-asset-input data-importer-asset-handle" name="data_importer_template_styles[][handle]" value="<?php echo esc_attr( $handle ); ?>" placeholder="<?php esc_attr_e( 'style-handle', 'data-importer' ); ?>" />
+			<input type="text" class="regular-text data-importer-asset-input data-importer-asset-source" name="data_importer_template_styles[<?php echo esc_attr( (string) $index ); ?>][src]" value="<?php echo esc_attr( $src ); ?>" placeholder="https://example.com/styles.css" />
+			<input type="text" class="regular-text data-importer-asset-input data-importer-asset-handle" name="data_importer_template_styles[<?php echo esc_attr( (string) $index ); ?>][handle]" value="<?php echo esc_attr( $handle ); ?>" placeholder="<?php echo esc_attr( $placeholder ); ?>" data-default-placeholder="<?php echo esc_attr( $default_placeholder ); ?>" />
 			<button type="button" class="button button-small data-importer-remove-asset"><?php esc_html_e( 'Remove', 'data-importer' ); ?></button>
 		</div>
 		<?php
@@ -373,16 +385,43 @@ class TemplateTab {
 	 * @param array $script Script row (src, handle).
 	 * @return void
 	 */
-	private function render_script_row( array $script = array() ): void {
-		$src    = (string) ( $script['src'] ?? '' );
-		$handle = (string) ( $script['handle'] ?? '' );
+	private function render_script_row( array $script = array(), int $index = 0 ): void {
+		$src                 = (string) ( $script['src'] ?? '' );
+		$handle              = (string) ( $script['handle'] ?? '' );
+		$default_placeholder = __( 'script-handle', 'data-importer' );
+		$placeholder         = $this->build_asset_handle_placeholder( $src, $default_placeholder );
 		?>
 		<div class="data-importer-asset-row" data-asset-type="script" data-auto-handle="<?php echo '' === $handle ? '1' : '0'; ?>">
-			<input type="text" class="regular-text data-importer-asset-input data-importer-asset-source" name="data_importer_template_scripts[][src]" value="<?php echo esc_attr( $src ); ?>" placeholder="https://example.com/script.js" />
-			<input type="text" class="regular-text data-importer-asset-input data-importer-asset-handle" name="data_importer_template_scripts[][handle]" value="<?php echo esc_attr( $handle ); ?>" placeholder="<?php esc_attr_e( 'script-handle', 'data-importer' ); ?>" />
+			<input type="text" class="regular-text data-importer-asset-input data-importer-asset-source" name="data_importer_template_scripts[<?php echo esc_attr( (string) $index ); ?>][src]" value="<?php echo esc_attr( $src ); ?>" placeholder="https://example.com/script.js" />
+			<input type="text" class="regular-text data-importer-asset-input data-importer-asset-handle" name="data_importer_template_scripts[<?php echo esc_attr( (string) $index ); ?>][handle]" value="<?php echo esc_attr( $handle ); ?>" placeholder="<?php echo esc_attr( $placeholder ); ?>" data-default-placeholder="<?php echo esc_attr( $default_placeholder ); ?>" />
 			<button type="button" class="button button-small data-importer-remove-asset"><?php esc_html_e( 'Remove', 'data-importer' ); ?></button>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Build the generated handle preview shown as a placeholder.
+	 *
+	 * @param string $source   Asset source URL.
+	 * @param string $fallback Fallback placeholder.
+	 * @return string
+	 */
+	private function build_asset_handle_placeholder( string $source, string $fallback ): string {
+		$source = trim( $source );
+		if ( '' === $source ) {
+			return $fallback;
+		}
+
+		$path = (string) wp_parse_url( $source, PHP_URL_PATH );
+		if ( '' === $path ) {
+			$path = $source;
+		}
+
+		$basename = wp_basename( $path );
+		$basename = preg_replace( '/\.[^.]+$/', '', $basename );
+		$handle   = sanitize_key( (string) $basename );
+
+		return '' !== $handle ? $handle : $fallback;
 	}
 
 	// -------------------------------------------------------------------------
@@ -478,6 +517,10 @@ class TemplateTab {
 
 		$index = array();
 		foreach ( $log as $entry ) {
+			if ( ! empty( $entry['resolved'] ) ) {
+				continue;
+			}
+
 			$tpl_id = isset( $entry['template'] ) ? absint( $entry['template'] ) : 0;
 			if ( $tpl_id <= 0 || isset( $index[ $tpl_id ] ) ) {
 				continue;

@@ -10,6 +10,8 @@ import '../scss/admin.scss';
 	var templateEditor = null;
 	var wrapperBeforeEditor = null;
 	var wrapperAfterEditor = null;
+	var styleCodeEditor = null;
+	var scriptCodeEditor = null;
 	var cfg = window.dataImporterAdmin || {};
 	var i18n = cfg.i18n || {};
 
@@ -17,13 +19,17 @@ import '../scss/admin.scss';
 	// CodeMirror (PHP/HTML): main template + before/after list wrappers
 	// ------------------------------------------------------------------
 
-	function initOneCodeEditor(textareaId, assignCm) {
+	function getCodeEditorSettings(language) {
+		var editors = cfg.codeEditors || {};
+		return editors[language] || cfg.codeEditor || null;
+	}
+
+	function initOneCodeEditor(textareaId, settings, assignCm) {
 		var field = document.getElementById(textareaId);
-		if (!field || !window.wp || !wp.codeEditor) {
+		if (!field || !window.wp || !wp.codeEditor || !settings) {
 			return;
 		}
 
-		var settings = cfg.codeEditor || {};
 		var result   = wp.codeEditor.initialize(field, settings);
 
 		if (result && result.codemirror && typeof assignCm === 'function') {
@@ -32,23 +38,33 @@ import '../scss/admin.scss';
 	}
 
 	function initCodeEditor() {
-		if (!window.wp || !wp.codeEditor || !cfg.codeEditor) {
+		if (!window.wp || !wp.codeEditor) {
 			return;
 		}
 
-		initOneCodeEditor('data_importer_template_html', function(cm) {
+		var phpSettings = getCodeEditorSettings('php');
+		var cssSettings = getCodeEditorSettings('css');
+		var jsSettings = getCodeEditorSettings('javascript');
+
+		initOneCodeEditor('data_importer_template_html', phpSettings, function(cm) {
 			templateEditor = cm;
 		});
-		initOneCodeEditor('data_importer_wrapper_before', function(cm) {
+		initOneCodeEditor('data_importer_wrapper_before', phpSettings, function(cm) {
 			wrapperBeforeEditor = cm;
 		});
-		initOneCodeEditor('data_importer_wrapper_after', function(cm) {
+		initOneCodeEditor('data_importer_wrapper_after', phpSettings, function(cm) {
 			wrapperAfterEditor = cm;
+		});
+		initOneCodeEditor('data_importer_style_code', cssSettings, function(cm) {
+			styleCodeEditor = cm;
+		});
+		initOneCodeEditor('data_importer_script_code', jsSettings, function(cm) {
+			scriptCodeEditor = cm;
 		});
 
 		// Layout refresh after two-column layout paints (all instances).
 		setTimeout(function() {
-			[templateEditor, wrapperBeforeEditor, wrapperAfterEditor].forEach(function(cm) {
+			[templateEditor, wrapperBeforeEditor, wrapperAfterEditor, styleCodeEditor, scriptCodeEditor].forEach(function(cm) {
 				if (cm && cm.refresh) {
 					cm.refresh();
 				}
@@ -477,12 +493,9 @@ import '../scss/admin.scss';
 			return;
 		}
 
-		var autoHandle = row.getAttribute('data-auto-handle') === '1';
-		if (!autoHandle && handleField.value) {
-			return;
-		}
-
-		handleField.value = buildAssetHandleFromSource(sourceField.value);
+		var defaultPlaceholder = handleField.getAttribute('data-default-placeholder') || '';
+		var generatedHandle = buildAssetHandleFromSource(sourceField.value);
+		handleField.setAttribute('placeholder', generatedHandle || defaultPlaceholder);
 	}
 
 	function wireAssetRow(row) {
@@ -497,10 +510,7 @@ import '../scss/admin.scss';
 			return;
 		}
 
-		if (!handleField.value) {
-			row.setAttribute('data-auto-handle', '1');
-			refreshAssetRow(row);
-		}
+		refreshAssetRow(row);
 
 		$(sourceField).on('input', function() {
 			refreshAssetRow(row);
@@ -508,9 +518,35 @@ import '../scss/admin.scss';
 
 		$(handleField).on('input', function() {
 			row.setAttribute('data-auto-handle', handleField.value ? '0' : '1');
-			if (!handleField.value) {
-				refreshAssetRow(row);
+			refreshAssetRow(row);
+		});
+	}
+
+	function reindexAssetRows(group) {
+		if (!group) {
+			return;
+		}
+
+		var type = group.getAttribute('data-asset-type') === 'script' ? 'scripts' : 'styles';
+		var baseName = type === 'scripts' ? 'data_importer_template_scripts' : 'data_importer_template_styles';
+		var rows = group.querySelectorAll('.data-importer-asset-row');
+
+		rows.forEach(function(row, index) {
+			var sourceField = row.querySelector('.data-importer-asset-source');
+			var handleField = row.querySelector('.data-importer-asset-handle');
+
+			if (sourceField) {
+				sourceField.setAttribute('name', baseName + '[' + index + '][src]');
 			}
+			if (handleField) {
+				handleField.setAttribute('name', baseName + '[' + index + '][handle]');
+			}
+		});
+	}
+
+	function reindexAllAssetRows() {
+		document.querySelectorAll('.data-importer-asset-group').forEach(function(group) {
+			reindexAssetRows(group);
 		});
 	}
 
@@ -541,6 +577,11 @@ import '../scss/admin.scss';
 		$('.data-importer-asset-row').each(function() {
 			wireAssetRow(this);
 		});
+		reindexAllAssetRows();
+
+		$(document).on('submit', '#data-importer-save-template-form', function() {
+			reindexAllAssetRows();
+		});
 
 		$(document).on('click', '.data-importer-add-asset', function() {
 			var type = $(this).data('assetType') || $(this).attr('data-asset-type');
@@ -553,6 +594,7 @@ import '../scss/admin.scss';
 			}
 
 			rows.appendChild(fragment);
+			reindexAssetRows(group);
 		});
 
 		$(document).on('click', '.data-importer-remove-asset', function() {
@@ -572,6 +614,8 @@ import '../scss/admin.scss';
 					rows.appendChild(fragment);
 				}
 			}
+
+			reindexAssetRows(rows.closest('.data-importer-asset-group'));
 		});
 	}
 
