@@ -43,7 +43,7 @@ class LogTab {
 		<div class="metabox-holder">
 
 			<div class="postbox">
-				<h2 class="hndle"><span><?php esc_html_e( 'Import Log (latest 20)', 'data-importer' ); ?></span></h2>
+				<h2><span><?php esc_html_e( 'Import Log (latest 20)', 'data-importer' ); ?></span></h2>
 				<div class="inside">
 					<?php if ( empty( $log ) ) : ?>
 						<p class="description"><?php esc_html_e( 'No imports logged yet.', 'data-importer' ); ?></p>
@@ -89,7 +89,7 @@ class LogTab {
 			</div>
 
 			<div class="postbox">
-				<h2 class="hndle"><span><?php esc_html_e( 'Security Log (latest 50)', 'data-importer' ); ?></span></h2>
+				<h2><span><?php esc_html_e( 'Security Log (latest 50)', 'data-importer' ); ?></span></h2>
 				<div class="inside">
 					<?php if ( empty( $security_log ) ) : ?>
 						<p class="description"><?php esc_html_e( 'No blocked attempts logged yet.', 'data-importer' ); ?></p>
@@ -119,7 +119,7 @@ class LogTab {
 			</div>
 
 			<div class="postbox" id="data-importer-template-error-log">
-				<h2 class="hndle"><span><?php esc_html_e( 'Template Error Log (latest 50)', 'data-importer' ); ?></span></h2>
+				<h2><span><?php esc_html_e( 'Template Error Log (latest 50)', 'data-importer' ); ?></span></h2>
 				<div class="inside">
 					<?php if ( empty( $template_err_log ) ) : ?>
 						<p class="description"><?php esc_html_e( 'No template errors logged yet.', 'data-importer' ); ?></p>

@@ -64,6 +64,7 @@ class TemplateFormHandler {
 				'style_code'     => '',
 				'scripts_json'   => array(),
 				'script_code'    => '',
+				'sort_json'      => array(),
 			)
 		);
 
@@ -130,6 +131,7 @@ class TemplateFormHandler {
 			'style_code'     => wp_unslash( $_POST['data_importer_style_code'] ?? '' ),
 			'scripts_json'   => $this->sanitize_template_script_assets( wp_unslash( $_POST['data_importer_template_scripts'] ?? array() ) ),
 			'script_code'    => wp_unslash( $_POST['data_importer_script_code'] ?? '' ),
+			'sort_json'      => $this->sanitize_template_sort_rules( wp_unslash( $_POST['data_importer_template_sort'] ?? array() ) ),
 		);
 
 		if ( '' !== $name ) {
@@ -311,6 +313,54 @@ class TemplateFormHandler {
 		}
 
 		return $scripts;
+	}
+
+	/**
+	 * Sanitize sort repeater payload.
+	 *
+	 * @param mixed $raw Raw POST value.
+	 * @return array<int,array<string,string>>
+	 */
+	public function sanitize_template_sort_rules( $raw ): array {
+		if ( ! is_array( $raw ) ) {
+			return array();
+		}
+
+		$rules = array();
+		foreach ( $raw as $row ) {
+			if ( ! is_array( $row ) ) {
+				continue;
+			}
+
+			$key = sanitize_text_field( (string) ( $row['key'] ?? '' ) );
+			if ( '' === $key ) {
+				continue;
+			}
+
+			$type = strtolower( sanitize_text_field( (string) ( $row['type'] ?? 'auto' ) ) );
+			if ( ! in_array( $type, array( 'auto', 'string', 'number', 'date' ), true ) ) {
+				$type = 'auto';
+			}
+
+			$order = strtoupper( sanitize_text_field( (string) ( $row['order'] ?? 'ASC' ) ) );
+			if ( ! in_array( $order, array( 'ASC', 'DESC' ), true ) ) {
+				$order = 'ASC';
+			}
+
+			$empty = strtolower( sanitize_text_field( (string) ( $row['empty'] ?? 'last' ) ) );
+			if ( ! in_array( $empty, array( 'first', 'last' ), true ) ) {
+				$empty = 'last';
+			}
+
+			$rules[] = array(
+				'key'   => $key,
+				'type'  => $type,
+				'order' => $order,
+				'empty' => $empty,
+			);
+		}
+
+		return $rules;
 	}
 
 	/**

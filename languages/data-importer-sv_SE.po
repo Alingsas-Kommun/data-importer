@@ -98,12 +98,12 @@ msgid "Regenerate the API key? The previous key will stop working immediately."
 msgstr "Regenerera API-nyckeln? Tidigare nyckel slutar fungera direkt."
 
 #: src/php/Admin/AdminPage.php:450
-#: src/php/Admin/Tabs/TemplateTab.php:261
+#: src/php/Admin/Tabs/TemplateTab.php:290
 msgid "Add Style"
 msgstr "Lägg till stilmall"
 
 #: src/php/Admin/AdminPage.php:451
-#: src/php/Admin/Tabs/TemplateTab.php:292
+#: src/php/Admin/Tabs/TemplateTab.php:321
 msgid "Add Script"
 msgstr "Lägg till skript"
 
@@ -116,14 +116,15 @@ msgid "Script Source"
 msgstr "Skriptkälla"
 
 #: src/php/Admin/AdminPage.php:454
-#: src/php/Admin/Tabs/TemplateTab.php:247
-#: src/php/Admin/Tabs/TemplateTab.php:278
+#: src/php/Admin/Tabs/TemplateTab.php:276
+#: src/php/Admin/Tabs/TemplateTab.php:307
 msgid "Handle"
 msgstr "Handle"
 
 #: src/php/Admin/AdminPage.php:455
-#: src/php/Admin/Tabs/TemplateTab.php:377
-#: src/php/Admin/Tabs/TemplateTab.php:397
+#: src/php/Admin/Tabs/TemplateTab.php:424
+#: src/php/Admin/Tabs/TemplateTab.php:444
+#: src/php/Admin/Tabs/TemplateTab.php:464
 msgid "Remove"
 msgstr "Ta bort"
 
@@ -177,14 +178,14 @@ msgstr "JSON kunde inte tolkas: %s"
 #: src/php/Admin/SourceFormHandler.php:433
 #: src/php/Admin/SourceFormHandler.php:490
 #: src/php/Admin/TemplateFormHandler.php:45
-#: src/php/Admin/TemplateFormHandler.php:110
-#: src/php/Admin/TemplateFormHandler.php:186
+#: src/php/Admin/TemplateFormHandler.php:111
+#: src/php/Admin/TemplateFormHandler.php:191
 msgid "Security check failed."
 msgstr "Säkerhetskontroll misslyckades."
 
 #: src/php/Admin/SourceFormHandler.php:134
 #: src/php/Admin/SourceFormHandler.php:157
-#: src/php/Infrastructure/Database.php:630
+#: src/php/Infrastructure/Database.php:631
 msgid "Primary Key"
 msgstr "Primärnyckel"
 
@@ -193,8 +194,8 @@ msgid "Could not update the API key."
 msgstr "Kunde inte uppdatera API-nyckeln."
 
 #: src/php/Admin/SourceFormHandler.php:542
-#: src/php/Infrastructure/Database.php:309
-#: src/php/Infrastructure/Database.php:836
+#: src/php/Infrastructure/Database.php:310
+#: src/php/Infrastructure/Database.php:837
 msgid "Invalid data source."
 msgstr "Ogiltig datakälla."
 
@@ -203,7 +204,7 @@ msgid "Data cleared."
 msgstr "Data rensades."
 
 #: src/php/Admin/SourceFormHandler.php:560
-#: src/php/Infrastructure/Database.php:400
+#: src/php/Infrastructure/Database.php:401
 msgid "API key not found."
 msgstr "API-nyckeln hittades inte."
 
@@ -590,6 +591,7 @@ msgstr "IP / Användare"
 
 #: src/php/Admin/Tabs/LogTab.php:57
 #: src/php/Admin/Tabs/LogTab.php:102
+#: src/php/Admin/Tabs/LogTab.php:134
 msgid "Status"
 msgstr "Status"
 
@@ -662,8 +664,8 @@ msgid "View Records"
 msgstr "Visa poster"
 
 #: src/php/Admin/Tabs/TemplateTab.php:43
-#: src/php/Admin/TemplateFormHandler.php:119
-#: src/php/Admin/TemplateFormHandler.php:201
+#: src/php/Admin/TemplateFormHandler.php:120
+#: src/php/Admin/TemplateFormHandler.php:206
 msgid "Template not found."
 msgstr "Mallen hittades inte."
 
@@ -706,7 +708,7 @@ msgid "Create New Template"
 msgstr "Skapa ny mall"
 
 #: src/php/Admin/Tabs/TemplateTab.php:131
-#: src/php/Admin/Tabs/TemplateTab.php:205
+#: src/php/Admin/Tabs/TemplateTab.php:206
 msgid "Template Name"
 msgstr "Mallnamn"
 
@@ -718,84 +720,84 @@ msgstr "Mall-slug (valfritt)"
 msgid "Create Template"
 msgstr "Skapa mall"
 
-#: src/php/Admin/Tabs/TemplateTab.php:172
+#: src/php/Admin/Tabs/TemplateTab.php:173
 msgid "Back to Template List"
 msgstr "Till mall-listan"
 
-#: src/php/Admin/Tabs/TemplateTab.php:202
+#: src/php/Admin/Tabs/TemplateTab.php:203
 msgid "Template Settings"
 msgstr "Mallinställningar"
 
-#: src/php/Admin/Tabs/TemplateTab.php:209
+#: src/php/Admin/Tabs/TemplateTab.php:210
 msgid "Template Slug"
 msgstr "Mall-slug"
 
-#: src/php/Admin/Tabs/TemplateTab.php:216
-#: src/php/Admin/Tabs/TemplateTab.php:218
+#: src/php/Admin/Tabs/TemplateTab.php:245
+#: src/php/Admin/Tabs/TemplateTab.php:247
 msgid "Before List (PHP/HTML)"
 msgstr "Före listan (PHP/HTML)"
 
-#: src/php/Admin/Tabs/TemplateTab.php:224
+#: src/php/Admin/Tabs/TemplateTab.php:253
 msgid "List (PHP/HTML per record)"
 msgstr "Lista (PHP/HTML per post)"
 
-#: src/php/Admin/Tabs/TemplateTab.php:227
+#: src/php/Admin/Tabs/TemplateTab.php:256
 msgid "PHP Template"
 msgstr "PHP-mall"
 
-#: src/php/Admin/Tabs/TemplateTab.php:233
-#: src/php/Admin/Tabs/TemplateTab.php:235
+#: src/php/Admin/Tabs/TemplateTab.php:262
+#: src/php/Admin/Tabs/TemplateTab.php:264
 msgid "After List (PHP/HTML)"
 msgstr "Efter listan (PHP/HTML)"
 
-#: src/php/Admin/Tabs/TemplateTab.php:241
+#: src/php/Admin/Tabs/TemplateTab.php:270
 msgid "Styles"
 msgstr "Stilmallar"
 
-#: src/php/Admin/Tabs/TemplateTab.php:243
+#: src/php/Admin/Tabs/TemplateTab.php:272
 msgid "Add stylesheet URLs and optional handles. Empty handles are generated from the stylesheet filename."
 msgstr "Lägg till stilmalls-URL:er och valfria handles. Tomma handles genereras från filnamnet."
 
-#: src/php/Admin/Tabs/TemplateTab.php:246
-#: src/php/Admin/Tabs/TemplateTab.php:277
+#: src/php/Admin/Tabs/TemplateTab.php:275
+#: src/php/Admin/Tabs/TemplateTab.php:306
 msgid "Source"
 msgstr "Källa"
 
-#: src/php/Admin/Tabs/TemplateTab.php:272
+#: src/php/Admin/Tabs/TemplateTab.php:301
 msgid "Scripts"
 msgstr "Skript"
 
-#: src/php/Admin/Tabs/TemplateTab.php:274
+#: src/php/Admin/Tabs/TemplateTab.php:303
 msgid "Add script URLs and optional handles. Empty handles are generated from the script filename."
 msgstr "Lägg till skript-URL:er och valfria handles. Tomma handles genereras från filnamnet."
 
-#: src/php/Admin/Tabs/TemplateTab.php:343
+#: src/php/Admin/Tabs/TemplateTab.php:376
 msgid "Save Template"
 msgstr "Spara mall"
 
-#: src/php/Admin/Tabs/TemplateTab.php:345
+#: src/php/Admin/Tabs/TemplateTab.php:378
 msgid "Delete this template? This action cannot be undone."
 msgstr "Radera den här mallen? Ändringen kan inte ångras."
 
-#: src/php/Admin/Tabs/TemplateTab.php:349
-#: src/php/Infrastructure/Database.php:942
+#: src/php/Admin/Tabs/TemplateTab.php:382
+#: src/php/Infrastructure/Database.php:992
 msgid "At least one template must remain."
 msgstr "Minst en mall måste finnas kvar."
 
-#: src/php/Admin/Tabs/TemplateTab.php:371
+#: src/php/Admin/Tabs/TemplateTab.php:438
 msgid "style-handle"
 msgstr "stilmalls-handle"
 
-#: src/php/Admin/Tabs/TemplateTab.php:391
+#: src/php/Admin/Tabs/TemplateTab.php:458
 msgid "script-handle"
 msgstr "skript-handle"
 
-#: src/php/Admin/Tabs/TemplateTab.php:488
+#: src/php/Admin/Tabs/TemplateTab.php:555
 msgid "No variables yet. Import data to get field buttons."
 msgstr "Inga variabler ännu — importera data för att få fältknappar."
 
 #: src/php/Admin/TemplateFormHandler.php:58
-#: src/php/Infrastructure/Database.php:844
+#: src/php/Infrastructure/Database.php:845
 msgid "New Template"
 msgstr "Ny mall"
 
@@ -910,75 +912,75 @@ msgstr "Payload är för stor."
 msgid "Too many records in a single import."
 msgstr "För många poster i en import."
 
-#: src/php/Frontend/Display.php:847
+#: src/php/Frontend/Display.php:1218
 msgid "An error occurred while rendering the template."
 msgstr "Ett fel uppstod vid rendering av mallen."
 
 #. translators: %s: runtime error message
-#: src/php/Frontend/Display.php:940
+#: src/php/Frontend/Display.php:1311
 msgid "Template error during test run: %s"
 msgstr "Mallfel vid testkörning: %s"
 
-#: src/php/Frontend/Display.php:963
+#: src/php/Frontend/Display.php:1334
 msgid "The template is too large."
 msgstr "Mallen är för stor."
 
-#: src/php/Frontend/Display.php:967
+#: src/php/Frontend/Display.php:1338
 msgid "The template contains invalid characters."
 msgstr "Mallen innehåller ogiltiga tecken."
 
-#: src/php/Frontend/Display.php:1116
+#: src/php/Frontend/Display.php:1487
 msgid "The template is not allowed by the security policy."
 msgstr "Mallen tillåts inte av säkerhetspolicyn."
 
-#: src/php/Frontend/Display.php:1139
+#: src/php/Frontend/Display.php:1510
 msgid "Template rendering failed."
 msgstr "Mallrendering misslyckades."
 
-#: src/php/Infrastructure/Database.php:541
+#: src/php/Infrastructure/Database.php:542
 msgid "Default Template"
 msgstr "Standardmall"
 
-#: src/php/Infrastructure/Database.php:338
+#: src/php/Infrastructure/Database.php:339
 msgid "Could not create the API key."
 msgstr "Kunde inte skapa API-nyckeln."
 
-#: src/php/Infrastructure/Database.php:436
+#: src/php/Infrastructure/Database.php:437
 msgid "Could not regenerate the API key."
 msgstr "Kunde inte regenerera API-nyckeln."
 
-#: src/php/Infrastructure/Database.php:534
+#: src/php/Infrastructure/Database.php:535
 msgid "Could not create the data source."
 msgstr "Kunde inte skapa datakällan."
 
 #. translators: %d: sequential API key number.
-#: src/php/Infrastructure/Database.php:635
+#: src/php/Infrastructure/Database.php:636
 msgid "API Key %d"
 msgstr "API-nyckel %d"
 
-#: src/php/Infrastructure/Database.php:679
+#: src/php/Infrastructure/Database.php:680
 msgid "API key cannot be empty."
 msgstr "API-nyckeln kan inte vara tom."
 
-#: src/php/Infrastructure/Database.php:683
+#: src/php/Infrastructure/Database.php:684
 msgid "API Key"
 msgstr "API-nyckel"
 
-#: src/php/Infrastructure/Database.php:688
+#: src/php/Infrastructure/Database.php:689
 msgid "Could not securely hash the API key."
 msgstr "Kunde inte hasha API-nyckeln säkert."
 
-#: src/php/Infrastructure/Database.php:867
+#: src/php/Infrastructure/Database.php:869
 msgid "Could not create the template."
 msgstr "Kunde inte skapa mallen."
 
-#: src/php/Infrastructure/Database.php:1034
-#: src/php/Infrastructure/Database.php:1074
-#: src/php/Infrastructure/Database.php:1118
+#: src/php/Infrastructure/Database.php:1140
+#: src/php/Infrastructure/Database.php:1180
+#: src/php/Infrastructure/Database.php:1224
 msgid "Invalid data format."
 msgstr "Ogiltigt dataformat."
 
-#: src/php/Infrastructure/Database.php:1124
+#: src/php/Infrastructure/Database.php:1230
 msgid "At least one update key column is required for upsert mode."
 msgstr "Minst en nyckelkolumn krävs för upsert-läget."
 
@@ -990,26 +992,26 @@ msgstr "Kopiera nyckeln nu — den visas inte igen."
 msgid "Copy the regenerated key now — the previous secret has stopped working."
 msgstr "Kopiera den regenererade nyckeln nu — den tidigare nyckeln slutar fungera direkt."
 
-#: src/php/Admin/Tabs/TemplateTab.php:180
+#: src/php/Admin/Tabs/TemplateTab.php:181
 msgid "Data Importer — global variable syntax detected"
 msgstr "Dataimport — global variabelsyntax identifierad"
 
 #. translators: %s: comma-separated list of field names
-#: src/php/Admin/Tabs/TemplateTab.php:185
+#: src/php/Admin/Tabs/TemplateTab.php:186
 msgid "This template references fields as global variables (%s). Use $vars['field'] instead, or enable the data_importer_template_extract_vars filter if you prefer the global variable syntax."
 msgstr "Den här mallen refererar fält som globala variabler (%s). Använd $vars['field'] istället, eller aktivera filtret data_importer_template_extract_vars om du föredrar global variabelsyntax."
 
-#: src/php/Admin/Tabs/TemplateTab.php:351
+#: src/php/Admin/Tabs/TemplateTab.php:384
 msgid "only template"
 msgstr "enda mallen"
 
 #. translators: %s: blocked function name
-#: src/php/Frontend/Display.php:1040
+#: src/php/Frontend/Display.php:1411
 msgid "The template contains a blocked function: %s."
 msgstr "Mallen innehåller en blockerad funktion: %s."
 
-#: src/php/Admin/Tabs/TemplateTab.php:346
-#: src/php/Admin/Tabs/TemplateTab.php:350
+#: src/php/Admin/Tabs/TemplateTab.php:379
+#: src/php/Admin/Tabs/TemplateTab.php:383
 msgid "Delete Template"
 msgstr "Radera mall"
 
@@ -1039,27 +1041,91 @@ msgstr "Åsidosättning av säkert läge är aktiv."
 msgid "Content-Type must be application/json."
 msgstr "Content-Type måste vara application/json."
 
-#: src/php/Frontend/Display.php:1078
+#: src/php/Frontend/Display.php:1449
 msgid "The template contains a blocked construct: backtick shell-exec operator."
 msgstr "Mallen innehåller ett blockerat konstrukt: backtick-operatorn för skalexekvering."
 
 #. translators: %s: blocked construct name
-#: src/php/Frontend/Display.php:1095
+#: src/php/Frontend/Display.php:1466
 msgid "The template contains a blocked construct: %s."
 msgstr "Mallen innehåller ett blockerat konstrukt: %s."
 
-#: src/php/Admin/Tabs/TemplateTab.php:264
+#: src/php/Admin/Tabs/TemplateTab.php:293
 msgid "Style Code (CSS)"
 msgstr "Stilkod (CSS)"
 
-#: src/php/Admin/Tabs/TemplateTab.php:265
+#: src/php/Admin/Tabs/TemplateTab.php:294
 msgid "Printed at the end of the document head."
 msgstr "Skrivs ut i slutet av dokumentets head."
 
-#: src/php/Admin/Tabs/TemplateTab.php:295
+#: src/php/Admin/Tabs/TemplateTab.php:324
 msgid "Script Code (JS)"
 msgstr "Skriptkod (JS)"
 
-#: src/php/Admin/Tabs/TemplateTab.php:296
+#: src/php/Admin/Tabs/TemplateTab.php:325
 msgid "Printed at the end of the document body."
 msgstr "Skrivs ut i slutet av dokumentets body."
+
+#: src/php/Admin/Tabs/TemplateTab.php:217
+msgid "Default Sort"
+msgstr "Standardsortering"
+
+#: src/php/Admin/Tabs/TemplateTab.php:219
+msgid "Sort rules run in order before records are rendered. Shortcode sort attributes override these defaults."
+msgstr "Sorteringsregler körs i ordning innan poster renderas. Shortcode-attribut för sortering åsidosätter dessa standardvärden."
+
+#: src/php/Admin/Tabs/TemplateTab.php:222
+msgid "Key"
+msgstr "Nyckel"
+
+#: src/php/Admin/Tabs/TemplateTab.php:223
+msgid "Type"
+msgstr "Typ"
+
+#: src/php/Admin/Tabs/TemplateTab.php:224
+msgid "Order"
+msgstr "Ordning"
+
+#: src/php/Admin/Tabs/TemplateTab.php:225
+msgid "Empty"
+msgstr "Tomma"
+
+#: src/php/Admin/Tabs/TemplateTab.php:239
+msgid "Add Sort Rule"
+msgstr "Lägg till sorteringsregel"
+
+#: src/php/Admin/Tabs/TemplateTab.php:409
+msgid "firstname or address.city"
+msgstr "firstname eller address.city"
+
+#: src/php/Admin/Tabs/TemplateTab.php:411
+msgid "Auto"
+msgstr "Auto"
+
+#: src/php/Admin/Tabs/TemplateTab.php:412
+msgid "Text"
+msgstr "Text"
+
+#: src/php/Admin/Tabs/TemplateTab.php:413
+msgid "Number"
+msgstr "Tal"
+
+#: src/php/Admin/Tabs/TemplateTab.php:414
+msgid "Date"
+msgstr "Datum"
+
+#: src/php/Admin/Tabs/TemplateTab.php:417
+msgid "Ascending"
+msgstr "Stigande"
+
+#: src/php/Admin/Tabs/TemplateTab.php:418
+msgid "Descending"
+msgstr "Fallande"
+
+#: src/php/Admin/Tabs/TemplateTab.php:421
+msgid "Last"
+msgstr "Sist"
+
+#: src/php/Admin/Tabs/TemplateTab.php:422
+msgid "First"
+msgstr "Först"

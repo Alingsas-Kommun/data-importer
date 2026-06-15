@@ -620,6 +620,76 @@ import '../scss/admin.scss';
 	}
 
 	// ------------------------------------------------------------------
+	// Template sort rule repeaters
+	// ------------------------------------------------------------------
+
+	function reindexSortRows() {
+		document.querySelectorAll('.data-importer-sort-row').forEach(function(row, index) {
+			[
+				['.data-importer-sort-key', 'key'],
+				['.data-importer-sort-type', 'type'],
+				['.data-importer-sort-order', 'order'],
+				['.data-importer-sort-empty', 'empty']
+			].forEach(function(pair) {
+				var field = row.querySelector(pair[0]);
+				if (field) {
+					field.setAttribute('name', 'data_importer_template_sort[' + index + '][' + pair[1] + ']');
+				}
+			});
+		});
+	}
+
+	function createSortRow() {
+		var template = document.getElementById('data-importer-sort-row-template');
+
+		if (!template || !('content' in template)) {
+			return null;
+		}
+
+		return template.content.cloneNode(true);
+	}
+
+	function bindTemplateSortRepeaters() {
+		reindexSortRows();
+
+		$(document).on('submit', '#data-importer-save-template-form', function() {
+			reindexSortRows();
+		});
+
+		$(document).on('click', '.data-importer-add-sort-rule', function() {
+			var rows = document.querySelector('.data-importer-sort-rows');
+			var fragment = createSortRow();
+
+			if (!rows || !fragment) {
+				return;
+			}
+
+			rows.appendChild(fragment);
+			reindexSortRows();
+		});
+
+		$(document).on('click', '.data-importer-remove-sort-rule', function() {
+			var row = this.closest('.data-importer-sort-row');
+			var rows = row ? row.parentNode : null;
+
+			if (!row || !rows) {
+				return;
+			}
+
+			row.remove();
+
+			if (!rows.querySelector('.data-importer-sort-row')) {
+				var fragment = createSortRow();
+				if (fragment) {
+					rows.appendChild(fragment);
+				}
+			}
+
+			reindexSortRows();
+		});
+	}
+
+	// ------------------------------------------------------------------
 	// Create API Key (AJAX – inline reveal)
 	// ------------------------------------------------------------------
 
@@ -703,6 +773,7 @@ import '../scss/admin.scss';
 		bindRecordPreviewModal();
 		bindSlugGenerator();
 		bindTemplateAssetRepeaters();
+		bindTemplateSortRepeaters();
 		bindCreateApiKey();
 	});
 

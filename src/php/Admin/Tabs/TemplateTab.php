@@ -67,7 +67,7 @@ class TemplateTab {
 		?>
 		<div class="metabox-holder">
 			<div class="postbox">
-				<h2 class="hndle"><span><?php esc_html_e( 'Templates', 'data-importer' ); ?></span></h2>
+				<h2><span><?php esc_html_e( 'Templates', 'data-importer' ); ?></span></h2>
 				<div class="inside">
 					<table class="wp-list-table widefat fixed striped data-importer-list-table data-importer-template-list-table">
 						<thead>
@@ -120,7 +120,7 @@ class TemplateTab {
 			</div>
 
 			<div class="postbox">
-				<h2 class="hndle"><span><?php esc_html_e( 'Create New Template', 'data-importer' ); ?></span></h2>
+				<h2><span><?php esc_html_e( 'Create New Template', 'data-importer' ); ?></span></h2>
 				<div class="inside">
 					<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 						<?php wp_nonce_field( 'data_importer_create_template_' . $source_id, 'data_importer_nonce' ); ?>
@@ -164,6 +164,7 @@ class TemplateTab {
 		$fields              = Database::get_fields( $source_id );
 		$style_rows          = $this->decode_asset_rows( $current_template['styles_json'] ?? array(), 'style' );
 		$script_rows         = $this->decode_asset_rows( $current_template['scripts_json'] ?? array(), 'script' );
+		$sort_rows           = $this->decode_sort_rows( $current_template['sort_json'] ?? array() );
 
 		$extract_active = (bool) apply_filters( 'data_importer_template_extract_vars', false, array(), array() );
 		$legacy_fields  = $extract_active ? array() : $this->detect_legacy_var_usage( $fields, $current_template );
@@ -199,7 +200,7 @@ class TemplateTab {
 					<input type="hidden" name="data_importer_template_id" value="<?php echo esc_attr( (string) $current_template_id ); ?>" />
 
 					<div class="postbox">
-						<h2 class="hndle"><span><?php esc_html_e( 'Template Settings', 'data-importer' ); ?></span></h2>
+						<h2><span><?php esc_html_e( 'Template Settings', 'data-importer' ); ?></span></h2>
 						<div class="inside">
 							<p>
 								<label for="data_importer_template_name_edit"><strong><?php esc_html_e( 'Template Name', 'data-importer' ); ?></strong></label><br />
@@ -213,7 +214,35 @@ class TemplateTab {
 					</div>
 
 					<div class="postbox">
-						<h2 class="hndle"><span><?php esc_html_e( 'Before List (PHP/HTML)', 'data-importer' ); ?></span></h2>
+						<h2><span><?php esc_html_e( 'Default Sort', 'data-importer' ); ?></span></h2>
+						<div class="inside">
+							<p class="description"><?php esc_html_e( 'Sort rules run in order before records are rendered. Shortcode sort attributes override these defaults.', 'data-importer' ); ?></p>
+							<div class="data-importer-sort-group">
+								<div class="data-importer-sort-headings" aria-hidden="true">
+									<span><?php esc_html_e( 'Key', 'data-importer' ); ?></span>
+									<span><?php esc_html_e( 'Type', 'data-importer' ); ?></span>
+									<span><?php esc_html_e( 'Order', 'data-importer' ); ?></span>
+									<span><?php esc_html_e( 'Empty', 'data-importer' ); ?></span>
+									<span></span>
+								</div>
+								<div class="data-importer-sort-rows">
+									<?php
+									if ( empty( $sort_rows ) ) {
+										$this->render_sort_row();
+									} else {
+										foreach ( $sort_rows as $index => $sort_row ) {
+											$this->render_sort_row( $sort_row, (int) $index );
+										}
+									}
+									?>
+								</div>
+								<button type="button" class="button button-secondary data-importer-add-sort-rule"><?php esc_html_e( 'Add Sort Rule', 'data-importer' ); ?></button>
+							</div>
+						</div>
+					</div>
+
+					<div class="postbox">
+						<h2><span><?php esc_html_e( 'Before List (PHP/HTML)', 'data-importer' ); ?></span></h2>
 						<div class="inside">
 							<label for="data_importer_wrapper_before" class="screen-reader-text"><?php esc_html_e( 'Before List (PHP/HTML)', 'data-importer' ); ?></label>
 							<textarea id="data_importer_wrapper_before" name="data_importer_wrapper_before" class="large-text code" rows="8" spellcheck="false"><?php echo esc_textarea( $current_template['wrapper_before'] ); ?></textarea>
@@ -221,7 +250,7 @@ class TemplateTab {
 					</div>
 
 					<div class="postbox">
-						<h2 class="hndle"><span><?php esc_html_e( 'List (PHP/HTML per record)', 'data-importer' ); ?></span></h2>
+						<h2><span><?php esc_html_e( 'List (PHP/HTML per record)', 'data-importer' ); ?></span></h2>
 						<div class="inside">
 							<?php $this->render_variable_buttons( $fields, 'template' ); ?>
 							<label for="data_importer_template_html" class="screen-reader-text"><?php esc_html_e( 'PHP Template', 'data-importer' ); ?></label>
@@ -230,7 +259,7 @@ class TemplateTab {
 					</div>
 
 					<div class="postbox">
-						<h2 class="hndle"><span><?php esc_html_e( 'After List (PHP/HTML)', 'data-importer' ); ?></span></h2>
+						<h2><span><?php esc_html_e( 'After List (PHP/HTML)', 'data-importer' ); ?></span></h2>
 						<div class="inside">
 							<label for="data_importer_wrapper_after" class="screen-reader-text"><?php esc_html_e( 'After List (PHP/HTML)', 'data-importer' ); ?></label>
 							<textarea id="data_importer_wrapper_after" name="data_importer_wrapper_after" class="large-text code" rows="8" spellcheck="false"><?php echo esc_textarea( $current_template['wrapper_after'] ); ?></textarea>
@@ -238,7 +267,7 @@ class TemplateTab {
 					</div>
 
 					<div class="postbox">
-						<h2 class="hndle"><span><?php esc_html_e( 'Styles', 'data-importer' ); ?></span></h2>
+						<h2><span><?php esc_html_e( 'Styles', 'data-importer' ); ?></span></h2>
 						<div class="inside">
 							<p class="description"><?php esc_html_e( 'Add stylesheet URLs and optional handles. Empty handles are generated from the stylesheet filename.', 'data-importer' ); ?></p>
 							<div class="data-importer-asset-group" data-asset-type="style">
@@ -269,7 +298,7 @@ class TemplateTab {
 					</div>
 
 					<div class="postbox">
-						<h2 class="hndle"><span><?php esc_html_e( 'Scripts', 'data-importer' ); ?></span></h2>
+						<h2><span><?php esc_html_e( 'Scripts', 'data-importer' ); ?></span></h2>
 						<div class="inside">
 							<p class="description"><?php esc_html_e( 'Add script URLs and optional handles. Empty handles are generated from the script filename.', 'data-importer' ); ?></p>
 							<div class="data-importer-asset-group" data-asset-type="script">
@@ -307,6 +336,10 @@ class TemplateTab {
 
 				<template id="data-importer-script-row-template">
 					<?php $this->render_script_row(); ?>
+				</template>
+
+				<template id="data-importer-sort-row-template">
+					<?php $this->render_sort_row(); ?>
 				</template>
 
 				<?php $this->render_editor_actions( count( $all_templates ) ); ?>
@@ -358,6 +391,40 @@ class TemplateTab {
 	// -------------------------------------------------------------------------
 	// Asset row renderers
 	// -------------------------------------------------------------------------
+
+	/**
+	 * Render one sort rule row.
+	 *
+	 * @param array $rule  Sort rule row.
+	 * @param int   $index Row index.
+	 * @return void
+	 */
+	private function render_sort_row( array $rule = array(), int $index = 0 ): void {
+		$key   = (string) ( $rule['key'] ?? '' );
+		$type  = (string) ( $rule['type'] ?? 'auto' );
+		$order = strtoupper( (string) ( $rule['order'] ?? 'ASC' ) );
+		$empty = (string) ( $rule['empty'] ?? 'last' );
+		?>
+		<div class="data-importer-sort-row">
+			<input type="text" class="regular-text data-importer-sort-key" name="data_importer_template_sort[<?php echo esc_attr( (string) $index ); ?>][key]" value="<?php echo esc_attr( $key ); ?>" placeholder="<?php esc_attr_e( 'firstname or address.city', 'data-importer' ); ?>" />
+			<select class="data-importer-sort-type" name="data_importer_template_sort[<?php echo esc_attr( (string) $index ); ?>][type]">
+				<option value="auto" <?php selected( $type, 'auto' ); ?>><?php esc_html_e( 'Auto', 'data-importer' ); ?></option>
+				<option value="string" <?php selected( $type, 'string' ); ?>><?php esc_html_e( 'Text', 'data-importer' ); ?></option>
+				<option value="number" <?php selected( $type, 'number' ); ?>><?php esc_html_e( 'Number', 'data-importer' ); ?></option>
+				<option value="date" <?php selected( $type, 'date' ); ?>><?php esc_html_e( 'Date', 'data-importer' ); ?></option>
+			</select>
+			<select class="data-importer-sort-order" name="data_importer_template_sort[<?php echo esc_attr( (string) $index ); ?>][order]">
+				<option value="ASC" <?php selected( $order, 'ASC' ); ?>><?php esc_html_e( 'Ascending', 'data-importer' ); ?></option>
+				<option value="DESC" <?php selected( $order, 'DESC' ); ?>><?php esc_html_e( 'Descending', 'data-importer' ); ?></option>
+			</select>
+			<select class="data-importer-sort-empty" name="data_importer_template_sort[<?php echo esc_attr( (string) $index ); ?>][empty]">
+				<option value="last" <?php selected( $empty, 'last' ); ?>><?php esc_html_e( 'Last', 'data-importer' ); ?></option>
+				<option value="first" <?php selected( $empty, 'first' ); ?>><?php esc_html_e( 'First', 'data-importer' ); ?></option>
+			</select>
+			<button type="button" class="button button-small data-importer-remove-sort-rule"><?php esc_html_e( 'Remove', 'data-importer' ); ?></button>
+		</div>
+		<?php
+	}
 
 	/**
 	 * Render one stylesheet repeater row.
@@ -584,6 +651,56 @@ class TemplateTab {
 
 		// Suppress unused-variable warning — $type reserved for future per-type logic.
 		unset( $type );
+
+		return $decoded;
+	}
+
+	/**
+	 * Decode sort rows stored as JSON or array.
+	 *
+	 * @param mixed $value Stored value.
+	 * @return array<int,array<string,string>>
+	 */
+	private function decode_sort_rows( $value ): array {
+		$rows = is_string( $value ) ? json_decode( $value, true ) : $value;
+
+		if ( ! is_array( $rows ) ) {
+			return array();
+		}
+
+		$decoded = array();
+		foreach ( $rows as $row ) {
+			if ( ! is_array( $row ) ) {
+				continue;
+			}
+
+			$key = sanitize_text_field( (string) ( $row['key'] ?? '' ) );
+			if ( '' === $key ) {
+				continue;
+			}
+
+			$type = strtolower( sanitize_text_field( (string) ( $row['type'] ?? 'auto' ) ) );
+			if ( ! in_array( $type, array( 'auto', 'string', 'number', 'date' ), true ) ) {
+				$type = 'auto';
+			}
+
+			$order = strtoupper( sanitize_text_field( (string) ( $row['order'] ?? 'ASC' ) ) );
+			if ( ! in_array( $order, array( 'ASC', 'DESC' ), true ) ) {
+				$order = 'ASC';
+			}
+
+			$empty = strtolower( sanitize_text_field( (string) ( $row['empty'] ?? 'last' ) ) );
+			if ( ! in_array( $empty, array( 'first', 'last' ), true ) ) {
+				$empty = 'last';
+			}
+
+			$decoded[] = array(
+				'key'   => $key,
+				'type'  => $type,
+				'order' => $order,
+				'empty' => $empty,
+			);
+		}
 
 		return $decoded;
 	}

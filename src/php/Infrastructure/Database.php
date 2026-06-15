@@ -133,6 +133,7 @@ class Database {
 			style_code longtext NOT NULL,
 			scripts_json longtext NOT NULL,
 			script_code longtext NOT NULL,
+			sort_json longtext NOT NULL,
 			updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			PRIMARY KEY  (id),
@@ -857,10 +858,11 @@ class Database {
 				'style_code'     => (string) ( $data['style_code'] ?? '' ),
 				'scripts_json'   => self::normalize_template_asset_payload( $data['scripts_json'] ?? array() ),
 				'script_code'    => (string) ( $data['script_code'] ?? '' ),
+				'sort_json'      => self::normalize_template_sort_payload( $data['sort_json'] ?? array() ),
 				'updated_at'     => current_time( 'mysql' ),
 				'created_at'     => current_time( 'mysql' ),
 			),
-			array( '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s' )
+			array( '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s' )
 		);
 
 		if ( false === $result ) {
@@ -915,6 +917,11 @@ class Database {
 				$update[ $field ] = self::normalize_template_asset_payload( $data[ $field ] );
 				$formats[]        = '%s';
 			}
+		}
+
+		if ( array_key_exists( 'sort_json', $data ) ) {
+			$update['sort_json'] = self::normalize_template_sort_payload( $data['sort_json'] );
+			$formats[]           = '%s';
 		}
 
 		$result = $wpdb->update( $table, $update, array( 'id' => (int) $template_id ), $formats, array( '%d' ) );
@@ -1058,6 +1065,58 @@ class Database {
 		}
 
 		$encoded = wp_json_encode( array_values( $value ) );
+		return is_string( $encoded ) ? $encoded : '[]';
+	}
+
+	/**
+	 * Normalize a template sort payload for DB storage.
+	 *
+	 * @param mixed $value Sort rows or a JSON string.
+	 * @return string
+	 */
+	private static function normalize_template_sort_payload( $value ) {
+		if ( is_string( $value ) ) {
+			$decoded = json_decode( $value, true );
+			$rows    = ( JSON_ERROR_NONE === json_last_error() && is_array( $decoded ) ) ? $decoded : array();
+		} else {
+			$rows = is_array( $value ) ? $value : array();
+		}
+
+		$normalized = array();
+		foreach ( $rows as $row ) {
+			if ( ! is_array( $row ) ) {
+				continue;
+			}
+
+			$key = sanitize_text_field( (string) ( $row['key'] ?? '' ) );
+			if ( '' === $key ) {
+				continue;
+			}
+
+			$type = strtolower( sanitize_text_field( (string) ( $row['type'] ?? 'auto' ) ) );
+			if ( ! in_array( $type, array( 'auto', 'string', 'number', 'date' ), true ) ) {
+				$type = 'auto';
+			}
+
+			$order = strtoupper( sanitize_text_field( (string) ( $row['order'] ?? 'ASC' ) ) );
+			if ( ! in_array( $order, array( 'ASC', 'DESC' ), true ) ) {
+				$order = 'ASC';
+			}
+
+			$empty = strtolower( sanitize_text_field( (string) ( $row['empty'] ?? 'last' ) ) );
+			if ( ! in_array( $empty, array( 'first', 'last' ), true ) ) {
+				$empty = 'last';
+			}
+
+			$normalized[] = array(
+				'key'   => $key,
+				'type'  => $type,
+				'order' => $order,
+				'empty' => $empty,
+			);
+		}
+
+		$encoded = wp_json_encode( $normalized );
 		return is_string( $encoded ) ? $encoded : '[]';
 	}
 

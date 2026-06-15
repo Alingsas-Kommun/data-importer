@@ -44,7 +44,7 @@ class DataTab {
 			<?php endif; ?>
 
 			<div class="postbox">
-				<h2 class="hndle"><span><?php esc_html_e( 'Overview', 'data-importer' ); ?></span></h2>
+				<h2><span><?php esc_html_e( 'Overview', 'data-importer' ); ?></span></h2>
 				<div class="inside">
 					<p>
 						<strong><?php esc_html_e( 'Total Records', 'data-importer' ); ?>:</strong>
@@ -62,7 +62,7 @@ class DataTab {
 			</div>
 
 			<div class="postbox">
-				<h2 class="hndle"><span><?php esc_html_e( 'Latest Records (max 20)', 'data-importer' ); ?></span></h2>
+				<h2><span><?php esc_html_e( 'Latest Records (max 20)', 'data-importer' ); ?></span></h2>
 				<div class="inside">
 					<div class="data-importer-table-wrap data-importer-records-wrap">
 						<table class="widefat striped data-importer-records-table">

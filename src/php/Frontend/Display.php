@@ -103,6 +103,11 @@ class Display {
 			'offset'      => 0,
 			'order'       => 'ASC',
 			'id'          => 0,
+			'sort'        => '',
+			'sort_key'    => '',
+			'sort_order'  => '',
+			'sort_type'   => '',
+			'sort_empty'  => '',
 			'where'       => '',
 			'where_key'   => '',
 			'where_op'    => '',
@@ -153,11 +158,16 @@ class Display {
 			$after         = (string) $source['wrapper_after'];
 		}
 
+		$sort_rules       = self::build_sort_from_atts( $atts, $template );
+		$sort_is_active   = ! empty( $sort_rules );
+		$shortcode_limit  = absint( $atts['limit'] );
+		$shortcode_offset = absint( $atts['offset'] );
+
 		$rows = Database::get_records(
 			array(
 				'source_id' => (int) $source['id'],
-				'limit'     => absint( $atts['limit'] ),
-				'offset'    => absint( $atts['offset'] ),
+				'limit'     => $sort_is_active ? 0 : $shortcode_limit,
+				'offset'    => $sort_is_active ? 0 : $shortcode_offset,
 				'order'     => sanitize_text_field( (string) $atts['order'] ),
 				'id'        => absint( $atts['id'] ),
 			)
@@ -172,6 +182,18 @@ class Display {
 
 		if ( ! empty( $filter ) ) {
 			$records = self::apply_record_filter( $records, $filter );
+		}
+
+		if ( $sort_is_active ) {
+			$records = self::apply_record_sort( $records, $sort_rules );
+
+			if ( $shortcode_offset > 0 || $shortcode_limit > 0 ) {
+				$records = array_slice(
+					$records,
+					$shortcode_offset,
+					$shortcode_limit > 0 ? $shortcode_limit : null
+				);
+			}
 		}
 
 		if ( empty( $records ) ) {
@@ -539,6 +561,156 @@ class Display {
 	}
 
 	/**
+	 * Parse shortcode or template sort settings.
+	 *
+	 * Shortcode sort attributes override template defaults.
+	 *
+	 * @param array                    $atts     Shortcode attributes.
+	 * @param array<string,mixed>|null $template Template row.
+	 * @return array<int,array<string,string>>
+	 */
+	private static function build_sort_from_atts( $atts, $template = null ) {
+		$compact = (string) ( $atts['sort'] ?? '' );
+		$key_csv = (string) ( $atts['sort_key'] ?? '' );
+
+		if ( '' !== trim( $compact ) ) {
+			return self::parse_compact_sort_rules( $compact );
+		}
+
+		if ( '' !== trim( $key_csv ) ) {
+			return self::parse_sort_rules_from_parallel_atts(
+				$key_csv,
+				(string) ( $atts['sort_type'] ?? '' ),
+				(string) ( $atts['sort_order'] ?? '' ),
+				(string) ( $atts['sort_empty'] ?? '' )
+			);
+		}
+
+		if ( is_array( $template ) && array_key_exists( 'sort_json', $template ) ) {
+			return self::normalize_sort_rules( json_decode( (string) $template['sort_json'], true ) );
+		}
+
+		return array();
+	}
+
+	/**
+	 * Parse compact sort rules: key|type|order|empty,key|type|order|empty.
+	 *
+	 * @param string $sort Compact sort string.
+	 * @return array<int,array<string,string>>
+	 */
+	private static function parse_compact_sort_rules( $sort ) {
+		$rows = array();
+
+		foreach ( explode( ',', (string) $sort ) as $clause ) {
+			$parts = array_map( 'trim', explode( '|', $clause ) );
+			$key   = (string) ( $parts[0] ?? '' );
+			if ( '' === $key ) {
+				continue;
+			}
+
+			$type  = (string) ( $parts[1] ?? 'auto' );
+			$order = (string) ( $parts[2] ?? 'ASC' );
+			$empty = (string) ( $parts[3] ?? 'last' );
+
+			if ( in_array( strtoupper( $type ), array( 'ASC', 'DESC' ), true ) ) {
+				$empty = $order;
+				$order = $type;
+				$type  = 'auto';
+			}
+
+			$rows[] = array(
+				'key'   => $key,
+				'type'  => $type,
+				'order' => $order,
+				'empty' => $empty,
+			);
+		}
+
+		return self::normalize_sort_rules( $rows );
+	}
+
+	/**
+	 * Parse sort rules from comma-separated shortcode attributes.
+	 *
+	 * @param string $keys   Comma-separated keys.
+	 * @param string $types  Comma-separated types.
+	 * @param string $orders Comma-separated orders.
+	 * @param string $empty  Comma-separated empty value positions.
+	 * @return array<int,array<string,string>>
+	 */
+	private static function parse_sort_rules_from_parallel_atts( $keys, $types, $orders, $empty ) {
+		$key_parts   = array_map( 'trim', explode( ',', (string) $keys ) );
+		$type_parts  = array_map( 'trim', explode( ',', (string) $types ) );
+		$order_parts = array_map( 'trim', explode( ',', (string) $orders ) );
+		$empty_parts = array_map( 'trim', explode( ',', (string) $empty ) );
+		$rows        = array();
+
+		foreach ( $key_parts as $index => $key ) {
+			if ( '' === $key ) {
+				continue;
+			}
+
+			$rows[] = array(
+				'key'   => $key,
+				'type'  => $type_parts[ $index ] ?? ( $type_parts[0] ?? 'auto' ),
+				'order' => $order_parts[ $index ] ?? ( $order_parts[0] ?? 'ASC' ),
+				'empty' => $empty_parts[ $index ] ?? ( $empty_parts[0] ?? 'last' ),
+			);
+		}
+
+		return self::normalize_sort_rules( $rows );
+	}
+
+	/**
+	 * Normalize sort rules.
+	 *
+	 * @param mixed $rules Raw rules.
+	 * @return array<int,array<string,string>>
+	 */
+	private static function normalize_sort_rules( $rules ) {
+		if ( ! is_array( $rules ) ) {
+			return array();
+		}
+
+		$normalized = array();
+		foreach ( $rules as $rule ) {
+			if ( ! is_array( $rule ) ) {
+				continue;
+			}
+
+			$key = sanitize_text_field( (string) ( $rule['key'] ?? '' ) );
+			if ( '' === $key ) {
+				continue;
+			}
+
+			$type = strtolower( sanitize_text_field( (string) ( $rule['type'] ?? 'auto' ) ) );
+			if ( ! in_array( $type, array( 'auto', 'string', 'number', 'date' ), true ) ) {
+				$type = 'auto';
+			}
+
+			$order = strtoupper( sanitize_text_field( (string) ( $rule['order'] ?? 'ASC' ) ) );
+			if ( ! in_array( $order, array( 'ASC', 'DESC' ), true ) ) {
+				$order = 'ASC';
+			}
+
+			$empty = strtolower( sanitize_text_field( (string) ( $rule['empty'] ?? 'last' ) ) );
+			if ( ! in_array( $empty, array( 'first', 'last' ), true ) ) {
+				$empty = 'last';
+			}
+
+			$normalized[] = array(
+				'key'   => $key,
+				'type'  => $type,
+				'order' => $order,
+				'empty' => $empty,
+			);
+		}
+
+		return $normalized;
+	}
+
+	/**
 	 * Parse and normalize shortcode filter attributes.
 	 *
 	 * Supported operators:
@@ -603,6 +775,184 @@ class Display {
 		}
 
 		return $filtered;
+	}
+
+	/**
+	 * Sort records by one or more rules before template rendering.
+	 *
+	 * @param array $records Decoded records.
+	 * @param array $rules   Normalized sort rules.
+	 * @return array<int,array<string,mixed>>
+	 */
+	private static function apply_record_sort( $records, $rules ) {
+		if ( empty( $rules ) ) {
+			return array_values( (array) $records );
+		}
+
+		$decorated = array();
+		foreach ( (array) $records as $index => $record ) {
+			$decorated[] = array(
+				'index'  => (int) $index,
+				'record' => (array) $record,
+			);
+		}
+
+		usort(
+			$decorated,
+			static function ( $a, $b ) use ( $rules ) {
+				$result = self::compare_records_by_sort_rules( $a['record'], $b['record'], $rules );
+				if ( 0 !== $result ) {
+					return $result;
+				}
+
+				return $a['index'] <=> $b['index'];
+			}
+		);
+
+		return array_map(
+			static function ( $item ) {
+				return $item['record'];
+			},
+			$decorated
+		);
+	}
+
+	/**
+	 * Compare two records using ordered sort rules.
+	 *
+	 * @param array $left  First record.
+	 * @param array $right Second record.
+	 * @param array $rules Sort rules.
+	 * @return int
+	 */
+	private static function compare_records_by_sort_rules( $left, $right, $rules ) {
+		foreach ( $rules as $rule ) {
+			$custom = apply_filters( 'data_importer_compare_records', null, $left, $right, $rule, $rules );
+			if ( is_int( $custom ) ) {
+				if ( 0 !== $custom ) {
+					return self::apply_sort_direction( $custom, $rule );
+				}
+				continue;
+			}
+
+			$left_value  = self::get_nested_value( $left, (string) $rule['key'] );
+			$right_value = self::get_nested_value( $right, (string) $rule['key'] );
+			$left_value  = apply_filters( 'data_importer_sort_value', $left_value, $left, $rule, $rules );
+			$right_value = apply_filters( 'data_importer_sort_value', $right_value, $right, $rule, $rules );
+
+			$result = self::compare_sort_values( $left_value, $right_value, $rule );
+			if ( 0 !== $result ) {
+				if ( self::value_is_empty( $left_value ) || self::value_is_empty( $right_value ) ) {
+					return $result;
+				}
+
+				return self::apply_sort_direction( $result, $rule );
+			}
+		}
+
+		return 0;
+	}
+
+	/**
+	 * Compare two values for one sort rule.
+	 *
+	 * @param mixed $left  First value.
+	 * @param mixed $right Second value.
+	 * @param array $rule  Sort rule.
+	 * @return int
+	 */
+	private static function compare_sort_values( $left, $right, $rule ) {
+		$left_empty  = self::value_is_empty( $left );
+		$right_empty = self::value_is_empty( $right );
+
+		if ( $left_empty || $right_empty ) {
+			if ( $left_empty && $right_empty ) {
+				return 0;
+			}
+
+			$empty_first = 'first' === (string) ( $rule['empty'] ?? 'last' );
+			if ( $left_empty ) {
+				return $empty_first ? -1 : 1;
+			}
+
+			return $empty_first ? 1 : -1;
+		}
+
+		$type = (string) ( $rule['type'] ?? 'auto' );
+		if ( 'auto' === $type ) {
+			$type = self::detect_sort_type( $left, $right );
+		}
+
+		if ( 'number' === $type ) {
+			return self::compare_numeric_sort_values( $left, $right );
+		}
+
+		if ( 'date' === $type ) {
+			return self::compare_date_sort_values( $left, $right );
+		}
+
+		return strnatcasecmp( self::normalize_filter_value( $left ), self::normalize_filter_value( $right ) );
+	}
+
+	/**
+	 * Detect a useful sort type from two values.
+	 *
+	 * @param mixed $left  First value.
+	 * @param mixed $right Second value.
+	 * @return string
+	 */
+	private static function detect_sort_type( $left, $right ) {
+		$left_scalar  = self::normalize_filter_value( $left );
+		$right_scalar = self::normalize_filter_value( $right );
+
+		if ( is_numeric( $left_scalar ) && is_numeric( $right_scalar ) ) {
+			return 'number';
+		}
+
+		return 'string';
+	}
+
+	/**
+	 * Compare two numeric sort values.
+	 *
+	 * @param mixed $left  First value.
+	 * @param mixed $right Second value.
+	 * @return int
+	 */
+	private static function compare_numeric_sort_values( $left, $right ) {
+		$left_num  = is_numeric( self::normalize_filter_value( $left ) ) ? (float) self::normalize_filter_value( $left ) : 0.0;
+		$right_num = is_numeric( self::normalize_filter_value( $right ) ) ? (float) self::normalize_filter_value( $right ) : 0.0;
+
+		return $left_num <=> $right_num;
+	}
+
+	/**
+	 * Compare two date/time sort values.
+	 *
+	 * @param mixed $left  First value.
+	 * @param mixed $right Second value.
+	 * @return int
+	 */
+	private static function compare_date_sort_values( $left, $right ) {
+		$left_time  = strtotime( self::normalize_filter_value( $left ) );
+		$right_time = strtotime( self::normalize_filter_value( $right ) );
+
+		if ( false === $left_time || false === $right_time ) {
+			return strnatcasecmp( self::normalize_filter_value( $left ), self::normalize_filter_value( $right ) );
+		}
+
+		return $left_time <=> $right_time;
+	}
+
+	/**
+	 * Apply ASC/DESC direction to a comparison result.
+	 *
+	 * @param int   $result Comparison result.
+	 * @param array $rule   Sort rule.
+	 * @return int
+	 */
+	private static function apply_sort_direction( $result, $rule ) {
+		return 'DESC' === (string) ( $rule['order'] ?? 'ASC' ) ? -$result : $result;
 	}
 
 	/**

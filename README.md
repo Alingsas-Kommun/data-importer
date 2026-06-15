@@ -59,7 +59,8 @@ No third-party services or external API subscriptions are required. All data is 
 
 - Render any source/template combination anywhere in WordPress with `[data_importer]`.
 - Filter records from the shortcode without changing the template: `where_key`, `where_op`, `where_value` with support for dot-notation for nested fields.
-- Control pagination with `limit`, `offset`, and `order` attributes.
+- Sort records before rendering with template defaults or shortcode attributes, including multi-field sorts and dot-notation keys.
+- Control pagination with `limit`, `offset`, and database-row `order` attributes.
 - Fetch a single record by database ID with `id`.
 
 ### Security & operations
@@ -198,6 +199,11 @@ With a specific template:
   offset="<int>"
   order="ASC|DESC"
   id="<int>"
+  sort="<field>|<type>|<order>[,<field>|<type>|<order>...]"
+  sort_key="<field>[,<field>...]"
+  sort_type="auto|string|number|date"
+  sort_order="ASC|DESC"
+  sort_empty="first|last"
   where_key="<field>"
   where_op="<operator>"
   where_value="<value>"
@@ -210,8 +216,13 @@ With a specific template:
 | `template`    | _(default template)_ | Name of the template to use.                                                           |
 | `limit`       | `0` (all)            | Maximum number of records to render.                                                   |
 | `offset`      | `0`                  | Number of records to skip.                                                             |
-| `order`       | `ASC`                | Sort direction: `ASC` or `DESC`.                                                       |
+| `order`       | `ASC`                | Database row order when no field sort is active: `ASC` or `DESC`.                     |
 | `id`          | `0`                  | Fetch a single record by its database row ID.                                          |
+| `sort`        | —                    | Compact multi-sort rules, e.g. `firstname|string|asc,surname|string|desc`.            |
+| `sort_key`    | —                    | Comma-separated field keys to sort on. Supports dot-notation for nested fields.        |
+| `sort_type`   | `auto`               | Comma-separated sort types: `auto`, `string`, `number`, or `date`.                    |
+| `sort_order`  | `ASC`                | Comma-separated sort directions.                                                       |
+| `sort_empty`  | `last`               | Comma-separated empty-value positions: `first` or `last`.                             |
 | `where_key`   | —                    | Field name to filter on. Supports dot-notation for nested fields, e.g. `address.city`. |
 | `where_op`    | —                    | Comparison operator (see table below).                                                 |
 | `where_value` | —                    | Value to compare against.                                                              |
@@ -248,6 +259,18 @@ Paginate — second page of 10:
 [data_importer source="my-source" limit="10" offset="10"]
 ```
 
+Sort by first name ascending, then surname descending:
+
+```
+[data_importer source="my-source" sort="firstname|string|asc,surname|string|desc"]
+```
+
+Sort by a nested numeric value and render the top 10:
+
+```
+[data_importer source="my-source" sort_key="stats.score" sort_type="number" sort_order="DESC" limit="10"]
+```
+
 Single record:
 
 ```
@@ -264,8 +287,8 @@ Inside the per-record template, the following PHP variables are available:
 | --------- | ------- | ------------------------------------------------------------ |
 | `$vars`   | `array` | Associative array of all top-level fields for the current row. |
 | `$record` | `array` | Alias for `$vars` — the full record as an associative array. |
-| `$record_index` | `int` | Zero-based index of the current row after filtering, limit, and offset. |
-| `$record_position` | `int` | One-based position of the current row after filtering, limit, and offset. |
+| `$record_index` | `int` | Zero-based index of the current row after filtering, sorting, limit, and offset. |
+| `$record_position` | `int` | One-based position of the current row after filtering, sorting, limit, and offset. |
 | `$record_count` | `int` | Total number of rows being rendered. |
 | `$is_first` | `bool` | `true` when the current row is the first rendered row. |
 | `$is_last` | `bool` | `true` when the current row is the last rendered row. |

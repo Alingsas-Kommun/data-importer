@@ -170,6 +170,7 @@ abstract class PluginIntegrationTestCase extends TestCase {
 			'style_code'     => '',
 			'scripts_json'   => '[]',
 			'script_code'    => '',
+			'sort_json'      => '[]',
 		);
 
 		$result = Database::insert_template( $source_id, array_merge( $defaults, $overrides ) );

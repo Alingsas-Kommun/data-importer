@@ -83,7 +83,7 @@ JSON;
 			<?php endif; ?>
 
 			<div class="postbox">
-				<h2 class="hndle"><span><?php esc_html_e( 'Manual JSON Import', 'data-importer' ); ?></span></h2>
+				<h2><span><?php esc_html_e( 'Manual JSON Import', 'data-importer' ); ?></span></h2>
 				<div class="inside">
 					<p><?php esc_html_e( 'Paste a JSON object or an array of JSON objects and import it directly from wp-admin.', 'data-importer' ); ?></p>
 					<p class="description"><?php esc_html_e( 'The import behaviour is determined by the Import mode setting below.', 'data-importer' ); ?></p>

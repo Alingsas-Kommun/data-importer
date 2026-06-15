@@ -58,6 +58,78 @@ class ShortcodeFilteringTest extends PluginIntegrationTestCase {
 		$this->assertRenderedTitles( $id_output, array( 'Beta' ), array( 'Alpha', 'Gamma' ), 'id filter' );
 	}
 
+	public function testShortcodeSupportsMultiFieldSorting(): void {
+		$source = $this->createFilterSource();
+
+		$output = Display::render_shortcode(
+			array(
+				'source' => (string) $source['slug'],
+				'sort'   => 'first_name|string|asc,surname|string|desc',
+			)
+		);
+
+		$this->assertRenderedTitleOrder( $output, array( 'Beta', 'Alpha', 'Gamma' ), 'compact multi-sort' );
+
+		$limited_output = Display::render_shortcode(
+			array(
+				'source'     => (string) $source['slug'],
+				'sort_key'   => 'score',
+				'sort_type'  => 'number',
+				'sort_order' => 'DESC',
+				'limit'      => 2,
+			)
+		);
+
+		$this->assertRenderedTitleOrder( $limited_output, array( 'Gamma', 'Beta' ), 'sorted limit' );
+		$this->assertStringNotContainsString( '<article class="filter-item">Alpha</article>', $limited_output );
+	}
+
+	public function testShortcodeUsesTemplateDefaultSortWhenNoSortAttributeIsProvided(): void {
+		$source   = $this->createFilterSource();
+		$template = Database::get_default_template_for_source( (int) $source['id'] );
+
+		$this->assertIsArray( $template );
+		$this->assertTrue(
+			Database::update_template(
+				(int) $template['id'],
+				array(
+					'sort_json' => array(
+						array(
+							'key'   => 'first_name',
+							'type'  => 'string',
+							'order' => 'ASC',
+							'empty' => 'last',
+						),
+						array(
+							'key'   => 'surname',
+							'type'  => 'string',
+							'order' => 'DESC',
+							'empty' => 'last',
+						),
+					),
+				)
+			)
+		);
+
+		$output = Display::render_shortcode(
+			array(
+				'source' => (string) $source['slug'],
+			)
+		);
+
+		$this->assertRenderedTitleOrder( $output, array( 'Beta', 'Alpha', 'Gamma' ), 'template default sort' );
+
+		$override_output = Display::render_shortcode(
+			array(
+				'source'     => (string) $source['slug'],
+				'sort_key'   => 'title',
+				'sort_order' => 'DESC',
+			)
+		);
+
+		$this->assertRenderedTitleOrder( $override_output, array( 'Gamma', 'Beta', 'Alpha' ), 'shortcode sort override' );
+	}
+
 	private function createFilterSource(): array {
 		$source = $this->createSource(
 			array(
@@ -76,6 +148,8 @@ class ShortcodeFilteringTest extends PluginIntegrationTestCase {
 		return array(
 			array(
 				'title'    => 'Alpha',
+				'first_name' => 'Alex',
+				'surname' => 'Smith',
 				'status'   => 'active',
 				'score'    => 5,
 				'category' => 'news',
@@ -86,6 +160,8 @@ class ShortcodeFilteringTest extends PluginIntegrationTestCase {
 			),
 			array(
 				'title'    => 'Beta',
+				'first_name' => 'Alex',
+				'surname' => 'Zimmer',
 				'status'   => 'draft',
 				'score'    => 10,
 				'category' => 'events',
@@ -96,6 +172,8 @@ class ShortcodeFilteringTest extends PluginIntegrationTestCase {
 			),
 			array(
 				'title'    => 'Gamma',
+				'first_name' => 'Blake',
+				'surname' => 'Anders',
 				'status'   => 'active',
 				'score'    => 15,
 				'category' => 'news',
@@ -266,6 +344,20 @@ class ShortcodeFilteringTest extends PluginIntegrationTestCase {
 				$output,
 				'Expected shortcode output for case "' . $label . '" to exclude "' . $title . '".'
 			);
+		}
+	}
+
+	private function assertRenderedTitleOrder( string $output, array $titles, string $label ): void {
+		$last_position = -1;
+
+		foreach ( $titles as $title ) {
+			$needle   = '<article class="filter-item">' . $title . '</article>';
+			$position = strpos( $output, $needle );
+
+			$this->assertNotFalse( $position, 'Expected shortcode output for case "' . $label . '" to contain "' . $title . '".' );
+			$this->assertGreaterThan( $last_position, $position, 'Expected "' . $title . '" to appear after the previous sorted title for case "' . $label . '".' );
+
+			$last_position = (int) $position;
 		}
 	}
 }

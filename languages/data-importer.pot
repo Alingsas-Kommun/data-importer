@@ -2,14 +2,14 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Data Importer & Visualizer 1.0.3\n"
+"Project-Id-Version: Data Importer & Visualizer 1.0.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/data-importer\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-05-23T00:44:25+00:00\n"
+"POT-Creation-Date: 2026-06-11T20:55:11+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: data-importer\n"
@@ -121,12 +121,12 @@ msgid "Regenerate the API key? The previous key will stop working immediately."
 msgstr ""
 
 #: src/php/Admin/AdminPage.php:450
-#: src/php/Admin/Tabs/TemplateTab.php:261
+#: src/php/Admin/Tabs/TemplateTab.php:290
 msgid "Add Style"
 msgstr ""
 
 #: src/php/Admin/AdminPage.php:451
-#: src/php/Admin/Tabs/TemplateTab.php:292
+#: src/php/Admin/Tabs/TemplateTab.php:321
 msgid "Add Script"
 msgstr ""
 
@@ -139,14 +139,15 @@ msgid "Script Source"
 msgstr ""
 
 #: src/php/Admin/AdminPage.php:454
-#: src/php/Admin/Tabs/TemplateTab.php:247
-#: src/php/Admin/Tabs/TemplateTab.php:278
+#: src/php/Admin/Tabs/TemplateTab.php:276
+#: src/php/Admin/Tabs/TemplateTab.php:307
 msgid "Handle"
 msgstr ""
 
 #: src/php/Admin/AdminPage.php:455
-#: src/php/Admin/Tabs/TemplateTab.php:377
-#: src/php/Admin/Tabs/TemplateTab.php:397
+#: src/php/Admin/Tabs/TemplateTab.php:424
+#: src/php/Admin/Tabs/TemplateTab.php:444
+#: src/php/Admin/Tabs/TemplateTab.php:464
 msgid "Remove"
 msgstr ""
 
@@ -200,14 +201,14 @@ msgstr ""
 #: src/php/Admin/SourceFormHandler.php:433
 #: src/php/Admin/SourceFormHandler.php:490
 #: src/php/Admin/TemplateFormHandler.php:45
-#: src/php/Admin/TemplateFormHandler.php:110
-#: src/php/Admin/TemplateFormHandler.php:186
+#: src/php/Admin/TemplateFormHandler.php:111
+#: src/php/Admin/TemplateFormHandler.php:191
 msgid "Security check failed."
 msgstr ""
 
 #: src/php/Admin/SourceFormHandler.php:134
 #: src/php/Admin/SourceFormHandler.php:157
-#: src/php/Infrastructure/Database.php:630
+#: src/php/Infrastructure/Database.php:631
 msgid "Primary Key"
 msgstr ""
 
@@ -216,8 +217,8 @@ msgid "Could not update the API key."
 msgstr ""
 
 #: src/php/Admin/SourceFormHandler.php:542
-#: src/php/Infrastructure/Database.php:309
-#: src/php/Infrastructure/Database.php:836
+#: src/php/Infrastructure/Database.php:310
+#: src/php/Infrastructure/Database.php:837
 msgid "Invalid data source."
 msgstr ""
 
@@ -226,7 +227,7 @@ msgid "Data cleared."
 msgstr ""
 
 #: src/php/Admin/SourceFormHandler.php:560
-#: src/php/Infrastructure/Database.php:400
+#: src/php/Infrastructure/Database.php:401
 msgid "API key not found."
 msgstr ""
 
@@ -621,6 +622,7 @@ msgstr ""
 
 #: src/php/Admin/Tabs/LogTab.php:57
 #: src/php/Admin/Tabs/LogTab.php:102
+#: src/php/Admin/Tabs/LogTab.php:134
 msgid "Status"
 msgstr ""
 
@@ -693,8 +695,8 @@ msgid "View Records"
 msgstr ""
 
 #: src/php/Admin/Tabs/TemplateTab.php:43
-#: src/php/Admin/TemplateFormHandler.php:119
-#: src/php/Admin/TemplateFormHandler.php:201
+#: src/php/Admin/TemplateFormHandler.php:120
+#: src/php/Admin/TemplateFormHandler.php:206
 msgid "Template not found."
 msgstr ""
 
@@ -737,7 +739,7 @@ msgid "Create New Template"
 msgstr ""
 
 #: src/php/Admin/Tabs/TemplateTab.php:131
-#: src/php/Admin/Tabs/TemplateTab.php:205
+#: src/php/Admin/Tabs/TemplateTab.php:206
 msgid "Template Name"
 msgstr ""
 
@@ -749,118 +751,182 @@ msgstr ""
 msgid "Create Template"
 msgstr ""
 
-#: src/php/Admin/Tabs/TemplateTab.php:172
+#: src/php/Admin/Tabs/TemplateTab.php:173
 msgid "Back to Template List"
 msgstr ""
 
-#: src/php/Admin/Tabs/TemplateTab.php:180
+#: src/php/Admin/Tabs/TemplateTab.php:181
 msgid "Data Importer — global variable syntax detected"
 msgstr ""
 
 #. translators: %s: comma-separated list of field names
-#: src/php/Admin/Tabs/TemplateTab.php:185
+#: src/php/Admin/Tabs/TemplateTab.php:186
 msgid "This template references fields as global variables (%s). Use $vars['field'] instead, or enable the data_importer_template_extract_vars filter if you prefer the global variable syntax."
 msgstr ""
 
-#: src/php/Admin/Tabs/TemplateTab.php:202
+#: src/php/Admin/Tabs/TemplateTab.php:203
 msgid "Template Settings"
 msgstr ""
 
-#: src/php/Admin/Tabs/TemplateTab.php:209
+#: src/php/Admin/Tabs/TemplateTab.php:210
 msgid "Template Slug"
 msgstr ""
 
-#: src/php/Admin/Tabs/TemplateTab.php:216
-#: src/php/Admin/Tabs/TemplateTab.php:218
-msgid "Before List (PHP/HTML)"
+#: src/php/Admin/Tabs/TemplateTab.php:217
+msgid "Default Sort"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:219
+msgid "Sort rules run in order before records are rendered. Shortcode sort attributes override these defaults."
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:222
+msgid "Key"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:223
+msgid "Type"
 msgstr ""
 
 #: src/php/Admin/Tabs/TemplateTab.php:224
+msgid "Order"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:225
+msgid "Empty"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:239
+msgid "Add Sort Rule"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:245
+#: src/php/Admin/Tabs/TemplateTab.php:247
+msgid "Before List (PHP/HTML)"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:253
 msgid "List (PHP/HTML per record)"
 msgstr ""
 
-#: src/php/Admin/Tabs/TemplateTab.php:227
+#: src/php/Admin/Tabs/TemplateTab.php:256
 msgid "PHP Template"
 msgstr ""
 
-#: src/php/Admin/Tabs/TemplateTab.php:233
-#: src/php/Admin/Tabs/TemplateTab.php:235
+#: src/php/Admin/Tabs/TemplateTab.php:262
+#: src/php/Admin/Tabs/TemplateTab.php:264
 msgid "After List (PHP/HTML)"
 msgstr ""
 
-#: src/php/Admin/Tabs/TemplateTab.php:241
+#: src/php/Admin/Tabs/TemplateTab.php:270
 msgid "Styles"
 msgstr ""
 
-#: src/php/Admin/Tabs/TemplateTab.php:243
+#: src/php/Admin/Tabs/TemplateTab.php:272
 msgid "Add stylesheet URLs and optional handles. Empty handles are generated from the stylesheet filename."
 msgstr ""
 
-#: src/php/Admin/Tabs/TemplateTab.php:246
-#: src/php/Admin/Tabs/TemplateTab.php:277
+#: src/php/Admin/Tabs/TemplateTab.php:275
+#: src/php/Admin/Tabs/TemplateTab.php:306
 msgid "Source"
 msgstr ""
 
-#: src/php/Admin/Tabs/TemplateTab.php:264
+#: src/php/Admin/Tabs/TemplateTab.php:293
 msgid "Style Code (CSS)"
 msgstr ""
 
-#: src/php/Admin/Tabs/TemplateTab.php:265
+#: src/php/Admin/Tabs/TemplateTab.php:294
 msgid "Printed at the end of the document head."
 msgstr ""
 
-#: src/php/Admin/Tabs/TemplateTab.php:272
+#: src/php/Admin/Tabs/TemplateTab.php:301
 msgid "Scripts"
 msgstr ""
 
-#: src/php/Admin/Tabs/TemplateTab.php:274
+#: src/php/Admin/Tabs/TemplateTab.php:303
 msgid "Add script URLs and optional handles. Empty handles are generated from the script filename."
 msgstr ""
 
-#: src/php/Admin/Tabs/TemplateTab.php:295
+#: src/php/Admin/Tabs/TemplateTab.php:324
 msgid "Script Code (JS)"
 msgstr ""
 
-#: src/php/Admin/Tabs/TemplateTab.php:296
+#: src/php/Admin/Tabs/TemplateTab.php:325
 msgid "Printed at the end of the document body."
 msgstr ""
 
-#: src/php/Admin/Tabs/TemplateTab.php:343
+#: src/php/Admin/Tabs/TemplateTab.php:376
 msgid "Save Template"
 msgstr ""
 
-#: src/php/Admin/Tabs/TemplateTab.php:345
+#: src/php/Admin/Tabs/TemplateTab.php:378
 msgid "Delete this template? This action cannot be undone."
 msgstr ""
 
-#: src/php/Admin/Tabs/TemplateTab.php:346
-#: src/php/Admin/Tabs/TemplateTab.php:350
+#: src/php/Admin/Tabs/TemplateTab.php:379
+#: src/php/Admin/Tabs/TemplateTab.php:383
 msgid "Delete Template"
 msgstr ""
 
-#: src/php/Admin/Tabs/TemplateTab.php:349
-#: src/php/Infrastructure/Database.php:942
+#: src/php/Admin/Tabs/TemplateTab.php:382
+#: src/php/Infrastructure/Database.php:992
 msgid "At least one template must remain."
 msgstr ""
 
-#: src/php/Admin/Tabs/TemplateTab.php:351
+#: src/php/Admin/Tabs/TemplateTab.php:384
 msgid "only template"
 msgstr ""
 
-#: src/php/Admin/Tabs/TemplateTab.php:371
+#: src/php/Admin/Tabs/TemplateTab.php:409
+msgid "firstname or address.city"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:411
+msgid "Auto"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:412
+msgid "Text"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:413
+msgid "Number"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:414
+msgid "Date"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:417
+msgid "Ascending"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:418
+msgid "Descending"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:421
+msgid "Last"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:422
+msgid "First"
+msgstr ""
+
+#: src/php/Admin/Tabs/TemplateTab.php:438
 msgid "style-handle"
 msgstr ""
 
-#: src/php/Admin/Tabs/TemplateTab.php:391
+#: src/php/Admin/Tabs/TemplateTab.php:458
 msgid "script-handle"
 msgstr ""
 
-#: src/php/Admin/Tabs/TemplateTab.php:488
+#: src/php/Admin/Tabs/TemplateTab.php:555
 msgid "No variables yet. Import data to get field buttons."
 msgstr ""
 
 #: src/php/Admin/TemplateFormHandler.php:58
-#: src/php/Infrastructure/Database.php:844
+#: src/php/Infrastructure/Database.php:845
 msgid "New Template"
 msgstr ""
 
@@ -979,88 +1045,88 @@ msgstr ""
 msgid "Too many records in a single import."
 msgstr ""
 
-#: src/php/Frontend/Display.php:847
+#: src/php/Frontend/Display.php:1218
 msgid "An error occurred while rendering the template."
 msgstr ""
 
 #. translators: %s: runtime error message
-#: src/php/Frontend/Display.php:940
+#: src/php/Frontend/Display.php:1311
 msgid "Template error during test run: %s"
 msgstr ""
 
-#: src/php/Frontend/Display.php:963
+#: src/php/Frontend/Display.php:1334
 msgid "The template is too large."
 msgstr ""
 
-#: src/php/Frontend/Display.php:967
+#: src/php/Frontend/Display.php:1338
 msgid "The template contains invalid characters."
 msgstr ""
 
 #. translators: %s: blocked function name
-#: src/php/Frontend/Display.php:1040
+#: src/php/Frontend/Display.php:1411
 msgid "The template contains a blocked function: %s."
 msgstr ""
 
-#: src/php/Frontend/Display.php:1078
+#: src/php/Frontend/Display.php:1449
 msgid "The template contains a blocked construct: backtick shell-exec operator."
 msgstr ""
 
 #. translators: %s: blocked construct name
-#: src/php/Frontend/Display.php:1095
+#: src/php/Frontend/Display.php:1466
 msgid "The template contains a blocked construct: %s."
 msgstr ""
 
-#: src/php/Frontend/Display.php:1116
+#: src/php/Frontend/Display.php:1487
 msgid "The template is not allowed by the security policy."
 msgstr ""
 
-#: src/php/Frontend/Display.php:1139
+#: src/php/Frontend/Display.php:1510
 msgid "Template rendering failed."
 msgstr ""
 
-#: src/php/Infrastructure/Database.php:338
+#: src/php/Infrastructure/Database.php:339
 msgid "Could not create the API key."
 msgstr ""
 
-#: src/php/Infrastructure/Database.php:436
+#: src/php/Infrastructure/Database.php:437
 msgid "Could not regenerate the API key."
 msgstr ""
 
-#: src/php/Infrastructure/Database.php:534
+#: src/php/Infrastructure/Database.php:535
 msgid "Could not create the data source."
 msgstr ""
 
-#: src/php/Infrastructure/Database.php:541
+#: src/php/Infrastructure/Database.php:542
 msgid "Default Template"
 msgstr ""
 
 #. translators: %d: sequential API key number.
-#: src/php/Infrastructure/Database.php:635
+#: src/php/Infrastructure/Database.php:636
 msgid "API Key %d"
 msgstr ""
 
-#: src/php/Infrastructure/Database.php:679
+#: src/php/Infrastructure/Database.php:680
 msgid "API key cannot be empty."
 msgstr ""
 
-#: src/php/Infrastructure/Database.php:683
+#: src/php/Infrastructure/Database.php:684
 msgid "API Key"
 msgstr ""
 
-#: src/php/Infrastructure/Database.php:688
+#: src/php/Infrastructure/Database.php:689
 msgid "Could not securely hash the API key."
 msgstr ""
 
-#: src/php/Infrastructure/Database.php:867
+#: src/php/Infrastructure/Database.php:869
 msgid "Could not create the template."
 msgstr ""
 
-#: src/php/Infrastructure/Database.php:1034
-#: src/php/Infrastructure/Database.php:1074
-#: src/php/Infrastructure/Database.php:1118
+#: src/php/Infrastructure/Database.php:1140
+#: src/php/Infrastructure/Database.php:1180
+#: src/php/Infrastructure/Database.php:1224
 msgid "Invalid data format."
 msgstr ""
 
-#: src/php/Infrastructure/Database.php:1124
+#: src/php/Infrastructure/Database.php:1230
 msgid "At least one update key column is required for upsert mode."
 msgstr ""

@@ -61,7 +61,7 @@ class ApiTab {
 			</div>
 
 			<div class="postbox">
-				<h2 class="hndle"><span><?php esc_html_e( 'API Keys', 'data-importer' ); ?></span></h2>
+				<h2><span><?php esc_html_e( 'API Keys', 'data-importer' ); ?></span></h2>
 				<div class="inside">
 					<p class="description"><?php esc_html_e( 'Each key has its own optional IP/CIDR allowlist. Leave a key\'s rules empty to allow all IPs for that key.', 'data-importer' ); ?></p>
 					<p class="description"><?php esc_html_e( 'Stored keys are hashed and cannot be viewed again after creation. Regenerate a key if you need a fresh secret.', 'data-importer' ); ?></p>
@@ -134,7 +134,7 @@ class ApiTab {
 			</div>
 
 			<div class="postbox">
-				<h2 class="hndle"><span><?php esc_html_e( 'cURL Example', 'data-importer' ); ?></span></h2>
+				<h2><span><?php esc_html_e( 'cURL Example', 'data-importer' ); ?></span></h2>
 				<div class="inside">
 					<pre class="data-importer-code-block"><code>curl -X POST "<?php echo esc_html( $endpoint ); ?>" \
   -H "Content-Type: application/json" \

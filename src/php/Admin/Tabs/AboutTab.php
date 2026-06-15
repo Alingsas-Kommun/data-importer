@@ -42,7 +42,7 @@ class AboutTab {
 		?>
 		<div class="metabox-holder">
 			<div class="postbox">
-				<h2 class="hndle"><span><?php esc_html_e( 'Quick Start', 'data-importer' ); ?></span></h2>
+				<h2><span><?php esc_html_e( 'Quick Start', 'data-importer' ); ?></span></h2>
 				<div class="inside">
 					<ol style="margin-left:18px;">
 						<li><?php esc_html_e( 'Import JSON via the endpoint below with the correct API key in the X-API-Key header.', 'data-importer' ); ?></li>
@@ -54,7 +54,7 @@ class AboutTab {
 			</div>
 
 			<div class="postbox">
-				<h2 class="hndle"><span><?php esc_html_e( 'Endpoint and Shortcode', 'data-importer' ); ?></span></h2>
+				<h2><span><?php esc_html_e( 'Endpoint and Shortcode', 'data-importer' ); ?></span></h2>
 				<div class="inside">
 					<p><strong><?php esc_html_e( 'REST endpoint (POST)', 'data-importer' ); ?></strong></p>
 					<pre class="data-importer-code-block"><code><?php echo esc_html( $endpoint ); ?></code></pre>
@@ -70,7 +70,7 @@ class AboutTab {
 			</div>
 
 			<div class="postbox">
-				<h2 class="hndle"><span><?php esc_html_e( 'Shortcode Filters (server-side)', 'data-importer' ); ?></span></h2>
+				<h2><span><?php esc_html_e( 'Shortcode Filters (server-side)', 'data-importer' ); ?></span></h2>
 				<div class="inside">
 					<p class="description"><?php esc_html_e( 'Filtering runs before the render loop, reducing HTML output and making selections reusable.', 'data-importer' ); ?></p>
 
@@ -89,7 +89,7 @@ class AboutTab {
 			</div>
 
 			<div class="postbox">
-				<h2 class="hndle"><span><?php esc_html_e( 'PHP Template Examples', 'data-importer' ); ?></span></h2>
+				<h2><span><?php esc_html_e( 'PHP Template Examples', 'data-importer' ); ?></span></h2>
 				<div class="inside">
 					<p class="description"><?php esc_html_e( 'The template code runs once per record. Use conditions for fine-tuning even when prefiltering via shortcode.', 'data-importer' ); ?></p>
 					<p><strong><?php esc_html_e( 'Show Only Active Records', 'data-importer' ); ?></strong></p>
@@ -104,7 +104,7 @@ class AboutTab {
 			</div>
 
 			<div class="postbox">
-				<h2 class="hndle"><span><?php esc_html_e( 'Security Overview', 'data-importer' ); ?></span></h2>
+				<h2><span><?php esc_html_e( 'Security Overview', 'data-importer' ); ?></span></h2>
 				<div class="inside">
 					<ul style="margin-left:18px;list-style:disc;">
 						<li><?php esc_html_e( 'REST imports are protected by hashed API keys, rate limiting, and optional per-key IP/CIDR allowlists.', 'data-importer' ); ?></li>
@@ -117,7 +117,7 @@ class AboutTab {
 			</div>
 
 			<div class="postbox">
-				<h2 class="hndle"><span><?php esc_html_e( 'Recovery (Safe Mode)', 'data-importer' ); ?></span></h2>
+				<h2><span><?php esc_html_e( 'Recovery (Safe Mode)', 'data-importer' ); ?></span></h2>
 				<div class="inside">
 					<ol style="margin-left:18px;">
 						<li><?php esc_html_e( 'Click "Enable Safe Mode" in the admin notice at the top of the Data Importer page.', 'data-importer' ); ?></li>
